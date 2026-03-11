@@ -1,0 +1,12 @@
+description: Base monthly housing allowance amount (Countria example)
+label: Base amount
+reference:
+  - "Social Benefits Act 2020, Section 12"
+  - "https://example.gov/social-benefits-act.pdf#page=15"
+unit: CUR
+values:
+  2020-01-01: 200
+  2022-01-01: 210
+  2024-01-01: 220
+metadata:
+  note: Amount adjusted annually for inflation

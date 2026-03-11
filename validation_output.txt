@@ -1,0 +1,2924 @@
+🔍 Validating /home/benjello/projets/openfisca-tunisia/openfisca_tunisia...
+
+✅ Found units.yaml with 19 units defined
+📋 Checking 439 parameter files...
+
+
+📊 Units: 12 used, 19 defined
+✅ All units properly defined
+
+============================================================
+VALIDATION REPORT
+============================================================
+
+❌ 727 ERRORS:
+
+  [ERROR] parameters/retraite/rsa/age_legal.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/retraite/rsa/age_legal.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/retraite/rsa/age_legal.yaml
+    Missing 'unit' field (Unit of measure (required, see units.yaml))
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/retraite/rsa/taux_annuite_base.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/retraite/rsa/taux_annuite_base.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/retraite/rsa/plaf_taux_pension.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/retraite/rsa/plaf_taux_pension.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/retraite/rsa/pension_min.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/retraite/rsa/pension_min.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/retraite/rsa/pension_min.yaml
+    Missing 'unit' field (Unit of measure (required, see units.yaml))
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/retraite/rsa/periode_remplacement_base.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/retraite/rsa/periode_remplacement_base.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/retraite/rsa/periode_remplacement_base.yaml
+    Missing 'unit' field (Unit of measure (required, see units.yaml))
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/retraite/rsa/taux_annuite_supplementaire.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/retraite/rsa/taux_annuite_supplementaire.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/retraite/rsa/stage_requis.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/retraite/rsa/stage_requis.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/retraite/rsa/stage_requis.yaml
+    Missing 'unit' field (Unit of measure (required, see units.yaml))
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/retraite/cnrps/bareme_annuite.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/retraite/cnrps/bareme_annuite.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/retraite/cnrps/bareme_annuite.yaml
+    Missing 'unit' field (Unit of measure (required, see units.yaml))
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/retraite/cnrps/duree_de_service_minimale.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/retraite/cnrps/duree_de_service_minimale.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/retraite/cnrps/pension_minimale/minimum_garanti.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/retraite/cnrps/pension_minimale/minimum_garanti.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/retraite/cnrps/pension_minimale/allocation_vieillesse.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/retraite/cnrps/pension_minimale/allocation_vieillesse.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/retraite/cnrps/pension_minimale/duree_service_allocation_vieillesse.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/retraite/cnrps/pension_minimale/duree_service_allocation_vieillesse.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/retraite/cnrps/age_legal/civil/cadres_actifs.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/retraite/cnrps/age_legal/civil/enseignants_du_superieur.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/retraite/cnrps/age_legal/civil/enseignants_du_superieur.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/retraite/cnrps/age_legal/civil/cadre_commun.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/retraite/rsna/age_legal.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/retraite/rsna/age_legal.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/retraite/rsna/stage_derog.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/retraite/rsna/stage_derog.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/retraite/rsna/bareme_annuite.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/retraite/rsna/bareme_annuite.yaml
+    Missing 'unit' field (Unit of measure (required, see units.yaml))
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/retraite/rsna/age_dep_anticipe.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/retraite/rsna/age_dep_anticipe.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/retraite/rsna/plaf_taux_pension.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/retraite/rsna/plaf_taux_pension.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/retraite/rsna/stage_requis.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/retraite/rsna/stage_requis.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/retraite/rsna/pension_minimale/sup.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/retraite/rsna/pension_minimale/sup.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/retraite/rsna/pension_minimale/inf.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/retraite/rsna/pension_minimale/inf.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/impot_revenu/bareme.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/impot_revenu/bareme.yaml
+    Missing 'unit' field (Unit of measure (required, see units.yaml))
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/impot_revenu/contribution_budget_etat.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/impot_revenu/contribution_budget_etat.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/impot_revenu/contribution_budget_etat.yaml
+    Missing 'unit' field (Unit of measure (required, see units.yaml))
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/impot_revenu/regimes_speciaux/retenue_liberatoire/taux.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/impot_revenu/regimes_speciaux/retenue_liberatoire/taux.yaml
+    Missing 'unit' field (Unit of measure (required, see units.yaml))
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/impot_revenu/regimes_speciaux/forfaitaire/taux_imposition.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/impot_revenu/regimes_speciaux/forfaitaire/taux_imposition.yaml
+    Missing 'unit' field (Unit of measure (required, see units.yaml))
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/impot_revenu/minimum_impot/taux.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/impot_revenu/minimum_impot/taux.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/impot_revenu/minimum_impot/taux.yaml
+    Missing 'unit' field (Unit of measure (required, see units.yaml))
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/impot_revenu/deductions/famille/enf4.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/impot_revenu/deductions/famille/enf_sup.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/impot_revenu/deductions/famille/parent_plaf.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/impot_revenu/deductions/famille/parent_plaf.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/impot_revenu/deductions/famille/enf2.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/impot_revenu/deductions/famille/chef_de_famille.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/impot_revenu/deductions/famille/infirme.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/impot_revenu/deductions/famille/parent_max.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/impot_revenu/deductions/famille/parent_max.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/impot_revenu/deductions/famille/enf1.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/impot_revenu/deductions/famille/age_sup.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/impot_revenu/deductions/famille/age_sup.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/impot_revenu/deductions/famille/age.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/impot_revenu/deductions/famille/age.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/impot_revenu/deductions/famille/enf3.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/impot_revenu/deductions/famille/parent_taux.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/impot_revenu/deductions/famille/parent_taux.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/impot_revenu/deductions/interets_comptes_speciaux_epargne_cent/plaf.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/impot_revenu/deductions/interets_comptes_speciaux_epargne_cent/plaf.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/impot_revenu/deductions/interets_comptes_speciaux_epargne_bancaires/plaf.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/impot_revenu/deductions/interets_comptes_speciaux_epargne_bancaires/plaf.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/impot_revenu/deductions/assurance_vie/conj_plaf.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/impot_revenu/deductions/assurance_vie/conj_plaf.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/impot_revenu/deductions/assurance_vie/plaf.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/impot_revenu/deductions/assurance_vie/enf_plaf.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/impot_revenu/deductions/assurance_vie/enf_plaf.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/impot_revenu/deductions/interets_emprunts_obligataires/plaf.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/impot_revenu/deductions/interets_emprunts_obligataires/plaf.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/impot_revenu/deductions/cea_cei/cea.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/impot_revenu/deductions/cea_cei/cei.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/impot_revenu/deductions/cea_cei/cei.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/impot_revenu/deductions/cea_cei/cei.yaml
+    Missing 'unit' field (Unit of measure (required, see units.yaml))
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/impot_revenu/deductions/logement/prix_max.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/impot_revenu/deductions/logement/prix_max.yaml
+    Missing 'unit' field (Unit of measure (required, see units.yaml))
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/impot_revenu/deductions/investissements/taux_plafond_partiel.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/impot_revenu/deductions/investissements/taux_plafond_partiel.yaml
+    Missing 'unit' field (Unit of measure (required, see units.yaml))
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/impot_revenu/deductions/interets_comptes_epargne_investissement/plaf.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/impot_revenu/deductions/interets_comptes_epargne_investissement/plaf.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/impot_revenu/exoneration/seuil.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/impot_revenu/exoneration/seuil.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/impot_revenu/tspr/max_abat_sal.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/impot_revenu/tspr/max_abat_sal.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/impot_revenu/tspr/abat_pen.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/impot_revenu/tspr/abat_pen.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/impot_revenu/tspr/abattement_pour_salaire_minimum.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/impot_revenu/tspr/abattement_pour_salaire_minimum.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/impot_revenu/tspr/abat_pen_etr.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/impot_revenu/tspr/abat_pen_etr.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/impot_revenu/tspr/abat_sal.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/impot_revenu/tspr/abat_sal.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/impot_revenu/tspr/smig_ext.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/impot_revenu/tspr/smig_ext.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/impot_revenu/bic/forf/bareme.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/impot_revenu/bic/forf/bareme.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/impot_revenu/bic/forf/bareme.yaml
+    Missing 'unit' field (Unit of measure (required, see units.yaml))
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/impot_revenu/bic/forf/acc.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/impot_revenu/bic/forf/acc.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/impot_revenu/bic/forf/forfait.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/impot_revenu/bic/forf/forfait.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/impot_revenu/bic/simpl/forfait.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/impot_revenu/bic/simpl/forfait.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/impot_revenu/bic/reel/forfait.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/impot_revenu/bic/reel/forfait.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/impot_revenu/bnc/forf/part_forf.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/impot_revenu/bnc/forf/part_forf.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/impot_revenu/foncier/bati/deduction_frais.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/impot_revenu/foncier/bati/deduction_frais.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/fiscalite_indirecte/tva/taux_normal/taux.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/fiscalite_indirecte/tva/taux_normal/taux.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/fiscalite_indirecte/tva/taux_normal/produits.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/fiscalite_indirecte/tva/taux_normal/produits.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/fiscalite_indirecte/tva/taux_reduit/taux.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/fiscalite_indirecte/tva/taux_reduit/taux.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/fiscalite_indirecte/tva/taux_reduit/produits.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/fiscalite_indirecte/tva/taux_reduit/produits.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/fiscalite_indirecte/tva/taux_nul/taux.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/fiscalite_indirecte/tva/taux_nul/taux.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/fiscalite_indirecte/tva/taux_nul/produits.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/fiscalite_indirecte/tva/taux_nul/produits.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/fiscalite_indirecte/accises/cafe_the/taux_10pct/taux.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/fiscalite_indirecte/accises/cafe_the/taux_10pct/taux.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/fiscalite_indirecte/accises/cafe_the/taux_10pct/produits.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/fiscalite_indirecte/accises/cafe_the/taux_10pct/produits.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/fiscalite_indirecte/accises/cafe_the/taux_25pct/taux.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/fiscalite_indirecte/accises/cafe_the/taux_25pct/taux.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/fiscalite_indirecte/accises/cafe_the/taux_25pct/produits.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/fiscalite_indirecte/accises/cafe_the/taux_25pct/produits.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/fiscalite_indirecte/accises/autres/taux_135pct/taux.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/fiscalite_indirecte/accises/autres/taux_135pct/taux.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/fiscalite_indirecte/accises/autres/taux_135pct/produits.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/fiscalite_indirecte/accises/autres/taux_135pct/produits.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/fiscalite_indirecte/accises/autres/taux_100pct/taux.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/fiscalite_indirecte/accises/autres/taux_100pct/taux.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/fiscalite_indirecte/accises/autres/taux_100pct/produits.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/fiscalite_indirecte/accises/autres/taux_100pct/produits.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/fiscalite_indirecte/accises/autres/taux_10pct/taux.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/fiscalite_indirecte/accises/autres/taux_10pct/taux.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/fiscalite_indirecte/accises/autres/taux_10pct/produits.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/fiscalite_indirecte/accises/autres/taux_10pct/produits.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/fiscalite_indirecte/accises/autres/taux_25pct/taux.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/fiscalite_indirecte/accises/autres/taux_25pct/taux.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/fiscalite_indirecte/accises/autres/taux_25pct/produits.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/fiscalite_indirecte/accises/autres/taux_25pct/produits.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/fiscalite_indirecte/accises/autres/taux_7pct/taux.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/fiscalite_indirecte/accises/autres/taux_7pct/taux.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/fiscalite_indirecte/accises/autres/taux_7pct/produits.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/fiscalite_indirecte/accises/autres/taux_7pct/produits.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/fiscalite_indirecte/accises/autres/taux_2pct/taux.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/fiscalite_indirecte/accises/autres/taux_2pct/taux.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/fiscalite_indirecte/accises/autres/taux_2pct/produits.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/fiscalite_indirecte/accises/autres/taux_2pct/produits.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/fiscalite_indirecte/accises/tabac/taux.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/fiscalite_indirecte/accises/tabac/taux.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/fiscalite_indirecte/accises/tabac/produits.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/fiscalite_indirecte/accises/tabac/produits.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/fiscalite_indirecte/accises/cosmetiques/taux.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/fiscalite_indirecte/accises/cosmetiques/taux.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/fiscalite_indirecte/accises/cosmetiques/produits.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/fiscalite_indirecte/accises/cosmetiques/produits.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/fiscalite_indirecte/accises/boissons/taux.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/fiscalite_indirecte/accises/boissons/taux.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/fiscalite_indirecte/accises/boissons/produits.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/fiscalite_indirecte/accises/boissons/produits.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/fiscalite_indirecte/accises/alcool/taux.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/fiscalite_indirecte/accises/alcool/taux.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/fiscalite_indirecte/accises/alcool/produits.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/fiscalite_indirecte/accises/alcool/produits.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prestations/contributives/prestations_familiales/salaire_unique/enf2.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prestations/contributives/prestations_familiales/salaire_unique/enf2.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prestations/contributives/prestations_familiales/salaire_unique/enf1.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prestations/contributives/prestations_familiales/salaire_unique/enf1.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prestations/contributives/prestations_familiales/salaire_unique/enf3.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prestations/contributives/prestations_familiales/salaire_unique/enf3.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prestations/contributives/prestations_familiales/creche/duree.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prestations/contributives/prestations_familiales/creche/duree.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prestations/contributives/prestations_familiales/creche/montant.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prestations/contributives/prestations_familiales/creche/montant.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prestations/contributives/prestations_familiales/creche/plaf.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prestations/contributives/prestations_familiales/creche/plaf.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prestations/contributives/prestations_familiales/creche/age_max.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prestations/contributives/prestations_familiales/creche/age_max.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prestations/contributives/prestations_familiales/creche/age_min.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prestations/contributives/prestations_familiales/creche/age_min.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prestations/contributives/prestations_familiales/af/plaf_trim.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prestations/contributives/prestations_familiales/af/plaf_trim.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prestations/contributives/prestations_familiales/af/taux/enf2.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prestations/contributives/prestations_familiales/af/taux/enf2.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prestations/contributives/prestations_familiales/af/taux/enf1.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prestations/contributives/prestations_familiales/af/taux/enf3.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prestations/contributives/prestations_familiales/af/taux/enf3.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prestations/non_contributives/allocation_familiale.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prestations/non_contributives/allocation_familiale.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prestations/non_contributives/amg2.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prestations/non_contributives/amg2.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prestations/non_contributives/amen_social/decile.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prestations/non_contributives/amen_social/decile.yaml
+    Missing 'unit' field (Unit of measure (required, see units.yaml))
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prestations/non_contributives/amen_social/allocation_base.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prestations/non_contributives/amen_social/aides_ponctuelles/fetes_religieuses/ramadan.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prestations/non_contributives/amen_social/aides_ponctuelles/fetes_religieuses/ramadan.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prestations/non_contributives/amen_social/aides_ponctuelles/fetes_religieuses/aid_al_fitr.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prestations/non_contributives/amen_social/aides_ponctuelles/fetes_religieuses/aid_al_fitr.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prestations/non_contributives/amen_social/aides_ponctuelles/fetes_religieuses/aid_al_adha.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prestations/non_contributives/amen_social/aides_ponctuelles/fetes_religieuses/aid_al_adha.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prestations/non_contributives/amen_social/aides_ponctuelles/scolarite/rentree_universitaire.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prestations/non_contributives/amen_social/aides_ponctuelles/scolarite/rentree_universitaire.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prestations/non_contributives/amen_social/aides_ponctuelles/scolarite/rentree_scolaire.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prestations/non_contributives/amen_social/aides_ponctuelles/scolarite/rentree_scolaire.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prestations/non_contributives/amen_social/eligibilite/plus_de_cinq_membres.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prestations/non_contributives/amen_social/eligibilite/un_membre.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prestations/non_contributives/amen_social/eligibilite/trois_quatre_membres.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prestations/non_contributives/amen_social/eligibilite/deux_membres.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prestations/non_contributives/amen_social/eligibilite/handicap_lourd/plus_de_cinq_membres.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prestations/non_contributives/amen_social/eligibilite/handicap_lourd/un_membre.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prestations/non_contributives/amen_social/eligibilite/handicap_lourd/trois_quatre_membres.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prestations/non_contributives/amen_social/eligibilite/handicap_lourd/deux_membres.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prestations/non_contributives/amen_social/supplements/enfant_a_charge.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prestations/non_contributives/amen_social/supplements/limite_age_enfant.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prestations/non_contributives/amen_social/supplements/limite_age_enfant.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prestations/non_contributives/amen_social/supplements/limite_age_etudiant.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prestations/non_contributives/amen_social/supplements/limite_age_etudiant.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prestations/non_contributives/amen_social/supplements/handicap.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prestations/non_contributives/pnafn/allocation.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prestations/non_contributives/pnafn/allocation.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/produits_subventionnes/farine.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/produits_subventionnes/farine.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/produits_subventionnes/pate.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/produits_subventionnes/pate.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/produits_subventionnes/lait_demi_ecreme_bouteille.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/produits_subventionnes/lait_demi_ecreme_bouteille.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/produits_subventionnes/baguette.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/produits_subventionnes/baguette.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/produits_subventionnes/lait_demi_ecreme_uht.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/produits_subventionnes/lait_demi_ecreme_uht.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/produits_subventionnes/sucre.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/produits_subventionnes/sucre.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/produits_subventionnes/gros_pain.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/produits_subventionnes/gros_pain.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/produits_subventionnes/semoule.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/produits_subventionnes/semoule.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/produits_subventionnes/huile.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/produits_subventionnes/huile.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/produits_subventionnes/couscous.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/produits_subventionnes/couscous.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/marche_travail/smig_48h_mensuel.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/marche_travail/salaire_de_base_40h_horaire.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/marche_travail/majoration_smig_40h_mensuel.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/marche_travail/indemnite_speciale_smig.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/marche_travail/indemnite_complementaire_provisoire.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/marche_travail/majoration_smig_48h_mensuel.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/marche_travail/smig_40h_horaire.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/marche_travail/smig_40h_mensuel.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/marche_travail/salaire_de_base_40h_mensuel.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/marche_travail/indemnite_speciale_smag.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/marche_travail/smag_journalier.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/marche_travail/salaire_de_base_48h_horaire.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/marche_travail/salaire_de_base_48h_mensuel.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/marche_travail/smig_48h_horaire.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/plafond_securite_sociale.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/plafond_securite_sociale.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/cotisations_sociales/secteur_public/salarie_cnrps/cotisations_employeur/maladie.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/cotisations_sociales/secteur_public/salarie_cnrps/cotisations_employeur/maladie.yaml
+    Missing 'unit' field (Unit of measure (required, see units.yaml))
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/cotisations_sociales/secteur_public/salarie_cnrps/cotisations_employeur/retraite.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/cotisations_sociales/secteur_public/salarie_cnrps/cotisations_employeur/retraite.yaml
+    Missing 'unit' field (Unit of measure (required, see units.yaml))
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/cotisations_sociales/secteur_public/salarie_cnrps/cotisations_salarie/maladie.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/cotisations_sociales/secteur_public/salarie_cnrps/cotisations_salarie/maladie.yaml
+    Missing 'unit' field (Unit of measure (required, see units.yaml))
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/cotisations_sociales/secteur_public/salarie_cnrps/cotisations_salarie/deces.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/cotisations_sociales/secteur_public/salarie_cnrps/cotisations_salarie/deces.yaml
+    Missing 'unit' field (Unit of measure (required, see units.yaml))
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/cotisations_sociales/secteur_public/salarie_cnrps/cotisations_salarie/retraite.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/cotisations_sociales/secteur_public/salarie_cnrps/cotisations_salarie/retraite.yaml
+    Missing 'unit' field (Unit of measure (required, see units.yaml))
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/cotisations_sociales/secteur_public/pensionne_cnrps/prevoyance_sociale.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/cotisations_sociales/secteur_public/pensionne_cnrps/prevoyance_sociale.yaml
+    Missing 'unit' field (Unit of measure (required, see units.yaml))
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/cotisations_sociales/secteur_public/pensionne_cnrps/deces.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/cotisations_sociales/secteur_public/pensionne_cnrps/deces.yaml
+    Missing 'unit' field (Unit of measure (required, see units.yaml))
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/cotisations_sociales/secteur_prive/rsa/cotisations_employeur/retraite.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/cotisations_sociales/secteur_prive/rsa/cotisations_employeur/retraite.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/cotisations_sociales/secteur_prive/rsa/cotisations_employeur/retraite.yaml
+    Missing 'unit' field (Unit of measure (required, see units.yaml))
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/cotisations_sociales/secteur_prive/rsa/cotisations_employeur/assurances_sociales/maladie.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/cotisations_sociales/secteur_prive/rsa/cotisations_employeur/assurances_sociales/maladie.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/cotisations_sociales/secteur_prive/rsa/cotisations_employeur/assurances_sociales/maladie.yaml
+    Missing 'unit' field (Unit of measure (required, see units.yaml))
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/cotisations_sociales/secteur_prive/rsa/cotisations_employeur/assurances_sociales/deces.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/cotisations_sociales/secteur_prive/rsa/cotisations_employeur/assurances_sociales/deces.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/cotisations_sociales/secteur_prive/rsa/cotisations_employeur/assurances_sociales/deces.yaml
+    Missing 'unit' field (Unit of measure (required, see units.yaml))
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/cotisations_sociales/secteur_prive/rsa/cotisations_employeur/assurances_sociales/maternite.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/cotisations_sociales/secteur_prive/rsa/cotisations_employeur/assurances_sociales/maternite.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/cotisations_sociales/secteur_prive/rsa/cotisations_employeur/assurances_sociales/maternite.yaml
+    Missing 'unit' field (Unit of measure (required, see units.yaml))
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/cotisations_sociales/secteur_prive/rsa/cotisations_salarie/retraite.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/cotisations_sociales/secteur_prive/rsa/cotisations_salarie/retraite.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/cotisations_sociales/secteur_prive/rsa/cotisations_salarie/retraite.yaml
+    Missing 'unit' field (Unit of measure (required, see units.yaml))
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/cotisations_sociales/secteur_prive/rsa/cotisations_salarie/assurances_sociales/maladie.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/cotisations_sociales/secteur_prive/rsa/cotisations_salarie/assurances_sociales/maladie.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/cotisations_sociales/secteur_prive/rsa/cotisations_salarie/assurances_sociales/maladie.yaml
+    Missing 'unit' field (Unit of measure (required, see units.yaml))
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/cotisations_sociales/secteur_prive/rsa/cotisations_salarie/assurances_sociales/deces.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/cotisations_sociales/secteur_prive/rsa/cotisations_salarie/assurances_sociales/deces.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/cotisations_sociales/secteur_prive/rsa/cotisations_salarie/assurances_sociales/deces.yaml
+    Missing 'unit' field (Unit of measure (required, see units.yaml))
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/cotisations_sociales/secteur_prive/rsa/cotisations_salarie/assurances_sociales/maternite.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/cotisations_sociales/secteur_prive/rsa/cotisations_salarie/assurances_sociales/maternite.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/cotisations_sociales/secteur_prive/rsa/cotisations_salarie/assurances_sociales/maternite.yaml
+    Missing 'unit' field (Unit of measure (required, see units.yaml))
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/cotisations_sociales/secteur_prive/rsaa/cotisations_employeur/famille.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/cotisations_sociales/secteur_prive/rsaa/cotisations_employeur/famille.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/cotisations_sociales/secteur_prive/rsaa/cotisations_employeur/famille.yaml
+    Missing 'unit' field (Unit of measure (required, see units.yaml))
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/cotisations_sociales/secteur_prive/rsaa/cotisations_employeur/retraite.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/cotisations_sociales/secteur_prive/rsaa/cotisations_employeur/retraite.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/cotisations_sociales/secteur_prive/rsaa/cotisations_employeur/retraite.yaml
+    Missing 'unit' field (Unit of measure (required, see units.yaml))
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/cotisations_sociales/secteur_prive/rsaa/cotisations_employeur/assurances_sociales/maladie.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/cotisations_sociales/secteur_prive/rsaa/cotisations_employeur/assurances_sociales/maladie.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/cotisations_sociales/secteur_prive/rsaa/cotisations_employeur/assurances_sociales/maladie.yaml
+    Missing 'unit' field (Unit of measure (required, see units.yaml))
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/cotisations_sociales/secteur_prive/rsaa/cotisations_employeur/assurances_sociales/deces.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/cotisations_sociales/secteur_prive/rsaa/cotisations_employeur/assurances_sociales/deces.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/cotisations_sociales/secteur_prive/rsaa/cotisations_employeur/assurances_sociales/deces.yaml
+    Missing 'unit' field (Unit of measure (required, see units.yaml))
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/cotisations_sociales/secteur_prive/rsaa/cotisations_employeur/assurances_sociales/maternite.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/cotisations_sociales/secteur_prive/rsaa/cotisations_employeur/assurances_sociales/maternite.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/cotisations_sociales/secteur_prive/rsaa/cotisations_employeur/assurances_sociales/maternite.yaml
+    Missing 'unit' field (Unit of measure (required, see units.yaml))
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/cotisations_sociales/secteur_prive/rsaa/cotisations_salarie/famille.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/cotisations_sociales/secteur_prive/rsaa/cotisations_salarie/famille.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/cotisations_sociales/secteur_prive/rsaa/cotisations_salarie/famille.yaml
+    Missing 'unit' field (Unit of measure (required, see units.yaml))
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/cotisations_sociales/secteur_prive/rsaa/cotisations_salarie/retraite.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/cotisations_sociales/secteur_prive/rsaa/cotisations_salarie/retraite.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/cotisations_sociales/secteur_prive/rsaa/cotisations_salarie/retraite.yaml
+    Missing 'unit' field (Unit of measure (required, see units.yaml))
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/cotisations_sociales/secteur_prive/rsaa/cotisations_salarie/assurances_sociales/maladie.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/cotisations_sociales/secteur_prive/rsaa/cotisations_salarie/assurances_sociales/maladie.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/cotisations_sociales/secteur_prive/rsaa/cotisations_salarie/assurances_sociales/maladie.yaml
+    Missing 'unit' field (Unit of measure (required, see units.yaml))
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/cotisations_sociales/secteur_prive/rsaa/cotisations_salarie/assurances_sociales/deces.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/cotisations_sociales/secteur_prive/rsaa/cotisations_salarie/assurances_sociales/deces.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/cotisations_sociales/secteur_prive/rsaa/cotisations_salarie/assurances_sociales/deces.yaml
+    Missing 'unit' field (Unit of measure (required, see units.yaml))
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/cotisations_sociales/secteur_prive/rsaa/cotisations_salarie/assurances_sociales/maternite.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/cotisations_sociales/secteur_prive/rsaa/cotisations_salarie/assurances_sociales/maternite.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/cotisations_sociales/secteur_prive/rsaa/cotisations_salarie/assurances_sociales/maternite.yaml
+    Missing 'unit' field (Unit of measure (required, see units.yaml))
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/cotisations_sociales/secteur_prive/re/cotisation.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/cotisations_sociales/secteur_prive/rtns/cotisations_salarie/retraite.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/cotisations_sociales/secteur_prive/rtns/cotisations_salarie/retraite.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/cotisations_sociales/secteur_prive/rtns/cotisations_salarie/retraite.yaml
+    Missing 'unit' field (Unit of measure (required, see units.yaml))
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/cotisations_sociales/secteur_prive/rtns/cotisations_salarie/assurances_sociales/maladie.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/cotisations_sociales/secteur_prive/rtns/cotisations_salarie/assurances_sociales/maladie.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/cotisations_sociales/secteur_prive/rtns/cotisations_salarie/assurances_sociales/maladie.yaml
+    Missing 'unit' field (Unit of measure (required, see units.yaml))
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/cotisations_sociales/secteur_prive/rtns/cotisations_salarie/assurances_sociales/deces.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/cotisations_sociales/secteur_prive/rtns/cotisations_salarie/assurances_sociales/deces.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/cotisations_sociales/secteur_prive/rtns/cotisations_salarie/assurances_sociales/deces.yaml
+    Missing 'unit' field (Unit of measure (required, see units.yaml))
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/cotisations_sociales/secteur_prive/rtns/cotisations_salarie/assurances_sociales/maternite.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/cotisations_sociales/secteur_prive/rtns/cotisations_salarie/assurances_sociales/maternite.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/cotisations_sociales/secteur_prive/rtns/cotisations_salarie/assurances_sociales/maternite.yaml
+    Missing 'unit' field (Unit of measure (required, see units.yaml))
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/cotisations_sociales/secteur_prive/raci/cotisations_salarie/retraite.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/cotisations_sociales/secteur_prive/raci/cotisations_salarie/retraite.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/cotisations_sociales/secteur_prive/raci/cotisations_salarie/retraite.yaml
+    Missing 'unit' field (Unit of measure (required, see units.yaml))
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/cotisations_sociales/secteur_prive/raci/cotisations_salarie/assurances_sociales/maladie.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/cotisations_sociales/secteur_prive/raci/cotisations_salarie/assurances_sociales/maladie.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/cotisations_sociales/secteur_prive/raci/cotisations_salarie/assurances_sociales/maladie.yaml
+    Missing 'unit' field (Unit of measure (required, see units.yaml))
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/cotisations_sociales/secteur_prive/raci/cotisations_salarie/assurances_sociales/deces.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/cotisations_sociales/secteur_prive/raci/cotisations_salarie/assurances_sociales/deces.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/cotisations_sociales/secteur_prive/raci/cotisations_salarie/assurances_sociales/deces.yaml
+    Missing 'unit' field (Unit of measure (required, see units.yaml))
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/cotisations_sociales/secteur_prive/raci/cotisations_salarie/assurances_sociales/maternite.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/cotisations_sociales/secteur_prive/raci/cotisations_salarie/assurances_sociales/maternite.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/cotisations_sociales/secteur_prive/raci/cotisations_salarie/assurances_sociales/maternite.yaml
+    Missing 'unit' field (Unit of measure (required, see units.yaml))
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/cotisations_sociales/secteur_prive/rsna/cotisations_employeur/famille.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/cotisations_sociales/secteur_prive/rsna/cotisations_employeur/famille.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/cotisations_sociales/secteur_prive/rsna/cotisations_employeur/famille.yaml
+    Missing 'unit' field (Unit of measure (required, see units.yaml))
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/cotisations_sociales/secteur_prive/rsna/cotisations_employeur/retraite.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/cotisations_sociales/secteur_prive/rsna/cotisations_employeur/retraite.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/cotisations_sociales/secteur_prive/rsna/cotisations_employeur/retraite.yaml
+    Missing 'unit' field (Unit of measure (required, see units.yaml))
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/cotisations_sociales/secteur_prive/rsna/cotisations_employeur/accident_du_travail.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/cotisations_sociales/secteur_prive/rsna/cotisations_employeur/accident_du_travail.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/cotisations_sociales/secteur_prive/rsna/cotisations_employeur/accident_du_travail.yaml
+    Missing 'unit' field (Unit of measure (required, see units.yaml))
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/cotisations_sociales/secteur_prive/rsna/cotisations_employeur/protection_sociale_travailleurs.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/cotisations_sociales/secteur_prive/rsna/cotisations_employeur/protection_sociale_travailleurs.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/cotisations_sociales/secteur_prive/rsna/cotisations_employeur/protection_sociale_travailleurs.yaml
+    Missing 'unit' field (Unit of measure (required, see units.yaml))
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/cotisations_sociales/secteur_prive/rsna/cotisations_employeur/perte_d_emploi.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/cotisations_sociales/secteur_prive/rsna/cotisations_employeur/perte_d_emploi.yaml
+    Missing 'unit' field (Unit of measure (required, see units.yaml))
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/cotisations_sociales/secteur_prive/rsna/cotisations_employeur/fonds_special_etat.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/cotisations_sociales/secteur_prive/rsna/cotisations_employeur/fonds_special_etat.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/cotisations_sociales/secteur_prive/rsna/cotisations_employeur/fonds_special_etat.yaml
+    Missing 'unit' field (Unit of measure (required, see units.yaml))
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/cotisations_sociales/secteur_prive/rsna/cotisations_employeur/retraite_complementaire.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/cotisations_sociales/secteur_prive/rsna/cotisations_employeur/retraite_complementaire.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/cotisations_sociales/secteur_prive/rsna/cotisations_employeur/retraite_complementaire.yaml
+    Missing 'unit' field (Unit of measure (required, see units.yaml))
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/cotisations_sociales/secteur_prive/rsna/cotisations_employeur/assurances_sociales/maladie.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/cotisations_sociales/secteur_prive/rsna/cotisations_employeur/assurances_sociales/maladie.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/cotisations_sociales/secteur_prive/rsna/cotisations_employeur/assurances_sociales/maladie.yaml
+    Missing 'unit' field (Unit of measure (required, see units.yaml))
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/cotisations_sociales/secteur_prive/rsna/cotisations_employeur/assurances_sociales/deces.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/cotisations_sociales/secteur_prive/rsna/cotisations_employeur/assurances_sociales/deces.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/cotisations_sociales/secteur_prive/rsna/cotisations_employeur/assurances_sociales/deces.yaml
+    Missing 'unit' field (Unit of measure (required, see units.yaml))
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/cotisations_sociales/secteur_prive/rsna/cotisations_employeur/assurances_sociales/maternite.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/cotisations_sociales/secteur_prive/rsna/cotisations_employeur/assurances_sociales/maternite.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/cotisations_sociales/secteur_prive/rsna/cotisations_employeur/assurances_sociales/maternite.yaml
+    Missing 'unit' field (Unit of measure (required, see units.yaml))
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/cotisations_sociales/secteur_prive/rsna/cotisations_salarie/famille.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/cotisations_sociales/secteur_prive/rsna/cotisations_salarie/famille.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/cotisations_sociales/secteur_prive/rsna/cotisations_salarie/famille.yaml
+    Missing 'unit' field (Unit of measure (required, see units.yaml))
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/cotisations_sociales/secteur_prive/rsna/cotisations_salarie/retraite.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/cotisations_sociales/secteur_prive/rsna/cotisations_salarie/retraite.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/cotisations_sociales/secteur_prive/rsna/cotisations_salarie/retraite.yaml
+    Missing 'unit' field (Unit of measure (required, see units.yaml))
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/cotisations_sociales/secteur_prive/rsna/cotisations_salarie/accident_du_travail.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/cotisations_sociales/secteur_prive/rsna/cotisations_salarie/accident_du_travail.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/cotisations_sociales/secteur_prive/rsna/cotisations_salarie/accident_du_travail.yaml
+    Missing 'unit' field (Unit of measure (required, see units.yaml))
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/cotisations_sociales/secteur_prive/rsna/cotisations_salarie/protection_sociale_travailleurs.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/cotisations_sociales/secteur_prive/rsna/cotisations_salarie/protection_sociale_travailleurs.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/cotisations_sociales/secteur_prive/rsna/cotisations_salarie/protection_sociale_travailleurs.yaml
+    Missing 'unit' field (Unit of measure (required, see units.yaml))
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/cotisations_sociales/secteur_prive/rsna/cotisations_salarie/perte_d_emploi.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/cotisations_sociales/secteur_prive/rsna/cotisations_salarie/perte_d_emploi.yaml
+    Missing 'unit' field (Unit of measure (required, see units.yaml))
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/cotisations_sociales/secteur_prive/rsna/cotisations_salarie/retraite_complementaire.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/cotisations_sociales/secteur_prive/rsna/cotisations_salarie/retraite_complementaire.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/cotisations_sociales/secteur_prive/rsna/cotisations_salarie/retraite_complementaire.yaml
+    Missing 'unit' field (Unit of measure (required, see units.yaml))
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/cotisations_sociales/secteur_prive/rsna/cotisations_salarie/assurances_sociales/maladie.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/cotisations_sociales/secteur_prive/rsna/cotisations_salarie/assurances_sociales/maladie.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/cotisations_sociales/secteur_prive/rsna/cotisations_salarie/assurances_sociales/maladie.yaml
+    Missing 'unit' field (Unit of measure (required, see units.yaml))
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/cotisations_sociales/secteur_prive/rsna/cotisations_salarie/assurances_sociales/deces.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/cotisations_sociales/secteur_prive/rsna/cotisations_salarie/assurances_sociales/deces.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/cotisations_sociales/secteur_prive/rsna/cotisations_salarie/assurances_sociales/deces.yaml
+    Missing 'unit' field (Unit of measure (required, see units.yaml))
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/cotisations_sociales/secteur_prive/rsna/cotisations_salarie/assurances_sociales/maternite.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/cotisations_sociales/secteur_prive/rsna/cotisations_salarie/assurances_sociales/maternite.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/cotisations_sociales/secteur_prive/rsna/cotisations_salarie/assurances_sociales/maternite.yaml
+    Missing 'unit' field (Unit of measure (required, see units.yaml))
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/cotisations_sociales/secteur_prive/rtte/cotisations_salarie/retraite.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/cotisations_sociales/secteur_prive/rtte/cotisations_salarie/retraite.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/cotisations_sociales/secteur_prive/rtte/cotisations_salarie/retraite.yaml
+    Missing 'unit' field (Unit of measure (required, see units.yaml))
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/cotisations_sociales/secteur_prive/rtte/cotisations_salarie/assurances_sociales/maladie.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/cotisations_sociales/secteur_prive/rtte/cotisations_salarie/assurances_sociales/maladie.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/cotisations_sociales/secteur_prive/rtte/cotisations_salarie/assurances_sociales/maladie.yaml
+    Missing 'unit' field (Unit of measure (required, see units.yaml))
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/cotisations_sociales/secteur_prive/rtte/cotisations_salarie/assurances_sociales/deces.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/cotisations_sociales/secteur_prive/rtte/cotisations_salarie/assurances_sociales/deces.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/cotisations_sociales/secteur_prive/rtte/cotisations_salarie/assurances_sociales/deces.yaml
+    Missing 'unit' field (Unit of measure (required, see units.yaml))
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/cotisations_sociales/secteur_prive/rtte/cotisations_salarie/assurances_sociales/maternite.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/cotisations_sociales/secteur_prive/rtte/cotisations_salarie/assurances_sociales/maternite.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/cotisations_sociales/secteur_prive/rtte/cotisations_salarie/assurances_sociales/maternite.yaml
+    Missing 'unit' field (Unit of measure (required, see units.yaml))
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/cotisations_sociales/secteur_prive/rtfr/cotisations_employeur/retraite.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/cotisations_sociales/secteur_prive/rtfr/cotisations_employeur/retraite.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/cotisations_sociales/secteur_prive/rtfr/cotisations_employeur/retraite.yaml
+    Missing 'unit' field (Unit of measure (required, see units.yaml))
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/cotisations_sociales/secteur_prive/rtfr/cotisations_employeur/soin.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/cotisations_sociales/secteur_prive/rtfr/cotisations_employeur/soin.yaml
+    Missing 'unit' field (Unit of measure (required, see units.yaml))
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/cotisations_sociales/secteur_prive/rtfr/cotisations_salarie/retraite.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/cotisations_sociales/secteur_prive/rtfr/cotisations_salarie/retraite.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/cotisations_sociales/secteur_prive/rtfr/cotisations_salarie/retraite.yaml
+    Missing 'unit' field (Unit of measure (required, see units.yaml))
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/cotisations_sociales/secteur_prive/rtfr/cotisations_salarie/soin.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/cotisations_sociales/secteur_prive/rtfr/cotisations_salarie/soin.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/cotisations_sociales/secteur_prive/rtfr/cotisations_salarie/soin.yaml
+    Missing 'unit' field (Unit of measure (required, see units.yaml))
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/contribution_sociale_solidarite/salarie.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/contribution_sociale_solidarite/salarie.yaml
+    Missing 'unit' field (Unit of measure (required, see units.yaml))
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/contribution_sociale_solidarite/entreprise/taux_is_35_pc/montant_minimum.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/contribution_sociale_solidarite/entreprise/taux_is_35_pc/bareme.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/contribution_sociale_solidarite/entreprise/taux_is_35_pc/bareme.yaml
+    Missing 'unit' field (Unit of measure (required, see units.yaml))
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/contribution_sociale_solidarite/entreprise/taux_is_15_20_25_pc/montant_minimum.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/contribution_sociale_solidarite/entreprise/taux_is_15_20_25_pc/bareme.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/contribution_sociale_solidarite/entreprise/taux_is_15_20_25_pc/bareme.yaml
+    Missing 'unit' field (Unit of measure (required, see units.yaml))
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/contribution_sociale_solidarite/entreprise/taux_is_10_pc/montant_minimum.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/contribution_sociale_solidarite/entreprise/taux_is_10_pc/bareme.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/contribution_sociale_solidarite/entreprise/taux_is_10_pc/bareme.yaml
+    Missing 'unit' field (Unit of measure (required, see units.yaml))
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/industries_extractives.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/industries_extractives.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/industries_extractives.yaml
+    Missing 'unit' field (Unit of measure (required, see units.yaml))
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/fabrication_d_accumulateurs_et_de_piles_electriques.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/fabrication_d_accumulateurs_et_de_piles_electriques.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/fabrication_d_accumulateurs_et_de_piles_electriques.yaml
+    Missing 'unit' field (Unit of measure (required, see units.yaml))
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/industries_des_materiaux_de_construction.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/industries_des_materiaux_de_construction.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/industries_des_materiaux_de_construction.yaml
+    Missing 'unit' field (Unit of measure (required, see units.yaml))
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/batiment_et_travaux_publics.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/batiment_et_travaux_publics.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/batiment_et_travaux_publics.yaml
+    Missing 'unit' field (Unit of measure (required, see units.yaml))
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/industries_du_bois.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/industries_du_bois.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/industries_du_bois.yaml
+    Missing 'unit' field (Unit of measure (required, see units.yaml))
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/industrie_de_verrerie.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/industrie_de_verrerie.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/industrie_de_verrerie.yaml
+    Missing 'unit' field (Unit of measure (required, see units.yaml))
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/industrie_du_tabac.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/industrie_du_tabac.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/industrie_du_tabac.yaml
+    Missing 'unit' field (Unit of measure (required, see units.yaml))
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/industrie_de_fonderie_et_siderurgie.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/industrie_de_fonderie_et_siderurgie.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/industrie_de_fonderie_et_siderurgie.yaml
+    Missing 'unit' field (Unit of measure (required, see units.yaml))
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/autres_industries_manufacturieres.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/autres_industries_manufacturieres.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/autres_industries_manufacturieres.yaml
+    Missing 'unit' field (Unit of measure (required, see units.yaml))
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/construction_et_reparation navale.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/construction_et_reparation navale.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/construction_et_reparation navale.yaml
+    Missing 'unit' field (Unit of measure (required, see units.yaml))
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/services_de_bureaux.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/services_de_bureaux.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/services_de_bureaux.yaml
+    Missing 'unit' field (Unit of measure (required, see units.yaml))
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/industries_artisanales.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/industries_artisanales.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/industries_artisanales.yaml
+    Missing 'unit' field (Unit of measure (required, see units.yaml))
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/location_de_la main_d_oeuvre_pour_les_services_administratifs.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/location_de_la main_d_oeuvre_pour_les_services_administratifs.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/location_de_la main_d_oeuvre_pour_les_services_administratifs.yaml
+    Missing 'unit' field (Unit of measure (required, see units.yaml))
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/autres_services.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/autres_services.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/autres_services.yaml
+    Missing 'unit' field (Unit of measure (required, see units.yaml))
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/location_de_main_d_oeuvre_hors_services_administratifs_gardiennage.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/location_de_main_d_oeuvre_hors_services_administratifs_gardiennage.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/location_de_main_d_oeuvre_hors_services_administratifs_gardiennage.yaml
+    Missing 'unit' field (Unit of measure (required, see units.yaml))
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/fabrication_de_machines_de_bureau_et_de_materiels_informatique.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/fabrication_de_machines_de_bureau_et_de_materiels_informatique.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/fabrication_de_machines_de_bureau_et_de_materiels_informatique.yaml
+    Missing 'unit' field (Unit of measure (required, see units.yaml))
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/activites_liees_aux_constructions_et_reparations_navales.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/activites_liees_aux_constructions_et_reparations_navales.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/activites_liees_aux_constructions_et_reparations_navales.yaml
+    Missing 'unit' field (Unit of measure (required, see units.yaml))
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/industrie_de_la_ceramique.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/industrie_de_la_ceramique.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/industrie_de_la_ceramique.yaml
+    Missing 'unit' field (Unit of measure (required, see units.yaml))
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/auto_ecole.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/auto_ecole.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/auto_ecole.yaml
+    Missing 'unit' field (Unit of measure (required, see units.yaml))
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/activites_sportives.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/activites_sportives.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/activites_sportives.yaml
+    Missing 'unit' field (Unit of measure (required, see units.yaml))
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/hotellerie.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/hotellerie.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/hotellerie.yaml
+    Missing 'unit' field (Unit of measure (required, see units.yaml))
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/industrie_du_meuble_et_de_menuiserie.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/industrie_du_meuble_et_de_menuiserie.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/industrie_du_meuble_et_de_menuiserie.yaml
+    Missing 'unit' field (Unit of measure (required, see units.yaml))
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/fabrication_de_machines_et_appareils_electriques.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/fabrication_de_machines_et_appareils_electriques.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/fabrication_de_machines_et_appareils_electriques.yaml
+    Missing 'unit' field (Unit of measure (required, see units.yaml))
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/gardiennage.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/gardiennage.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/gardiennage.yaml
+    Missing 'unit' field (Unit of measure (required, see units.yaml))
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/agriculture_et_peche.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/agriculture_et_peche.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/agriculture_et_peche.yaml
+    Missing 'unit' field (Unit of measure (required, see units.yaml))
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/industrie_du_liege.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/industrie_du_liege.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/industrie_du_liege.yaml
+    Missing 'unit' field (Unit of measure (required, see units.yaml))
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/industries_mecaniques/automobile_materiel_de_transport.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/industries_mecaniques/automobile_materiel_de_transport.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/industries_mecaniques/automobile_materiel_de_transport.yaml
+    Missing 'unit' field (Unit of measure (required, see units.yaml))
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/industries_mecaniques/machines_equipements_mecaniques.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/industries_mecaniques/machines_equipements_mecaniques.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/industries_mecaniques/machines_equipements_mecaniques.yaml
+    Missing 'unit' field (Unit of measure (required, see units.yaml))
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/industries_mecaniques/equipements_appareils_domestiques.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/industries_mecaniques/equipements_appareils_domestiques.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/industries_mecaniques/equipements_appareils_domestiques.yaml
+    Missing 'unit' field (Unit of measure (required, see units.yaml))
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/industries_agro_alimentaires/huiles_corps_gras.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/industries_agro_alimentaires/huiles_corps_gras.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/industries_agro_alimentaires/huiles_corps_gras.yaml
+    Missing 'unit' field (Unit of measure (required, see units.yaml))
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/industries_agro_alimentaires/travail_des_graines.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/industries_agro_alimentaires/travail_des_graines.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/industries_agro_alimentaires/travail_des_graines.yaml
+    Missing 'unit' field (Unit of measure (required, see units.yaml))
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/industries_agro_alimentaires/abattoirs.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/industries_agro_alimentaires/abattoirs.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/industries_agro_alimentaires/abattoirs.yaml
+    Missing 'unit' field (Unit of measure (required, see units.yaml))
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/industries_agro_alimentaires/sechage_deshydratation.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/industries_agro_alimentaires/sechage_deshydratation.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/industries_agro_alimentaires/sechage_deshydratation.yaml
+    Missing 'unit' field (Unit of measure (required, see units.yaml))
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/industries_agro_alimentaires/boissons_alcools_vinaigre.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/industries_agro_alimentaires/boissons_alcools_vinaigre.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/industries_agro_alimentaires/boissons_alcools_vinaigre.yaml
+    Missing 'unit' field (Unit of measure (required, see units.yaml))
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/industries_agro_alimentaires/lait_et_derives.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/industries_agro_alimentaires/lait_et_derives.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/industries_agro_alimentaires/lait_et_derives.yaml
+    Missing 'unit' field (Unit of measure (required, see units.yaml))
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/industries_agro_alimentaires/conserverie_semi_conserverie.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/industries_agro_alimentaires/conserverie_semi_conserverie.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/industries_agro_alimentaires/conserverie_semi_conserverie.yaml
+    Missing 'unit' field (Unit of measure (required, see units.yaml))
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/industries_agro_alimentaires/autre_agro_alimentaire.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/industries_agro_alimentaires/autre_agro_alimentaire.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/industries_agro_alimentaires/autre_agro_alimentaire.yaml
+    Missing 'unit' field (Unit of measure (required, see units.yaml))
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/industries_agro_alimentaires/aliments_composes.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/industries_agro_alimentaires/aliments_composes.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/industries_agro_alimentaires/aliments_composes.yaml
+    Missing 'unit' field (Unit of measure (required, see units.yaml))
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/industries_agro_alimentaires/sucre_chocolat_derives.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/industries_agro_alimentaires/sucre_chocolat_derives.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/industries_agro_alimentaires/sucre_chocolat_derives.yaml
+    Missing 'unit' field (Unit of measure (required, see units.yaml))
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/commerce/commerce_de_detail.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/commerce/commerce_de_detail.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/commerce/commerce_de_detail.yaml
+    Missing 'unit' field (Unit of measure (required, see units.yaml))
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/commerce/commerce_de_gros.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/commerce/commerce_de_gros.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/commerce/commerce_de_gros.yaml
+    Missing 'unit' field (Unit of measure (required, see units.yaml))
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/industrie_du_papier_et_des_arts_graphiques/fabrication_papier_carton.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/industrie_du_papier_et_des_arts_graphiques/fabrication_papier_carton.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/industrie_du_papier_et_des_arts_graphiques/fabrication_papier_carton.yaml
+    Missing 'unit' field (Unit of measure (required, see units.yaml))
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/industrie_du_papier_et_des_arts_graphiques/transformation_papier_carton.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/industrie_du_papier_et_des_arts_graphiques/transformation_papier_carton.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/industrie_du_papier_et_des_arts_graphiques/transformation_papier_carton.yaml
+    Missing 'unit' field (Unit of measure (required, see units.yaml))
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/industrie_du_papier_et_des_arts_graphiques/imprimerie_edition.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/industrie_du_papier_et_des_arts_graphiques/imprimerie_edition.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/industrie_du_papier_et_des_arts_graphiques/imprimerie_edition.yaml
+    Missing 'unit' field (Unit of measure (required, see units.yaml))
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/transport_et_manutention/manutention_et_entreposage.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/transport_et_manutention/manutention_et_entreposage.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/transport_et_manutention/manutention_et_entreposage.yaml
+    Missing 'unit' field (Unit of measure (required, see units.yaml))
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/transport_et_manutention/transports_aeriens.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/transport_et_manutention/transports_aeriens.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/transport_et_manutention/transports_aeriens.yaml
+    Missing 'unit' field (Unit of measure (required, see units.yaml))
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/transport_et_manutention/transports_maritimes.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/transport_et_manutention/transports_maritimes.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/transport_et_manutention/transports_maritimes.yaml
+    Missing 'unit' field (Unit of measure (required, see units.yaml))
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/transport_et_manutention/transports_terrestres.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/transport_et_manutention/transports_terrestres.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/transport_et_manutention/transports_terrestres.yaml
+    Missing 'unit' field (Unit of measure (required, see units.yaml))
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/location_de_voiture_et_d_equipements/avec_atelier_de_reparation.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/location_de_voiture_et_d_equipements/avec_atelier_de_reparation.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/location_de_voiture_et_d_equipements/avec_atelier_de_reparation.yaml
+    Missing 'unit' field (Unit of measure (required, see units.yaml))
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/location_de_voiture_et_d_equipements/sans_atelier_de_reparation.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/location_de_voiture_et_d_equipements/sans_atelier_de_reparation.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/location_de_voiture_et_d_equipements/sans_atelier_de_reparation.yaml
+    Missing 'unit' field (Unit of measure (required, see units.yaml))
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/location_de_voiture_et_d_equipements/avec_chauffeur.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/location_de_voiture_et_d_equipements/avec_chauffeur.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/location_de_voiture_et_d_equipements/avec_chauffeur.yaml
+    Missing 'unit' field (Unit of measure (required, see units.yaml))
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/activites_annexes_du_btp/realisation_charpentes_et_couvertures.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/activites_annexes_du_btp/realisation_charpentes_et_couvertures.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/activites_annexes_du_btp/realisation_charpentes_et_couvertures.yaml
+    Missing 'unit' field (Unit of measure (required, see units.yaml))
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/activites_annexes_du_btp/travaux_peinture_et_vitrerie.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/activites_annexes_du_btp/travaux_peinture_et_vitrerie.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/activites_annexes_du_btp/travaux_peinture_et_vitrerie.yaml
+    Missing 'unit' field (Unit of measure (required, see units.yaml))
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/activites_annexes_du_btp/autres_travaux_installation_et_finition.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/activites_annexes_du_btp/autres_travaux_installation_et_finition.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/activites_annexes_du_btp/autres_travaux_installation_et_finition.yaml
+    Missing 'unit' field (Unit of measure (required, see units.yaml))
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/activites_annexes_du_btp/installation_de menuiserie_bois_métallique_et_serrurerie.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/activites_annexes_du_btp/installation_de menuiserie_bois_métallique_et_serrurerie.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/activites_annexes_du_btp/installation_de menuiserie_bois_métallique_et_serrurerie.yaml
+    Missing 'unit' field (Unit of measure (required, see units.yaml))
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/activites_annexes_du_btp/plomberie_et_installation_equipements_thermiques_et_climatisation.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/activites_annexes_du_btp/plomberie_et_installation_equipements_thermiques_et_climatisation.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/activites_annexes_du_btp/plomberie_et_installation_equipements_thermiques_et_climatisation.yaml
+    Missing 'unit' field (Unit of measure (required, see units.yaml))
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/activites_annexes_du_btp/installation_electrique.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/activites_annexes_du_btp/installation_electrique.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/activites_annexes_du_btp/installation_electrique.yaml
+    Missing 'unit' field (Unit of measure (required, see units.yaml))
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/industries_chimiques/fabrication_de_savons_de_parfums_et_de_produits_d_entretien.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/industries_chimiques/fabrication_de_savons_de_parfums_et_de_produits_d_entretien.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/industries_chimiques/fabrication_de_savons_de_parfums_et_de_produits_d_entretien.yaml
+    Missing 'unit' field (Unit of measure (required, see units.yaml))
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/industries_chimiques/fabrication_de_caoutchouc_et_d_ouvrages_en_caoutchouc.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/industries_chimiques/fabrication_de_caoutchouc_et_d_ouvrages_en_caoutchouc.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/industries_chimiques/fabrication_de_caoutchouc_et_d_ouvrages_en_caoutchouc.yaml
+    Missing 'unit' field (Unit of measure (required, see units.yaml))
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/industries_chimiques/fabrication_de_produits_pharmaceutiques.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/industries_chimiques/fabrication_de_produits_pharmaceutiques.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/industries_chimiques/fabrication_de_produits_pharmaceutiques.yaml
+    Missing 'unit' field (Unit of measure (required, see units.yaml))
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/industries_chimiques/fabrication_des_produits_insecticides_et_anticyptogramiques.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/industries_chimiques/fabrication_des_produits_insecticides_et_anticyptogramiques.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/industries_chimiques/fabrication_des_produits_insecticides_et_anticyptogramiques.yaml
+    Missing 'unit' field (Unit of measure (required, see units.yaml))
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/industries_chimiques/autres_industries_chimiques.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/industries_chimiques/autres_industries_chimiques.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/industries_chimiques/autres_industries_chimiques.yaml
+    Missing 'unit' field (Unit of measure (required, see units.yaml))
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/industries_chimiques/fabrication_de_peintures_vernis_pigments_broyes.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/industries_chimiques/fabrication_de_peintures_vernis_pigments_broyes.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/industries_chimiques/fabrication_de_peintures_vernis_pigments_broyes.yaml
+    Missing 'unit' field (Unit of measure (required, see units.yaml))
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/industries_chimiques/fabrication_explosifs_industriels_accessoires_de_mises_a_feu_et_artifices.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/industries_chimiques/fabrication_explosifs_industriels_accessoires_de_mises_a_feu_et_artifices.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/industries_chimiques/fabrication_explosifs_industriels_accessoires_de_mises_a_feu_et_artifices.yaml
+    Missing 'unit' field (Unit of measure (required, see units.yaml))
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/industries_chimiques/fabrication_de_gaz_industriels.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/industries_chimiques/fabrication_de_gaz_industriels.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/industries_chimiques/fabrication_de_gaz_industriels.yaml
+    Missing 'unit' field (Unit of measure (required, see units.yaml))
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/industries_chimiques/raffinage_de_petrole.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/industries_chimiques/raffinage_de_petrole.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/industries_chimiques/raffinage_de_petrole.yaml
+    Missing 'unit' field (Unit of measure (required, see units.yaml))
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/industries_chimiques/fabrication_d_ouvrage_en_matiere_plastique_et_de_la_mousse.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/industries_chimiques/fabrication_d_ouvrage_en_matiere_plastique_et_de_la_mousse.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/industries_chimiques/fabrication_d_ouvrage_en_matiere_plastique_et_de_la_mousse.yaml
+    Missing 'unit' field (Unit of measure (required, see units.yaml))
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/industries_chimiques/industrie_de_la_synthese_organique.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/industries_chimiques/industrie_de_la_synthese_organique.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/industries_chimiques/industrie_de_la_synthese_organique.yaml
+    Missing 'unit' field (Unit of measure (required, see units.yaml))
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/industries_chimiques/forage_de_petrole.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/industries_chimiques/forage_de_petrole.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/industries_chimiques/forage_de_petrole.yaml
+    Missing 'unit' field (Unit of measure (required, see units.yaml))
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/industries_chimiques/fabrication_engrais_et_industries_de_l_azote.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/industries_chimiques/fabrication_engrais_et_industries_de_l_azote.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/industries_chimiques/fabrication_engrais_et_industries_de_l_azote.yaml
+    Missing 'unit' field (Unit of measure (required, see units.yaml))
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/industries_chimiques/industries_chimiques_minerales.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/industries_chimiques/industries_chimiques_minerales.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/industries_chimiques/industries_chimiques_minerales.yaml
+    Missing 'unit' field (Unit of measure (required, see units.yaml))
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/industries_chimiques/fabrication_des_derives_du_petrole.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/industries_chimiques/fabrication_des_derives_du_petrole.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/industries_chimiques/fabrication_des_derives_du_petrole.yaml
+    Missing 'unit' field (Unit of measure (required, see units.yaml))
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/industries_chimiques/fabrication_produits_minéraux_divers.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/industries_chimiques/fabrication_produits_minéraux_divers.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/industries_chimiques/fabrication_produits_minéraux_divers.yaml
+    Missing 'unit' field (Unit of measure (required, see units.yaml))
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/concessionnaires_automobiles/avec_atelier_de_reparation.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/concessionnaires_automobiles/avec_atelier_de_reparation.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/concessionnaires_automobiles/avec_atelier_de_reparation.yaml
+    Missing 'unit' field (Unit of measure (required, see units.yaml))
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/concessionnaires_automobiles/sans_atelier_de_reparation.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/concessionnaires_automobiles/sans_atelier_de_reparation.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/concessionnaires_automobiles/sans_atelier_de_reparation.yaml
+    Missing 'unit' field (Unit of measure (required, see units.yaml))
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/textile_cuir_chaussures/industrie_du_cuir.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/textile_cuir_chaussures/industrie_du_cuir.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/textile_cuir_chaussures/industrie_du_cuir.yaml
+    Missing 'unit' field (Unit of measure (required, see units.yaml))
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/textile_cuir_chaussures/fabrication_vetements_et_fourrures_delavage_et_blanchisserie.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/textile_cuir_chaussures/fabrication_vetements_et_fourrures_delavage_et_blanchisserie.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/textile_cuir_chaussures/fabrication_vetements_et_fourrures_delavage_et_blanchisserie.yaml
+    Missing 'unit' field (Unit of measure (required, see units.yaml))
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/textile_cuir_chaussures/tanneries.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/textile_cuir_chaussures/tanneries.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/textile_cuir_chaussures/tanneries.yaml
+    Missing 'unit' field (Unit of measure (required, see units.yaml))
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/textile_cuir_chaussures/filature_et_tissage.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/textile_cuir_chaussures/filature_et_tissage.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/textile_cuir_chaussures/filature_et_tissage.yaml
+    Missing 'unit' field (Unit of measure (required, see units.yaml))
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/textile_cuir_chaussures/fabrication_de_divers_articles_en_cuir.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/textile_cuir_chaussures/fabrication_de_divers_articles_en_cuir.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/textile_cuir_chaussures/fabrication_de_divers_articles_en_cuir.yaml
+    Missing 'unit' field (Unit of measure (required, see units.yaml))
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/agence_de_voyage/categorie_a.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/agence_de_voyage/categorie_a.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/agence_de_voyage/categorie_a.yaml
+    Missing 'unit' field (Unit of measure (required, see units.yaml))
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/agence_de_voyage/categorie_b.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/agence_de_voyage/categorie_b.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/prelevements_sociaux/atmp/agence_de_voyage/categorie_b.yaml
+    Missing 'unit' field (Unit of measure (required, see units.yaml))
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/energie/electricite/taxe_fte.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/energie/electricite/taxe_fte.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/energie/electricite/tarifs_par_tranche.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/energie/electricite/tarifs_par_tranche.yaml
+    Missing 'unit' field (Unit of measure (required, see units.yaml))
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/energie/electricite/cout_fixe.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/energie/electricite/cout_fixe.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/energie/electricite/reduction_puissance.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/energie/electricite/reduction_puissance.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/energie/gaz/taxe_fte.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/energie/gaz/taxe_fte.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/energie/gaz/tarifs_par_tranche.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/energie/gaz/tarifs_par_tranche.yaml
+    Missing 'unit' field (Unit of measure (required, see units.yaml))
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/energie/gaz/prix.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/energie/gaz/prix.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/energie/gaz/prix.yaml
+    Missing 'unit' field (Unit of measure (required, see units.yaml))
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/energie/gaz/cout_fixe.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/energie/gaz/cout_fixe.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/energie/gaz/reduction_puissance.yaml
+    Missing 'label' field (Short name for UI)
+    (Principle 4: Well-documented parameters)
+
+  [ERROR] parameters/energie/gaz/reduction_puissance.yaml
+    Missing 'reference' field (Legal citation or URL with #page=XX)
+    (Principle 4: Well-documented parameters)
+
+============================================================

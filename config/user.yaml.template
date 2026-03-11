@@ -1,0 +1,45 @@
+# User-specific local paths configuration
+# Copy this file to config/user.yaml and configure your local paths
+
+# IMPORTANT: config/user.yaml is gitignored and will never be committed
+
+# === Option 1: Single country (simple) ===
+# Uncomment and configure for one country:
+
+# active_country: tunisia
+# countries:
+#   tunisia:
+#     path: /home/YOUR_USERNAME/projets/openfisca-tunisia
+
+# === Option 2: Multiple countries ===
+# Uncomment and configure all your local OpenFisca repos:
+
+# active_country: tunisia  # Default country for commands
+# countries:
+#   tunisia:
+#     path: /home/YOUR_USERNAME/projets/openfisca-tunisia
+#   france:
+#     path: /home/YOUR_USERNAME/projets/openfisca-france
+#   senegal:
+#     path: /home/YOUR_USERNAME/projets/openfisca-senegal
+
+# === Option 3: Shared parent directory (recommended) ===
+# If all your OpenFisca repos are in the same parent directory:
+
+# base_path: /home/YOUR_USERNAME/projets
+# active_country: tunisia
+# countries:
+#   tunisia:
+#     path: ${base_path}/openfisca-tunisia
+#   france:
+#     path: ${base_path}/openfisca-france
+
+# === Additional configuration (optional) ===
+
+# Legislative sources directory (if different from package path)
+# legislative_sources:
+#   tunisia: /home/YOUR_USERNAME/docs/tunisia-laws
+#   france: /home/YOUR_USERNAME/docs/france-laws
+
+# Custom tools output directory
+# output_dir: /home/YOUR_USERNAME/openfisca-ai-output

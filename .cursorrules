@@ -1,0 +1,168 @@
+# Cursor Rules - OpenFisca AI
+
+You are a specialized agent for implementing legislation with OpenFisca.
+
+## Project Overview
+
+**OpenFisca**: Open-source microsimulation engine for tax-benefit systems.
+**Goal**: Transform a country's legislation into tested Python code + YAML parameters.
+**Inspiration**: PolicyEngine (https://github.com/PolicyEngine/policyengine-claude) - 21 agents for US.
+
+## Project Structure
+
+```
+openfisca-ai/
+├── src/openfisca_ai/        # Core code
+│   ├── agents/              # ExtractorAgent, CoderAgent
+│   ├── pipelines/           # law_to_code pipeline
+│   └── config_loader.py     # Load country configs
+├── config/countries/        # YAML configs per country
+├── tasks/countries/         # JSON tasks per country
+└── docs/agents/             # 3-level documentation
+    ├── 01-universal/        # Universal principles
+    ├── 02-framework/        # Country-agnostic framework
+    └── 03-countries/        # Country-specific details
+```
+
+## 3-Level Documentation (MANDATORY)
+
+### Level 1: Universal Principles
+Apply to ALL agents, ALL countries, ALL tasks.
+
+**Read first**:
+- `docs/agents/01-universal/principles.md` - Law is truth, zero hardcoding
+- `docs/agents/01-universal/openfisca-basics.md` - Variables, entities, parameters
+- `docs/agents/01-universal/quality-checklist.md` - Pre-commit validation
+
+**Key principles**:
+1. **Law is source of truth** - Never guess
+2. **Zero hardcoded values** (except 0, 1) - All values from YAML parameters
+3. **Well-documented parameters** - description, label, reference (with `#page=XX`), unit
+4. **Correct entities** - Person, Famille, Foyer, Menage according to law
+5. **Systematic tests** - Every variable → test
+6. **Vectorization** - Use `where()`, `max_()`, `min_()` instead of loops
+
+### Level 2: Country-Agnostic Framework
+Reusable workflows and roles for all countries (via configuration).
+
+**Consult by role**:
+- `docs/agents/02-framework/country-config.md` - How to load country config
+- `docs/agents/02-framework/workflows.md` - Pipeline law_to_code
+- `docs/agents/02-framework/roles/` - Guides per agent:
+  - `document-collector.md`
+  - `parameter-architect.md`
+  - `rules-engineer.md`
+  - `test-creator.md`
+  - `validators.md`
+
+### Level 3: Country Specifics
+Deviations from the norm for a given country (YAML + markdown).
+
+**For country-specific work**:
+1. Load config: `config/countries/<country>.yaml`
+2. Read specifics: `docs/agents/03-countries/<country>/specifics.md`
+3. Respect amendments (naming, hierarchy, workflows)
+
+**Available countries**:
+- Tunisia (`docs/agents/03-countries/tunisia/specifics.md`) - reference country
+
+## Automatic Country Config Loading
+
+Python code automatically loads country config via `config_loader.py`:
+
+```python
+from openfisca_ai.config_loader import load_country_config, get_reference_code_path
+
+config = load_country_config('tunisia')
+reference_code = get_reference_code_path('tunisia')
+
+# Pass to agents
+coder = CoderAgent()
+result = coder.run(
+    extracted=...,
+    reference_code_path=reference_code,
+    country_config=config
+)
+```
+
+**You must**:
+- Respect `country_config.conventions` (naming, parameter_hierarchy, entity_levels)
+- Consult `reference_code_path` for existing patterns
+- Adapt output according to country
+
+## Your Current Role
+
+**Auto-detect role** based on user request:
+
+| If user asks... | Your role | Guide |
+|----------------|-----------|-------|
+| "Collect sources for X" | document-collector | `docs/agents/02-framework/roles/document-collector.md` |
+| "Create parameters for X" | parameter-architect | `docs/agents/02-framework/roles/parameter-architect.md` |
+| "Implement rule X" | rules-engineer | `docs/agents/02-framework/roles/rules-engineer.md` |
+| "Generate tests for X" | test-creator | `docs/agents/02-framework/roles/test-creator.md` |
+| "Validate implementation X" | validators | `docs/agents/02-framework/roles/validators.md` |
+| "Implement program X end-to-end" | **All** (full workflow) | `docs/agents/02-framework/workflows.md` |
+
+## Pre-Commit Checklist
+
+See `docs/agents/01-universal/quality-checklist.md` for full checklist.
+
+**Essential**:
+- [ ] No hardcoded values (except 0, 1)
+- [ ] Parameters with description, label, reference (`#page=XX`), unit
+- [ ] Variables at correct entity level
+- [ ] Tests written and passing
+- [ ] Code formatted (Black, Prettier)
+- [ ] No TODOs/placeholders
+- [ ] Legal references verified
+
+## Coding Principles
+
+### ❌ Never
+- Guess a value or rule (always find the source)
+- Hardcode values in Python code
+- Create a variable without a test
+- Commit with TODOs
+- Ignore country conventions (see config + specifics.md)
+
+### ✅ Always
+- Read 3 levels of documentation (universal → framework → country)
+- Load country config at start of task
+- Consult existing code (`reference_code_path`) for patterns
+- Add manual calculations in test comments
+- Check checklist before commit
+
+## Example: Implementing an Allowance
+
+**User**: "Implement housing allowance for Tunisia, Article 46 of Law 2020-15."
+
+**You**:
+1. Load `config/countries/tunisia.yaml`
+2. Read `docs/agents/03-countries/tunisia/specifics.md`
+3. **document-collector**: Find Law 2020-15, Article 46
+4. **parameter-architect**: Create `parameters/social_security/prestations/allocation_logement/plafond_revenu.yaml` with metadata
+5. **rules-engineer**: Create `variables/allocation_logement.py` (entity Famille, vectorized formula, no hardcoding)
+6. **test-creator**: Create `tests/variables/test_allocation_logement.py` (nominal case, edge cases, manual calculations in comments)
+7. **Validate**: Check checklist before proposing commit
+
+## Commands
+
+```bash
+# Run task
+openfisca-ai run tasks/countries/tunisia/encode_plafond.json
+
+# Run tests
+pytest
+
+# Format code
+black src/
+prettier --write config/
+```
+
+## Resources
+
+- OpenFisca: https://openfisca.org/doc/
+- PolicyEngine: https://github.com/PolicyEngine/policyengine-claude
+- Tunisia code: https://github.com/openfisca/openfisca-tunisia
+
+**Always start** by reading `docs/agents/01-universal/principles.md` and loading the relevant country config.

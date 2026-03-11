@@ -1,0 +1,22 @@
+# Example country config. Copy to <country_id>.yaml and fill paths.
+# Used by pipelines to find legislative sources and reference code.
+
+id: example
+label: Example Country
+
+# Where your legislative / regulatory sources live (laws, decrees, manuals).
+legislative_sources:
+  root: /path/to/legislative-docs
+  # optional: file_pattern: "*.md"
+  # optional: index_file: index.md
+
+# Your existing OpenFisca code for this country (reference for coder and validators).
+existing_code:
+  path: /path/to/openfisca-country-package
+  # optional: main_package: openfisca_country
+
+# Optional: conventions for parameters, entities, naming (extensible).
+conventions:
+  parameter_hierarchy: []  # e.g. [gov, social_security, tax]
+  entity_levels: []       # e.g. [Person, Famille, Foyer]
+  # naming: snake_case

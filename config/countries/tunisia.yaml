@@ -1,0 +1,32 @@
+# Tunisia – Configuration for testing with real openfisca-tunisia code
+# Existing code: https://github.com/openfisca/openfisca-tunisia
+
+id: tunisia
+label: Tunisia
+
+legislative_sources:
+  root: ${OPENFISCA_TUNISIA_PATH}  # Configure in config/user.yaml
+  file_pattern: "*.md"
+  # index_file: sources.md
+
+existing_code:
+  repo_url: https://github.com/openfisca/openfisca-tunisia
+  path: ${OPENFISCA_TUNISIA_PATH}  # Configure in config/user.yaml
+  main_package: openfisca_tunisia
+
+conventions:
+  parameter_hierarchy: [gov, social_security, taxation]
+  entity_levels: [Person, Famille, Foyer, Menage]
+  # Note: naming is always snake_case (universal, see Principle 14)
+
+  # Tunisia-specific: Multilingual metadata (FUTURE - not yet supported by OpenFisca Core)
+  # Target languages when multilingual support is added:
+  languages:
+    default: fr  # French
+    target: [fr, ar]  # French and Arabic (when supported)
+  # Target metadata fields for translation:
+  # metadata_fields:
+  #   description: [fr, ar]
+  #   label: [fr, ar]
+  #   short_label: [fr, ar]
+  # Status: Currently French only, Arabic translation documented for future implementation

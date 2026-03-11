@@ -1,0 +1,19 @@
+# User config: your local paths only (not committed).
+# Copy to config/user.yaml and set your paths:
+#   cp config/user.example.yaml config/user.yaml
+#
+# Only override what you need; the rest comes from config/countries/<id>.yaml.
+
+countries:
+  tunisia:
+    legislative_sources:
+      root: /path/to/your/tunisia-legislative-docs  # absolute or relative to project root
+    existing_code:
+      path: /path/to/your/openfisca-tunisia         # e.g. ../openfisca-tunisia or /home/you/repos/openfisca-tunisia
+
+  # Add more countries when you add them to config/countries/:
+  # france:
+  #   legislative_sources:
+  #     root: /path/to/france-law
+  #   existing_code:
+  #     path: /path/to/openfisca-france

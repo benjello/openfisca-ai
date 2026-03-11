@@ -1,0 +1,14 @@
+description: Monthly income ceiling for housing allowance eligibility (Countria example)
+label: Income ceiling
+reference:
+  - "Social Benefits Act 2020, Section 12"
+  - "https://example.gov/social-benefits-act.pdf#page=15"
+unit: CUR
+values:
+  2020-01-01: 1500
+  2022-01-01: 1600
+  2024-01-01: 1700
+metadata:
+  indexed_on: minimum_wage
+  indexation_factor: 1.7
+  note: "Ceiling = 1.7 × minimum_wage (automatic indexation)"

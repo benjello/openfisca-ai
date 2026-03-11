@@ -1,0 +1,11 @@
+{
+  "id": "tunisia_plafond_secu",
+  "country": "tunisia",
+  "pipeline": "law_to_code",
+  "inputs": {
+    "law_text": "Article 1 – Le montant du plafond de la Sécurité sociale est fixé à 3 666 € pour l'année 2024."
+  },
+  "options": {
+    "use_existing_code_as_reference": true
+  }
+}

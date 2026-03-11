@@ -1,0 +1,14 @@
+description: Monthly minimum wage for full-time workers (generic example for Countria)
+label: Minimum wage
+reference:
+  - "Countria Labor Code, Article 15"
+  - "https://example.gov/labor-code.pdf#page=8"
+unit: CUR
+values:
+  2015-01-01: 800
+  2018-01-01: 850
+  2020-01-01: 900
+  2022-01-01: 950
+  2024-01-01: 1000
+metadata:
+  note: This is a generic example. Replace with actual legislation for your country.

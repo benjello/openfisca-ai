@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//home/benjello/projets/openfisca-tunisia/**)",
+      "Read(//home/benjello/**)"
+    ]
+  }
+}

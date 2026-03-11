@@ -1,0 +1,117 @@
+# Schema for country configuration files
+# This file documents the expected structure of config/countries/<country_id>.yaml
+
+# Example: config/countries/tunisia.yaml
+
+# === REQUIRED FIELDS ===
+
+id: string
+  # Unique identifier for the country (lowercase, no spaces)
+  # Used in tasks: "country": "tunisia"
+  # Example: "tunisia", "france", "uk"
+
+label: string
+  # Display name of the country
+  # Example: "Tunisia", "France", "United Kingdom"
+
+
+# === OPTIONAL FIELDS ===
+
+legislative_sources:
+  # Paths to legislative/regulatory sources for this country
+  root: string | null
+    # Root directory containing law docs (markdown, PDF, text)
+    # Can be absolute or relative to project root
+    # Example: "/data/tunisia-laws" or "sources/tunisia"
+
+  file_pattern: string | null
+    # Glob pattern for filtering files
+    # Example: "*.md", "*.pdf", "**/*.txt"
+
+  index_file: string | null
+    # Optional index file listing all sources
+    # Example: "sources.md", "index.yaml"
+
+
+existing_code:
+  # Path to existing OpenFisca code for this country (used as reference)
+  path: string | null
+    # Absolute or relative path to the OpenFisca country package
+    # Example: "/repos/openfisca-tunisia" or "../openfisca-tunisia"
+
+  main_package: string | null
+    # Python package name
+    # Example: "openfisca_tunisia", "openfisca_france"
+
+
+conventions:
+  # Country-specific conventions (extensible)
+
+  parameter_hierarchy: list[string] | null
+    # Hierarchy levels for organizing parameters
+    # Example: ["gov", "social_security", "taxation"]
+    # These become directories: parameters/<country>/gov/, parameters/<country>/social_security/, etc.
+
+  entity_levels: list[string] | null
+    # Entity types for this country
+    # Example: ["Person", "Famille", "Foyer", "Menage"]
+    # Or: ["Individu", "Famille", "FoyerFiscal", "Menage", "Entreprise"]
+
+  naming: string | null
+    # Naming convention for variables/parameters
+    # Options: "snake_case", "camelCase", "PascalCase"
+    # Default: "snake_case"
+
+  # EXTENSIBLE: Add country-specific fields here
+  # Example:
+  # tax_terminology: string
+  # validation_workflow: string
+  # calculation_frequency: string
+
+
+# === NOTES ===
+
+# 1. Paths (legislative_sources.root, existing_code.path):
+#    - Can be overridden in config/user.yaml (gitignored, for local paths)
+#    - If relative, resolved from project root
+
+# 2. Config merging:
+#    - Base config: config/countries/<country_id>.yaml
+#    - User overrides: config/user.yaml (or ~/.config/openfisca-ai/user.yaml)
+#    - Merged by config_loader.py
+
+# 3. Validation:
+#    - This schema is for documentation only
+#    - Actual validation happens in config_loader.py
+#    - To add JSON Schema validation: convert to .json and use jsonschema library
+
+# 4. Adding a new country:
+#    - Copy config/countries/tunisia.yaml
+#    - Update id, label, paths
+#    - Add conventions if needed
+#    - Optionally create docs/agents/03-countries/<country>/specifics.md
+
+# === EXAMPLE ===
+
+# id: tunisia
+# label: Tunisia
+#
+# legislative_sources:
+#   root: /data/tunisia-legislation
+#   file_pattern: "*.md"
+#
+# existing_code:
+#   path: /repos/openfisca-tunisia
+#   main_package: openfisca_tunisia
+#
+# conventions:
+#   parameter_hierarchy:
+#     - gov
+#     - social_security
+#     - taxation
+#   entity_levels:
+#     - Person
+#     - Famille
+#     - Foyer
+#     - Menage
+#   naming: snake_case
