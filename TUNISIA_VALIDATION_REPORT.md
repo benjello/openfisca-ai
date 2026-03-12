@@ -82,17 +82,43 @@ documentation:
 - ✅ Has `unit` (smig)
 - ✅ Has historical `values` with dates
 
-**Units validation** (automated via `tools/validate_parameters.py`):
-- ✅ **Has `openfisca_tunisia/units.yaml`** with 19 units defined
-- ✅ All units used in parameters are defined (12 used, all defined in units.yaml)
+**Units validation** (automated via `tools/validate_units.py`):
 
-**Automated validation results** (439 parameter files):
+**Initial status** (313 parameter files):
+- ✅ **Has `openfisca_tunisia/units.yaml`** with 19 units defined
+- ❌ **Missing unit field**: 12 files (3%)
+- ✅ All units used are defined in units.yaml
+
+**After applying suggestions** (2026-03-11):
 ```bash
-$ python tools/validate_parameters.py /path/to/openfisca-tunisia
-❌ 727 errors found:
-  - Missing 'label' field: ~250 files
-  - Missing 'reference' field: ~250 files
-  - Missing 'unit' field: ~227 files
+$ cd openfisca-tunisia
+$ uv run python ../openfisca-ai/tools/suggest_units.py openfisca_tunisia --apply
+✅ Applied 8/8 high-confidence suggestions
+```
+
+**Final status** (465 parameter files):
+- ✅ **units.yaml** with **20 units** defined (added: `decile`)
+- ✅ **100% coverage**: All 465 parameters have unit field
+- ✅ **17 units used**, all properly defined
+- ✅ **Most used units**: currency (204), /1 (189), year (16)
+
+**Files modified**:
+- Automatic (8): taux → `/1`, ages → `year`, pensions → `currency`
+- Manual (4): cei → `currency`, prix_max → `currency`, periode → `year`, decile → `decile`
+- New unit created: `decile` for eligibility scoring
+
+**Validation results**:
+```bash
+$ uv run python ../openfisca-ai/tools/validate_units.py openfisca_tunisia
+📊 Summary:
+   Total parameters: 465
+   With unit field: 465 (100%)
+   Missing unit: 0 (0%)
+   Units used: 17
+   Units defined: 20
+
+✅ All used units are defined in units.yaml
+✅ All parameters have unit field
 ```
 
 **Recommendation**: Add `label` and `reference` fields to match [principles.md#3-well-documented-parameters](docs/agents/01-universal/principles.md#3-well-documented-parameters)
@@ -152,18 +178,36 @@ Requires:
 
 Based on initial analysis, here are immediate improvements:
 
-### 1. Add Missing Metadata to Parameters
+### 1. ✅ Add Missing Units to Parameters (COMPLETED)
+
+**Status**: ✅ **DONE** (2026-03-11)
+
+**Problem**: 12 parameters missing `unit` field
+
+**Solution Applied**:
+1. Used `suggest_units.py` to auto-suggest units based on patterns
+2. Applied 8 high-confidence suggestions automatically
+3. Manually added units to 4 remaining files
+4. Created new unit `decile` for eligibility scoring
+
+**Result**: **100% unit coverage** (465/465 parameters)
+
+---
+
+### 2. Add Missing Label and Reference Fields
+
+**Status**: ⏳ **PENDING**
 
 **Problem**: Parameters missing `label` and `reference` fields
 
-**Solution**: Add to all YAML files in `openfisca_tunisia/parameters/`:
+**Solution**: Add to YAML files in `openfisca_tunisia/parameters/`:
 ```yaml
 description: ...
 label: <short name>  # ADD
+unit: currency  # ✅ DONE
 reference:  # ADD
   - "Law citation"
   - "URL#page=XX"
-unit: ...
 values: ...
 ```
 
@@ -171,7 +215,7 @@ values: ...
 
 ---
 
-### 2. Verify No Hardcoded Values in Formulas
+### 3. Verify No Hardcoded Values in Formulas
 
 **Action**: Search for hardcoded numbers in formula code:
 ```bash
@@ -183,7 +227,7 @@ grep -r "return.*[0-9]" openfisca_tunisia/variables/ --include="*.py"
 
 ---
 
-### 3. Add Tests with Manual Calculations
+### 4. Add Tests with Manual Calculations
 
 **Current**: Check if tests in `openfisca_tunisia/tests/` have manual calculation comments
 
@@ -215,12 +259,19 @@ def test_pension_minimale():
 
 ## Conclusion
 
-**Initial Assessment**: openfisca-tunisia shows **good compliance** with core OpenFisca principles (entities, periods, basic structure) but has opportunities for improvement in:
-- Parameter metadata completeness
-- Documentation with legal references
-- Test documentation with manual calculations
+**Initial Assessment**: openfisca-tunisia shows **good compliance** with core OpenFisca principles (entities, periods, basic structure).
 
-**Confidence**: These patterns from openfisca-tunisia validate our documented universal principles and show they are applicable to real-world country implementations.
+**Improvements Applied** (2026-03-11):
+- ✅ **Unit coverage**: 97% → **100%** (all 465 parameters now have units)
+- ✅ **New unit created**: `decile` for eligibility scoring
+- ✅ **Validation tools tested**: `validate_units.py`, `suggest_units.py`, `check_tooling.py`
+
+**Remaining Opportunities**:
+- ⏳ Parameter metadata: Add `label` and `reference` fields
+- ⏳ Documentation: Add legal references to parameters
+- ⏳ Test documentation: Add manual calculations to tests
+
+**Confidence**: These patterns from openfisca-tunisia validate our documented universal principles and show they are applicable to real-world country implementations. The autonomous validation tools successfully identified and fixed issues without requiring AI agents.
 
 ---
 
