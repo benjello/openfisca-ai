@@ -1,224 +1,108 @@
 # Instructions Claude - OpenFisca AI
 
-Tu es un agent spécialisé dans l'implémentation de législation avec OpenFisca.
+Guide court pour utiliser ce dépôt comme support de travail sur OpenFisca.
 
-## Contexte
+## Réalité du dépôt
 
-**OpenFisca** : Moteur open-source de microsimulation pour systèmes socio-fiscaux.
-**Objectif** : Transformer la législation d'un pays en code Python + paramètres YAML testés.
-**Inspiration** : [PolicyEngine](https://github.com/PolicyEngine/policyengine-claude) (21 agents pour US).
+Ce repo contient aujourd'hui deux couches distinctes :
 
----
+- **Stable** : outils de validation et gestion de configuration
+- **Alpha** : runtime d'agents et pipeline `law_to_code`
 
-## Architecture du projet
+Ne pas supposer qu'il sait déjà transformer automatiquement une loi en implémentation OpenFisca prête pour production.
 
-```
-openfisca-ai/
-├── src/openfisca_ai/
-│   ├── core/            # Agent, Orchestrator, LLM engine
-│   ├── agents/          # ExtractorAgent, CoderAgent
-│   ├── pipelines/       # law_to_code pipeline
-│   └── config_loader.py # Charge configs pays
-├── config/countries/    # Configs YAML par pays
-├── tasks/countries/     # Tâches JSON par pays
-└── docs/agents/         # Documentation 3 niveaux
-    ├── 01-universal/    # Principes universels
-    ├── 02-framework/    # Framework pays-générique
-    └── 03-countries/    # Spécificités par pays
-```
+## Ordre de lecture
 
----
+1. [docs/agents/01-universal/principles.md](docs/agents/01-universal/principles.md)
+2. [docs/agents/01-universal/openfisca-basics.md](docs/agents/01-universal/openfisca-basics.md)
+3. [docs/agents/01-universal/quality-checklist.md](docs/agents/01-universal/quality-checklist.md)
+4. [docs/agents/02-framework/country-config.md](docs/agents/02-framework/country-config.md)
+5. Le guide de rôle pertinent dans [docs/agents/02-framework/roles/](docs/agents/02-framework/roles/)
+6. La doc pays dans [docs/agents/03-countries/](docs/agents/03-countries/) si nécessaire
 
-## Documentation 3 niveaux (OBLIGATOIRE)
+## Règles de base
 
-### Niveau 1 : Principes universels
-Applicables à **tous** les agents, **tous** les pays.
+- La loi est la source de vérité.
+- Pas de valeurs légales hardcodées.
+- Les paramètres doivent être documentés et unités correctement renseignées.
+- Les variables doivent être testées.
+- Respecter les conventions pays via la config.
 
-**Lire d'abord** :
-- [docs/agents/01-universal/principles.md](docs/agents/01-universal/principles.md) : Loi = source de vérité, zéro hardcode
-- [docs/agents/01-universal/openfisca-basics.md](docs/agents/01-universal/openfisca-basics.md) : Variables, entités, paramètres
-- [docs/agents/01-universal/quality-checklist.md](docs/agents/01-universal/quality-checklist.md) : Validation avant commit
+## Ce qui marche vraiment
 
-**Principes clés** :
-1. **La loi est la source de vérité** : Ne jamais deviner
-2. **Zéro valeur en dur** (sauf 0, 1) : Tout vient des paramètres YAML
-3. **Paramètres bien documentés** : description, label, reference (avec `#page=XX`), unit
-4. **Entités correctes** : Person, Famille, Foyer, Menage selon la loi
-5. **Tests systématiques** : Chaque variable → test
-6. **Vectorisation** : `where()`, `max_()`, `min_()` au lieu de boucles
+- Chargement de config via `config_loader.py`
+- Overrides locaux via `config/user.yaml`
+- Outils dans `tools/`
+- CLI minimal : `uv run openfisca-ai run <task.json>`
 
-### Niveau 2 : Framework pays-générique
-Workflows et rôles réutilisables pour tous les pays (via configuration).
+## Ce qui n'est pas implémenté
 
-**Consulter selon ton rôle** :
-- [docs/agents/02-framework/country-config.md](docs/agents/02-framework/country-config.md) : Comment charger config pays
-- [docs/agents/02-framework/workflows.md](docs/agents/02-framework/workflows.md) : Pipeline law_to_code
-- [docs/agents/02-framework/roles/](docs/agents/02-framework/roles/) : Guides par agent
-  - [document-collector.md](docs/agents/02-framework/roles/document-collector.md)
-  - [parameter-architect.md](docs/agents/02-framework/roles/parameter-architect.md)
-  - [rules-engineer.md](docs/agents/02-framework/roles/rules-engineer.md)
-  - [test-creator.md](docs/agents/02-framework/roles/test-creator.md)
-  - [validators.md](docs/agents/02-framework/roles/validators.md)
+- Pas de vrai système multi-agents autonome
+- `ExtractorAgent` et `CoderAgent` sont encore des placeholders
+- Les commandes `/encode-policy`, `/review-pr`, `/fix-pr` n'existent pas dans le repo
 
-### Niveau 3 : Spécificités pays
-Aménagements à la norme pour un pays donné (YAML + markdown).
+## Configuration
 
-**Si tu travailles sur un pays spécifique** :
-1. Charger config : `config/countries/<pays>.yaml`
-2. Lire spécificités : `docs/agents/03-countries/<pays>/specifics.md`
-3. Respecter aménagements (nommage, hiérarchie, workflows)
-
-**Pays disponibles** :
-- [Tunisia](docs/agents/03-countries/tunisia/specifics.md) (premier pays de référence)
-
----
-
-## Workflow automatique (chargement config pays)
-
-Le code Python charge **automatiquement** la config pays via `config_loader.py` :
+Exemple d'usage :
 
 ```python
-# Exemple : pipeline law_to_code
 from openfisca_ai.config_loader import load_country_config, get_reference_code_path
 
-config = load_country_config('tunisia')  # Charge config/countries/tunisia.yaml
-reference_code = get_reference_code_path('tunisia')  # Récupère existing_code.path
-
-# Passe aux agents
-coder = CoderAgent()
-result = coder.run(
-    extracted=...,
-    reference_code_path=reference_code,  # Code existant comme référence
-    country_config=config                # Conventions, hiérarchie, entités
-)
+config = load_country_config("tunisia")
+reference_code_path = get_reference_code_path("tunisia")
 ```
 
-**Tu dois** :
-- Respecter `country_config.conventions` (naming, parameter_hierarchy, entity_levels)
-- Consulter `reference_code_path` pour patterns existants
-- Adapter ton output selon le pays
+Exemple de `config/user.yaml` :
 
----
+```yaml
+countries:
+  tunisia:
+    existing_code:
+      path: /path/to/openfisca-tunisia
+    legislative_sources:
+      root: /path/to/tunisia-laws
+```
 
-## Ton rôle actuel
+## Commandes recommandées
 
-**Détecte automatiquement ton rôle** selon la tâche demandée :
+Dans ce repo :
 
-| Si l'utilisateur demande... | Ton rôle | Guide |
-|-----------------------------|----------|-------|
-| "Collecter sources pour X" | document-collector | [roles/document-collector.md](docs/agents/02-framework/roles/document-collector.md) |
-| "Créer paramètres pour X" | parameter-architect | [roles/parameter-architect.md](docs/agents/02-framework/roles/parameter-architect.md) |
-| "Implémenter règle X" | rules-engineer | [roles/rules-engineer.md](docs/agents/02-framework/roles/rules-engineer.md) |
-| "Générer tests pour X" | test-creator | [roles/test-creator.md](docs/agents/02-framework/roles/test-creator.md) |
-| "Valider implémentation X" | validators | [roles/validators.md](docs/agents/02-framework/roles/validators.md) |
-| "Implémenter programme X de bout en bout" | **Tous** (workflow complet) | [workflows.md](docs/agents/02-framework/workflows.md) |
-
-**Workflow complet** (`/encode-policy`) :
-1. document-collector → Sources
-2. Extractor → Règles extraites
-3. parameter-architect → YAML
-4. rules-engineer → Code Python
-5. test-creator → Tests
-6. implementation-validator → Validation
-7. ci-fixer → Correctifs
-
----
-
-## Commandes disponibles
-
-### Commandes de base (CLI)
 ```bash
-# Exécuter une tâche
-openfisca-ai run tasks/countries/tunisia/encode_plafond.json
-
-# Lancer tests
-pytest
-
-# Formater code
-black src/
-prettier --write config/
+uv sync --dev
+uv run python config/test_config.py
+uv run pytest
+uv run openfisca-ai run tasks/example_task.json
 ```
 
-### Workflows orchestrés (futurs)
+Dans un package OpenFisca pays :
+
 ```bash
-/encode-policy "Allocation logement Tunisie"  # Implémentation complète
-/review-pr 42                                 # Revue PR complète
-/fix-pr 42                                    # Appliquer correctifs
+cd /path/to/openfisca-country
+uv run python /path/to/openfisca-ai/tools/validate_units.py .
+uv run python /path/to/openfisca-ai/tools/validate_parameters.py .
+uv run python /path/to/openfisca-ai/tools/check_tooling.py .
 ```
 
----
+## Utilisation comme agent
 
-## Checklist avant tout commit
+Les fichiers de rôles dans `docs/agents/02-framework/roles/` doivent être lus comme des guides de méthode, pas comme la preuve qu'un agent runtime existe déjà pour chaque rôle.
 
-Voir [docs/agents/01-universal/quality-checklist.md](docs/agents/01-universal/quality-checklist.md) pour checklist complète.
+Correspondance utile :
 
-**Essentiel** :
-- [ ] Pas de valeurs en dur (sauf 0, 1)
-- [ ] Paramètres avec description, label, reference (`#page=XX`), unit
-- [ ] Variables au bon niveau d'entité
-- [ ] Tests écrits et qui passent
-- [ ] Code formaté (Black, Prettier)
-- [ ] Pas de TODO/placeholders
-- [ ] Références légales vérifiées
+- collecte de sources -> `document-collector.md`
+- architecture paramètres -> `parameter-architect.md`
+- implémentation règles -> `rules-engineer.md`
+- génération de tests -> `test-creator.md`
+- revue qualité -> `validators.md`
 
----
+## Attendu concret
 
-## Exemples d'interaction
+Si on te demande une implémentation aujourd'hui, le workflow fiable est :
 
-### Exemple 1 : Implémenter une allocation
+1. charger la config pays
+2. lire les docs pertinentes
+3. utiliser le code pays existant comme référence
+4. modifier le package OpenFisca cible
+5. exécuter outils de validation et tests
 
-**Utilisateur** : "Implémente l'allocation logement pour la Tunisie, Article 46 de la Loi n° 2020-15."
-
-**Toi (agent)** :
-1. **Role** : Je vais jouer les rôles document-collector → parameter-architect → rules-engineer → test-creator
-2. **Config** : Charge `config/countries/tunisia.yaml`
-3. **Spécificités** : Lis `docs/agents/03-countries/tunisia/specifics.md` (conventions TND, JORT, etc.)
-4. **document-collector** : Chercher Loi n° 2020-15, Article 46
-5. **parameter-architect** : Créer `parameters/social_security/prestations/allocation_logement/plafond_revenu.yaml` avec métadonnées
-6. **rules-engineer** : Créer `variables/allocation_logement.py` (entité Famille, formule vectorisée, pas de hardcode)
-7. **test-creator** : Créer `tests/variables/test_allocation_logement.py` (cas nominal, limites, calculs manuels en commentaires)
-8. **Validation** : Vérifier checklist avant de proposer commit
-
-### Exemple 2 : Valider une PR
-
-**Utilisateur** : "Valide la PR #42 pour l'impôt sur le revenu."
-
-**Toi (agent)** :
-1. **Role** : validators (implementation-validator + program-reviewer + reference-validator)
-2. **Actions** :
-   - Lire code + paramètres + tests
-   - Vérifier principes universels (pas hardcode, entités, vectorisation)
-   - Chercher textes officiels pour vérifier conformité
-   - Vérifier URLs références (accessibles, `#page=XX` corrects)
-3. **Output** : Rapport structuré avec erreurs/warnings + correctifs suggérés
-
----
-
-## Important
-
-### ❌ Ne jamais
-- Deviner une valeur ou une règle (toujours chercher la source)
-- Hardcoder une valeur dans le code Python
-- Créer une variable sans test
-- Commiter avec des TODO
-- Ignorer les conventions du pays (voir config + specifics.md)
-
-### ✅ Toujours
-- Lire les 3 niveaux de documentation (universal → framework → country)
-- Charger config pays au début de la tâche
-- Consulter code existant (`reference_code_path`) pour patterns
-- Ajouter calculs manuels en commentaires dans les tests
-- Vérifier checklist avant commit
-
----
-
-## Ressources
-
-- **OpenFisca** : https://openfisca.org/doc/
-- **PolicyEngine (inspiration)** : https://github.com/PolicyEngine/policyengine-claude
-- **Repo** : https://github.com/openfisca/openfisca-ai (ou local)
-- **Code Tunisie existant** : https://github.com/openfisca/openfisca-tunisia
-
----
-
-**Commence toujours** par lire [docs/agents/01-universal/principles.md](docs/agents/01-universal/principles.md) et charger la config du pays concerné.
+Présenter ce repo comme un support méthodologique et un toolkit, pas comme un orchestrateur complet déjà abouti.

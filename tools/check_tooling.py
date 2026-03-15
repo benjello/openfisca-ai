@@ -8,12 +8,11 @@ Checks:
 3. Has test suite
 4. Uses yamllint for parameters
 
-Usage: python check_tooling.py /path/to/openfisca-country
+Usage: uv run python check_tooling.py /path/to/openfisca-country
 """
 
 import sys
 from pathlib import Path
-import re
 
 
 class ToolingChecker:
@@ -39,13 +38,18 @@ class ToolingChecker:
     def check_makefile(self):
         """Check Makefile uses uv"""
         makefile = self.package_path / "Makefile"
+        uv_lock = self.package_path / "uv.lock"
 
         if not makefile.exists():
-            self.warnings.append({
-                "type": "missing_makefile",
-                "message": "No Makefile found - consider adding one for consistency",
-                "fix": "Create Makefile with 'make install', 'make test', etc."
-            })
+            self.warnings.append(
+                {
+                    "type": "missing_makefile",
+                    "message": "No Makefile found - consider adding one for consistency",
+                    "fix": "Create Makefile with common targets like 'test' and 'lint'",
+                }
+            )
+            if uv_lock.exists():
+                self.info.append("✅ Uses uv lockfile for environment management")
             return
 
         content = makefile.read_text()
@@ -54,22 +58,26 @@ class ToolingChecker:
         if 'uv run' in content or 'UV = uv' in content:
             self.info.append("✅ Uses uv for environment management")
         else:
-            self.issues.append({
-                "type": "no_uv",
-                "message": "Makefile doesn't use 'uv' - should use UV = uv run",
-                "fix": "Add 'UV = uv run' at top of Makefile"
-            })
+            self.warnings.append(
+                {
+                    "type": "no_uv",
+                    "message": "Makefile doesn't mention 'uv'",
+                    "fix": "Prefer 'uv run' (or a Makefile variable like 'UV = uv run')",
+                }
+            )
 
         # Check for standard targets
         targets = ['install', 'test', 'check-style', 'format-style']
         missing = [t for t in targets if f'{t}:' not in content]
 
         if missing:
-            self.warnings.append({
-                "type": "missing_targets",
-                "message": f"Makefile missing targets: {', '.join(missing)}",
-                "fix": f"Add targets: {', '.join(missing)}"
-            })
+            self.warnings.append(
+                {
+                    "type": "missing_targets",
+                    "message": f"Makefile missing targets: {', '.join(missing)}",
+                    "fix": f"Add targets: {', '.join(missing)}",
+                }
+            )
 
     def check_formatter(self):
         """Check if using ruff (modern) vs Black (legacy)"""
@@ -98,7 +106,16 @@ class ToolingChecker:
             if '[tool.black]' in content:
                 uses_black = True
 
-        if uses_ruff:
+        if uses_ruff and (uses_black or uses_flake8):
+            self.info.append("✅ Uses ruff for formatting/linting")
+            self.warnings.append(
+                {
+                    "type": "mixed_formatters",
+                    "message": "Detected ruff alongside Black/flake8",
+                    "fix": "Prefer a single formatter/linter stack to avoid conflicting rules",
+                }
+            )
+        elif uses_ruff:
             self.info.append("✅ Uses ruff for formatting/linting (modern)")
         elif uses_black or uses_flake8:
             tools = []
@@ -107,18 +124,21 @@ class ToolingChecker:
             if uses_flake8:
                 tools.append("flake8")
 
-            self.issues.append({
-                "type": "legacy_formatter",
-                "message": f"Uses legacy tools: {', '.join(tools)}",
-                "fix": "Migrate to ruff (all-in-one formatter + linter)",
-                "priority": "HIGH"
-            })
+            self.warnings.append(
+                {
+                    "type": "legacy_formatter",
+                    "message": f"Uses formatter/linter stack without ruff: {', '.join(tools)}",
+                    "fix": "Ruff is recommended in the OpenFisca ecosystem, but this setup can still be valid",
+                }
+            )
         else:
-            self.warnings.append({
-                "type": "no_formatter",
-                "message": "No formatter/linter detected",
-                "fix": "Add ruff to pyproject.toml and Makefile"
-            })
+            self.warnings.append(
+                {
+                    "type": "no_formatter",
+                    "message": "No formatter/linter detected",
+                    "fix": "Add ruff to pyproject.toml or document your preferred tooling",
+                }
+            )
 
     def check_tests(self):
         """Check test suite exists"""
@@ -223,9 +243,9 @@ class ToolingChecker:
 
 def main():
     if len(sys.argv) < 2:
-        print("Usage: python check_tooling.py /path/to/openfisca-country")
+        print("Usage: uv run python check_tooling.py /path/to/openfisca-country")
         print("\nExample:")
-        print("  python check_tooling.py /home/user/openfisca-tunisia")
+        print("  uv run python check_tooling.py /home/user/openfisca-tunisia")
         sys.exit(1)
 
     package_path = Path(sys.argv[1])

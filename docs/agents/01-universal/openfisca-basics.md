@@ -221,6 +221,31 @@ class unemployment_benefit(Variable):
     set_input = set_input_divide_by_period  # Divide annual input to monthly
 ```
 
+### 11. Country Package Baseline
+
+OpenFisca code usually lives in a country package with a stable layout:
+
+```text
+openfisca_<country>/
+├── entities.py
+├── units.yaml
+├── parameters/
+├── variables/
+├── reforms/
+└── situation_examples/
+
+tests/
+pyproject.toml
+Makefile
+```
+
+This repository layout is common enough that agents should assume it by
+default, then adapt only when the target package clearly differs.
+
+See [country-package-baseline.md](country-package-baseline.md) for the
+recommended baseline shared by `country-template`-style packages and modern
+packages such as `openfisca-tunisia`.
+
 ## Naming Conventions
 
 ### Variables (Python)
@@ -250,6 +275,7 @@ taxation/
 - [OpenFisca Core](https://github.com/openfisca/openfisca-core)
 - Examples: [country-template](../country-template/)
 - Country repos: [openfisca-france](https://github.com/openfisca/openfisca-france), [openfisca-tunisia](https://github.com/openfisca/openfisca-tunisia)
+- Shared package structure: [country-package-baseline.md](country-package-baseline.md)
 
 ---
 

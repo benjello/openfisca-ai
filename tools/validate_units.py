@@ -7,13 +7,14 @@ Validates that:
 2. All parameters have a 'unit' field
 3. All units used are defined in units.yaml
 
-Usage: python validate_units.py /path/to/openfisca-country
+Usage: uv run python validate_units.py /path/to/openfisca-country
 """
 
 import sys
-import yaml
-from pathlib import Path
 from collections import defaultdict
+from pathlib import Path
+
+import yaml
 
 
 class UnitsValidator:
@@ -24,6 +25,27 @@ class UnitsValidator:
         self.units_defined = set()
         self.units_used = defaultdict(list)  # unit -> [files using it]
         self.files_without_unit = []
+        self.files_with_units = set()
+        self.parameter_files_count = 0
+
+    def get_metadata(self, content: dict) -> dict:
+        """Return the metadata section when present."""
+        metadata = content.get("metadata", {})
+        return metadata if isinstance(metadata, dict) else {}
+
+    def get_units(self, content: dict) -> list[str]:
+        """Return the declared units for a parameter file."""
+        metadata = self.get_metadata(content)
+        if "brackets" in content:
+            units = [
+                metadata.get("threshold_unit"),
+                metadata.get("rate_unit"),
+                metadata.get("amount_unit"),
+            ]
+            return [unit for unit in units if unit]
+
+        unit = content.get("unit") or metadata.get("unit")
+        return [unit] if unit else []
 
     def validate(self):
         """Run validation"""
@@ -77,6 +99,7 @@ class UnitsValidator:
         """Check all parameter files"""
         yaml_files = [f for f in param_dir.rglob("*.yaml")
                      if f.name not in ('units.yaml', 'index.yaml')]
+        self.parameter_files_count = len(yaml_files)
 
         print(f"📋 Checking {len(yaml_files)} parameter files...\n")
 
@@ -93,34 +116,14 @@ class UnitsValidator:
                 return
 
             relative_path = str(filepath.relative_to(self.package_path))
+            units = self.get_units(content)
 
-            # Check if it's a scale/bracket parameter
-            if 'brackets' in content:
-                # Scale parameter - check for threshold_unit, rate_unit, amount_unit
-                metadata = content.get('metadata', {})
-                threshold_unit = metadata.get('threshold_unit')
-                rate_unit = metadata.get('rate_unit')
-                amount_unit = metadata.get('amount_unit')
-
-                has_any_unit = threshold_unit or rate_unit or amount_unit
-
-                if has_any_unit:
-                    if threshold_unit:
-                        self.units_used[threshold_unit].append(relative_path)
-                    if rate_unit:
-                        self.units_used[rate_unit].append(relative_path)
-                    if amount_unit:
-                        self.units_used[amount_unit].append(relative_path)
-                else:
-                    self.files_without_unit.append(relative_path)
-            else:
-                # Simple parameter - check for unit
-                unit = content.get('unit') or content.get('metadata', {}).get('unit')
-
-                if unit:
+            if units:
+                self.files_with_units.add(relative_path)
+                for unit in units:
                     self.units_used[unit].append(relative_path)
-                else:
-                    self.files_without_unit.append(relative_path)
+            else:
+                self.files_without_unit.append(relative_path)
 
         except Exception as e:
             print(f"⚠️  Error reading {filepath}: {e}")
@@ -133,8 +136,8 @@ class UnitsValidator:
         print()
 
         # Summary
-        total_files = len(self.files_without_unit) + sum(len(files) for files in self.units_used.values())
-        files_with_unit = total_files - len(self.files_without_unit)
+        total_files = self.parameter_files_count
+        files_with_unit = len(self.files_with_units)
 
         print(f"📊 Summary:")
         print(f"   Total parameters: {total_files}")
@@ -162,7 +165,7 @@ class UnitsValidator:
 
         # Files without unit
         if self.files_without_unit:
-            print(f"❌ {len(self.files_without_unit)} FILES MISSING 'unit' FIELD:")
+            print(f"❌ {len(self.files_without_unit)} FILES MISSING UNIT METADATA:")
             print()
             for filepath in self.files_without_unit[:20]:  # Show first 20
                 print(f"   - {filepath}")
@@ -171,11 +174,11 @@ class UnitsValidator:
                 print()
                 print(f"   Full list: {len(self.files_without_unit)} files need unit field")
             print()
-            print("💡 Fix: Add 'unit: <unit_name>' to each parameter")
-            print("   Choose unit from units.yaml or add new unit if needed")
+            print("💡 Fix: Add 'unit: <unit_name>' to simple parameters")
+            print("   For bracket parameters, use metadata.threshold_unit / rate_unit / amount_unit")
             print()
         else:
-            print("✅ All parameters have unit field")
+            print("✅ All parameters have unit metadata")
             print()
 
         # Units usage stats
@@ -194,9 +197,9 @@ class UnitsValidator:
 
 def main():
     if len(sys.argv) < 2:
-        print("Usage: python validate_units.py /path/to/openfisca-country")
+        print("Usage: uv run python validate_units.py /path/to/openfisca-country")
         print("\nExample:")
-        print("  python validate_units.py /home/user/openfisca-tunisia")
+        print("  uv run python validate_units.py /home/user/openfisca-tunisia")
         sys.exit(1)
 
     package_path = Path(sys.argv[1])

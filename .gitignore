@@ -5,6 +5,7 @@ __pycache__/
 *.egg-info/
 dist/
 build/
+validation_output.txt
 
 # User-specific paths (never commit)
 config/user.yaml

@@ -1,298 +1,86 @@
-# Agents: Validators
+# Role: validators
 
-Set of agents to **validate quality, compliance, and consistency** of implementations.
+Validation guidance for reviewing OpenFisca implementations.
 
-## Overview
+This document describes a **methodological role**, not a set of runtime validator agents already implemented in Python.
 
-| Validator | Role | Scope |
-|-----------|------|-------|
-| **implementation-validator** | Overall quality, patterns, naming | One program |
-| **program-reviewer** | Regulatory compliance | One program |
-| **reference-validator** | Reference validity (URLs, pages) | All parameters/variables |
-| **cross-program-validator** | Cross-program consistency | All country programs |
-| **performance-optimizer** | Vectorization, performance | Python code |
+## Scope
 
----
+Use this role to review:
 
-## 1. implementation-validator
+- parameter metadata quality
+- Python implementation quality
+- test completeness
+- consistency with documented legal sources
 
-**Global** validation of an implementation (code + parameters + tests).
+## Core Checks
 
-### Checks
+### Python code
 
-#### Python Code
-- [ ] **No hardcoded values** (except 0, 1)
-- [ ] **Correct entities** (Person, Family, Household, TaxUnit)
-- [ ] **Vectorized** (`where()`, `max_()`, `min_()` instead of loops)
-- [ ] **adds vs add()** used correctly
-- [ ] **No wrapper variables** (unnecessary)
-- [ ] **No TODO/placeholders**
-- [ ] **Formatted** (Black)
+- no legal hardcoded values
+- correct entity choice
+- vectorized logic instead of Python loops
+- no obvious placeholders or TODOs
+- formatting and linting aligned with the target repository
 
-#### YAML Parameters
-- [ ] **Complete metadata** (description, label, reference, unit)
-- [ ] **Consistent hierarchy** (according to country convention)
-- [ ] **Precise references** (with `#page=XX` for PDFs)
-- [ ] **Reference format as list** if multiple sources
-- [ ] **No duplicates** (check that similar parameter doesn't exist)
+### YAML parameters
 
-#### Tests
-- [ ] **Each variable with formula → test**
-- [ ] **Manual calculations** in comments with references
-- [ ] **Edge cases** tested
-- [ ] **Tests pass** (`pytest`)
+- description, label, reference, and unit metadata present
+- scale parameters use `threshold_unit` / `rate_unit` / `amount_unit` when appropriate
+- references are precise and preferably include `#page=XX` for PDFs
+- hierarchy matches country conventions
 
-### Output
+### Tests
 
-**Structured report** with precise fixes:
+- each meaningful formula has tests
+- nominal and edge cases are covered
+- manual calculations or legal reasoning are documented when useful
+- target repository test suite passes
 
-```json
-{
-  "valid": false,
-  "errors": [
-    {
-      "type": "hardcoded_value",
-      "file": "variables/housing_allowance.py",
-      "line": 15,
-      "message": "Hardcoded value '1700' found. Must come from parameters.",
-      "fix": {
-        "old": "ceiling = 1700",
-        "new": "ceiling = parameters(period).social_benefits.benefits.housing_allowance.income_ceiling"
-      }
-    },
-    {
-      "type": "missing_metadata",
-      "file": "parameters/social_benefits/ceiling.yaml",
-      "field": "reference",
-      "message": "Missing 'reference' field.",
-      "fix": "Add legal reference (law, article, URL with #page=XX)"
-    }
-  ],
-  "warnings": [
-    {
-      "type": "wrapper_variable",
-      "file": "variables/total_income.py",
-      "message": "Variable 'total_income' appears to be an unnecessary wrapper (just calls 'income')."
-    }
-  ]
-}
+## Practical Workflow
+
+1. read the relevant legal source or specification
+2. inspect code, parameters, and tests together
+3. compare implementation to country conventions
+4. run validation tools and the repository test suite
+5. produce a concise review report with concrete fixes
+
+## Recommended Commands
+
+In this repository:
+
+```bash
+uv run pytest
 ```
 
-This report is used by **ci-fixer** to apply fixes automatically.
+In the target OpenFisca country package:
 
----
+```bash
+uv run python /path/to/openfisca-ai/tools/check_package_baseline.py .
+uv run python /path/to/openfisca-ai/tools/validate_code.py .
+uv run python /path/to/openfisca-ai/tools/validate_tests.py .
+uv run python /path/to/openfisca-ai/tools/validate_units.py .
+uv run python /path/to/openfisca-ai/tools/validate_parameters.py .
+uv run python /path/to/openfisca-ai/tools/check_tooling.py .
+```
 
-## 2. program-reviewer
-
-**Regulatory** review: verify that implementation complies with legislation.
-
-### Workflow
-
-1. **Search official sources** (WebFetch, document-collector)
-2. **Extract rules** (eligibility, calculation, ceilings, scales)
-3. **Compare PR ↔ regulations**
-4. **Check tests** (do they cover legal cases?)
-5. **Write report**
-6. **After user validation**: update GitHub issue/PR descriptions
-
-### Structured Summary
+## Suggested Report Structure
 
 ```markdown
-## Official Regulation: Housing Allowance (Countria)
+## Findings
 
-### Eligibility (Social Benefits Act 2020, Sec. 12)
-- Family income < 1700 CUR
-- Family with dependent children
-- Primary residence
+1. Missing legal reference in `parameters/...`
+2. Hardcoded threshold in `variables/...`
+3. Missing edge-case test for threshold equality
 
-### Amount Calculation (Sec. 14)
-- Base amount: 220 CUR
-- Supplement per child: 50 CUR
-- Total ceiling: 450 CUR
+## Recommended Fixes
 
-### Comparison with PR #42
-✅ Income eligibility: correct
-✅ Base amount: correct
-❌ Child supplement: missing (needs implementation)
-⚠️ Total ceiling: not tested (add edge case test)
-
-### Recommendations
-1. Implement child_supplement (Sec. 14, p.16)
-2. Add test with 5 children (ceiling 450)
-3. Check formula: base + (supplement × nb_children), then min(total, 450)
+1. Move threshold to YAML parameter
+2. Add reference with exact article and page
+3. Add a test covering the boundary case
 ```
 
-### Important
-**Does NOT modify code**: only flags gaps and discrepancies.
+## Notes
 
----
-
-## 3. reference-validator
-
-Validate that **references are valid** (accessible links, correct pages).
-
-### Checks
-
-#### URLs
-- [ ] Links accessible (HTTP 200)
-- [ ] PDFs downloadable
-- [ ] Correct page numbers (`#page=XX` points to correct page)
-
-#### Legal Citations
-- [ ] Exact law number
-- [ ] Article exists
-- [ ] Correct date
-
-#### Official Validation Tool
-
-**OpenFisca Control Center**: https://control-center.tax-benefit.org/
-
-- Automated validation of parameters for configured repositories
-- Checks metadata completeness, reference validity
-- Integration with GitHub repositories
-- **Usage**: Configure your repository in Control Center for automatic validation
-
-### Output
-
-```json
-{
-  "broken_links": [
-    {
-      "file": "parameters/social_benefits/ceiling.yaml",
-      "url": "https://example.gov/act-404.pdf",
-      "error": "HTTP 404 Not Found"
-    }
-  ],
-  "incorrect_pages": [
-    {
-      "file": "parameters/allowance.yaml",
-      "url": "https://example.gov/act.pdf#page=99",
-      "issue": "PDF only has 50 pages"
-    }
-  ],
-  "missing_page_refs": [
-    {
-      "file": "parameters/rate.yaml",
-      "url": "https://example.gov/doc.pdf",
-      "fix": "Add #page=XX to URL"
-    }
-  ]
-}
-```
-
-**Recommendation**: Use https://control-center.tax-benefit.org/ for continuous validation of production repositories.
-
----
-
-## 4. cross-program-validator
-
-Check **consistency between programs** in the same country.
-
-### Checks
-
-#### Naming
-- [ ] Consistent conventions (snake_case everywhere or camelCase everywhere)
-- [ ] Uniform terms (e.g., `income` vs `incomes`, `child` vs `children`)
-
-#### Variable Reuse
-- [ ] Common variables reused (e.g., `disposable_income`, `nb_children`)
-- [ ] No duplicates (e.g., `net_salary` and `monthly_net_salary` for same thing)
-
-#### Parameters
-- [ ] Common parameters factored (e.g., `gov.minimum_wage` used by multiple programs)
-- [ ] Consistent hierarchy
-
-### Example
-
-```markdown
-## Consistency Countria: housing_allowance vs child_allowance
-
-✅ Both use `nb_children` (same variable)
-❌ housing_allowance uses `disposable_income`, child_allowance uses `monthly_income`
-   → Standardize: choose one name
-⚠️ Parameter `income_ceiling` exists twice:
-   - social_benefits/benefits/housing_allowance/income_ceiling
-   - social_benefits/benefits/child_allowance/income_ceiling
-   → OK if different values, otherwise factor out
-```
-
----
-
-## 5. performance-optimizer
-
-Identify **vectorization opportunities** and optimizations.
-
-### Checks
-
-#### Anti-patterns
-- [ ] **Explicit Python loops** (replace with `where()`, `select()`)
-- [ ] **Redundant calculations** (same variables calculated multiple times)
-- [ ] **Unnecessary conversions** (e.g., float → int → float)
-
-#### Best Practices
-- [ ] `defined_for` to limit calculated periods
-- [ ] `max_()`, `min_()` instead of `if/else`
-- [ ] `where()` for conditions
-- [ ] Efficient aggregations (`sum`, `any`, `all`)
-
-### Example
-
-#### ❌ Before (slow)
-```python
-def formula(person, period, parameters):
-    result = []
-    for p in person:
-        if p.age > 18:
-            result.append(p.salary * 1.1)
-        else:
-            result.append(p.salary)
-    return result
-```
-
-#### ✅ After (fast, vectorized)
-```python
-def formula(person, period, parameters):
-    age = person('age', period)
-    salary = person('salary', period)
-    bonus = where(age > 18, 1.1, 1.0)
-    return salary * bonus
-```
-
----
-
-## Complete Validation Workflow
-
-```
-[Code + Params + Tests]
-        ↓
-[implementation-validator] → Quality report
-        ↓
-[program-reviewer] → Regulatory compliance report
-        ↓
-[reference-validator] → References report
-        ↓
-[cross-program-validator] → Consistency report
-        ↓
-[performance-optimizer] → Optimization suggestions
-        ↓
-[Consolidated report] → ci-fixer
-```
-
-## Global Checklist
-
-- [ ] implementation-validator: no errors
-- [ ] program-reviewer: complies with law
-- [ ] reference-validator: all references valid
-- [ ] cross-program-validator: consistent with other programs
-- [ ] performance-optimizer: no anti-patterns
-- [ ] Tests pass (`pytest`)
-- [ ] CI green
-
-## Resources
-
-- [quality-checklist.md](../../01-universal/quality-checklist.md) for detailed checklist
-- PolicyEngine validators: [policyengine-claude agents](../../../policyengine-claude-agents.md)
-
----
-
-**Next steps**: Validation reports feed `ci-fixer` which applies fixes automatically.
+- External tools like OpenFisca Control Center can help validate production repositories.
+- If a check cannot be automated, state the residual risk clearly instead of pretending it passed.

@@ -77,7 +77,9 @@ conventions:
 
 # 2. Config merging:
 #    - Base config: config/countries/<country_id>.yaml
-#    - User overrides: config/user.yaml (or ~/.config/openfisca-ai/user.yaml)
+#    - User overrides: config/user.yaml
+#      or ~/.config/openfisca-ai/user.yaml
+#      or ~/.config/openfisca-ai/config.yaml (legacy)
 #    - Merged by config_loader.py
 
 # 3. Validation:

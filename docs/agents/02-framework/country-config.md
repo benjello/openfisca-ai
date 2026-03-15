@@ -6,13 +6,43 @@ How to configure a country in OpenFisca AI so all agents can use it.
 
 The framework remains **country-agnostic**. Each country = **one YAML configuration file**.
 
-Agents automatically load the config via `config_loader.py`:
+The Python runtime can load the config via `config_loader.py`:
 ```python
 from openfisca_ai.config_loader import load_country_config, get_reference_code_path
 
 config = load_country_config('countria')
 reference_code = get_reference_code_path('countria')
 ```
+
+If `reference_code` exists, the alpha runtime can also analyze that package with:
+
+```python
+from openfisca_ai.core.reference_package import analyze_reference_package
+
+analysis = analyze_reference_package(reference_code, include_audit_summary=True)
+```
+
+If your extraction phase already produced structured variables and parameters,
+the current runtime can turn them into scaffolding artifacts without writing to
+disk.
+
+If you want those artifacts materialized, pass `options.output_dir` in the task
+JSON. The CLI resolves it relative to the task file location.
+
+If you want to apply them directly inside the configured country package, pass
+`options.apply_artifacts_to_reference_package: true`. The runtime resolves the
+repository root from `existing_code.path` and writes there.
+
+If you want a dry run first, pass `options.plan_only: true`. The runtime then
+returns an `artifact_write_plan` with diff previews but does not write files.
+
+If generated paths already exist, choose a conflict strategy with
+`options.existing_artifact_strategy`:
+
+- `create`
+- `skip`
+- `append`
+- `update`
 
 ## Config File Structure
 
@@ -97,18 +127,23 @@ To keep local paths **out of git**, use `config/user.yaml`:
 
 ### Create `config/user.yaml` (gitignored)
 ```yaml
+base_path: /home/user/repos
+legislation_base_path: /home/user/laws
+
 countries:
   countria:
-    legislative_sources:
-      root: /home/user/docs/countria-laws
     existing_code:
-      path: /home/user/repos/openfisca-countria
+      path: ${base_path}/openfisca-countria
+    legislative_sources:
+      root: ${legislation_base_path}/countria
 ```
 
-The `config_loader` automatically **merges** `user.yaml` with `countria.yaml`.
+The `config_loader` automatically **merges** `user.yaml` with `countria.yaml`, expands `${...}` placeholders from top-level values and environment variables, then resolves relative paths from the project root.
 
-### Alternative: `~/.config/openfisca-ai/user.yaml`
-If `config/user.yaml` doesn't exist, the loader looks in `~/.config/openfisca-ai/user.yaml`.
+### Alternative: global config file
+If `config/user.yaml` doesn't exist, the loader looks in:
+1. `~/.config/openfisca-ai/user.yaml` (canonical)
+2. `~/.config/openfisca-ai/config.yaml` (legacy compatibility)
 
 ## Usage in Code
 
@@ -128,31 +163,63 @@ path = get_reference_code_path('countria')
 # Returns Path or None
 ```
 
+### Get legislative sources root
+```python
+from openfisca_ai.config_loader import get_legislative_sources_root
+
+path = get_legislative_sources_root('countria')
+# Returns Path or None
+```
+
 ### In a pipeline
 ```python
 # pipelines/law_to_code.py
+from openfisca_ai.core.reference_package import (
+    analyze_reference_package,
+    build_implementation_brief,
+)
+
+
 def run_law_to_code(law_text, country_id='countria', ...):
     config = load_country_config(country_id)
     reference_code = get_reference_code_path(country_id)
+    reference_analysis = analyze_reference_package(reference_code)
 
     # Pass to agents
     coder = CoderAgent(...)
     result = coder.run(
         extracted=...,
         reference_code_path=reference_code,
-        country_config=config
+        country_config=config,
+        reference_package_analysis=reference_analysis,
+        implementation_brief=build_implementation_brief(
+            extracted=...,
+            country_config=config,
+            reference_package_analysis=reference_analysis,
+            country_id=country_id,
+        ),
     )
+    # result['artifacts'] now contains target paths + file contents
+    # the pipeline can also write them when an output directory is provided
+    # or directly into the configured reference package when requested
+    # artifact_write_plan provides diff previews before any write
 ```
 
 ### In an agent
 ```python
 # agents/coder.py
 class CoderAgent(Agent):
-    def run(self, extracted, reference_code_path=None, country_config=None):
+    def run(self, extracted, reference_code_path=None, country_config=None, reference_package_analysis=None, implementation_brief=None):
         if country_config:
             conventions = country_config.get('conventions', {})
             naming = conventions.get('naming', 'snake_case')
             # Adapt code generation according to conventions
+        if reference_package_analysis:
+            pattern_summary = reference_package_analysis['pattern_summary']
+            # Use package patterns as generation context
+        if implementation_brief:
+            scaffolding = implementation_brief['scaffolding']
+            # Use variable_root / parameter_root / tests_root for output targeting
         ...
 ```
 
@@ -177,12 +244,15 @@ conventions:
 ### 2. (Optional) Add local paths
 `config/user.yaml`:
 ```yaml
+base_path: /home/me/repos
+legislation_base_path: /home/me/laws
+
 countries:
   newland:
-    legislative_sources:
-      root: /home/me/newland-laws
     existing_code:
-      path: /home/me/openfisca-newland
+      path: ${base_path}/openfisca-newland
+    legislative_sources:
+      root: ${legislation_base_path}/newland
 ```
 
 ### 3. (Optional) Document specifics
@@ -199,14 +269,44 @@ See [template](../03-countries/_template.md).
   "country": "newland",
   "pipeline": "law_to_code",
   "inputs": {
-    "law_text": "Section 12 of the Social Benefits Act..."
+    "law_text": "Section 12 of the Social Benefits Act...",
+    "extracted": {
+      "variables": [
+        {
+          "name": "housing_allowance",
+          "entity": "Household",
+          "definition_period": "MONTH",
+          "value_type": "float",
+          "parameter": "social_benefits.housing_allowance.base_amount"
+        }
+      ],
+      "parameters": [
+        {
+          "name": "social_benefits.housing_allowance.base_amount",
+          "label": "Housing allowance base amount",
+          "description": "Base amount used for the housing allowance.",
+          "unit": "currency",
+          "value": 100
+        }
+      ]
+    }
+  },
+  "options": {
+    "use_existing_code_as_reference": true,
+    "include_reference_audit_summary": true,
+    "apply_artifacts_to_reference_package": true,
+    "plan_only": true,
+    "existing_artifact_strategy": "skip"
   }
 }
 ```
 
+This application mode refuses to overwrite existing files unless
+`overwrite_artifacts` is explicitly set to `true`.
+
 ### 5. Test
 ```bash
-openfisca-ai run tasks/countries/newland/encode_benefit.json
+uv run openfisca-ai run tasks/countries/newland/encode_benefit.json
 ```
 
 ## Schema Validation
@@ -224,7 +324,8 @@ yamllint config/countries/countria.yaml
 | Element | File | Usage |
 |---------|------|-------|
 | Public config | `config/countries/<country>.yaml` | Structure, conventions (versioned in git) |
-| Local paths | `config/user.yaml` or `~/.config/openfisca-ai/user.yaml` | Machine-specific paths (gitignored) |
+| Local paths | `config/user.yaml` | Machine-specific paths (gitignored) |
+| Global fallback | `~/.config/openfisca-ai/user.yaml` or `~/.config/openfisca-ai/config.yaml` | Shared machine-level config |
 | Specifics | `docs/agents/03-countries/<country>/specifics.md` | Deviations from norm (documentation) |
 | Tasks | `tasks/countries/<country>/*.json` | Country-specific tasks |
 

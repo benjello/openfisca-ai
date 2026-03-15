@@ -482,11 +482,10 @@ Concept à vérifier si existe dans autres pays.
 
 ## Notes pour agents IA
 
-- **Code de référence** : `/home/user/openfisca-tunisia`
 - **Statut** : Pays de référence (premier implémenté)
 - **Maturité** : ✅ Très mature (439 paramètres, historique depuis 1959)
 - **Couverture** : ✅ Très complète (impôts, cotisations, prestations, retraite)
-- **Documentation** : Voir [LEARNING_LOG.md](../../../../LEARNING_LOG.md) pour détails
+- **Documentation** : Voir [config/countries/tunisia.yaml](../../../../config/countries/tunisia.yaml) et [docs/agents/02-framework/country-config.md](../../02-framework/country-config.md)
 
 **Recommandation** : Utiliser openfisca-tunisia comme **référence** pour nouveaux agents et nouvelles implémentations.
 

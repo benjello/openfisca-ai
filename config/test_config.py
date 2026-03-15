@@ -2,12 +2,24 @@
 """
 Test configuration loading - Verify user.yaml setup
 
-Usage: python config/test_config.py
+Usage: uv run python config/test_config.py
 """
 
 import sys
 from pathlib import Path
-import yaml
+
+REPO_ROOT = Path(__file__).resolve().parent.parent
+SRC_DIR = REPO_ROOT / "src"
+if str(SRC_DIR) not in sys.path:
+    sys.path.insert(0, str(SRC_DIR))
+
+from openfisca_ai.config_loader import (  # noqa: E402
+    get_countries_dir,
+    get_legislative_sources_root,
+    get_reference_code_path,
+    get_user_config_path,
+    load_country_config,
+)
 
 
 def test_config():
@@ -18,7 +30,7 @@ def test_config():
     print()
 
     config_dir = Path(__file__).parent
-    user_config = config_dir / "user.yaml"
+    user_config = get_user_config_path()
     template_config = config_dir / "user.yaml.template"
 
     # Check template exists
@@ -30,69 +42,55 @@ def test_config():
 
     # Check user config exists
     if not user_config.exists():
-        print(f"❌ User config not found: {user_config}")
+        print("❌ User config not found")
         print()
         print("💡 Create it with:")
-        print("   python config/setup.py")
+        print("   uv run python config/setup.py")
         print("   OR")
         print("   cp config/user.yaml.template config/user.yaml")
         return False
 
     print(f"✅ User config exists: {user_config}")
+    print()
+    print("🗺️  Configured countries:")
 
-    # Load and validate user config
-    try:
-        with open(user_config, 'r', encoding='utf-8') as f:
-            config = yaml.safe_load(f)
+    countries_dir = get_countries_dir()
+    country_files = sorted(countries_dir.glob("*.yaml"))
+    country_ids = [path.stem for path in country_files if not path.name.startswith("_")]
 
-        if not config:
-            print("❌ User config is empty")
-            return False
-
-        print()
-        print("📋 Configuration loaded:")
-        print(yaml.dump(config, default_flow_style=False))
-
-        # Check required fields
-        if 'countries' not in config:
-            print("⚠️  No 'countries' field in config")
-            return False
-
-        # Resolve paths
-        base_path = config.get('base_path', '')
-        if base_path:
-            print(f"📂 Base path: {base_path}")
-
-        print()
-        print("🗺️  Configured countries:")
-        for country, settings in config['countries'].items():
-            path_template = settings.get('path', '')
-            # Simple variable substitution
-            path = path_template.replace('${base_path}', base_path)
-            path_obj = Path(path).expanduser()
-
-            exists = path_obj.exists()
-            status = "✅" if exists else "❌"
-
-            print(f"   {status} {country}: {path}")
-            if not exists:
-                print(f"      ⚠️  Path does not exist")
-
-        print()
-        print("=" * 70)
-
-        # Summary
-        active = config.get('active_country', 'none')
-        print(f"✅ Configuration valid!")
-        print(f"   Active country: {active}")
-        print(f"   Total countries: {len(config['countries'])}")
-        print()
-
-        return True
-
-    except Exception as e:
-        print(f"❌ Error loading config: {e}")
+    if not country_ids:
+        print("❌ No country configs found in config/countries/")
         return False
+
+    ok = True
+    for country_id in country_ids:
+        config = load_country_config(country_id)
+        if not config:
+            print(f"   ❌ {country_id}: failed to load merged config")
+            ok = False
+            continue
+
+        reference_path = get_reference_code_path(country_id)
+        sources_root = get_legislative_sources_root(country_id)
+        reference_status = "✅" if reference_path and reference_path.exists() else "⚠️"
+        sources_status = "✅" if sources_root and sources_root.exists() else "⚠️"
+
+        print(f"   {country_id}:")
+        print(f"      {reference_status} existing_code.path: {reference_path or 'not configured'}")
+        print(f"      {sources_status} legislative_sources.root: {sources_root or 'not configured'}")
+
+        if reference_path is None and sources_root is None:
+            ok = False
+
+    print()
+    print("=" * 70)
+    print()
+    print("✅ Configuration valid!" if ok else "⚠️  Configuration loaded with missing paths")
+    print(f"   User config file: {user_config}")
+    print(f"   Total countries: {len(country_ids)}")
+    print()
+
+    return ok
 
 
 def main():

@@ -2,14 +2,14 @@
 """
 Auto-suggest missing units based on filename patterns and context
 
-Usage: python suggest_units.py /path/to/openfisca-country [--apply]
+Usage: uv run python suggest_units.py /path/to/openfisca-country [--apply]
 """
 
 import sys
-import yaml
 import re
 from pathlib import Path
-from collections import defaultdict
+
+import yaml
 
 
 # Pattern-based unit suggestions
@@ -109,24 +109,34 @@ class UnitSuggester:
             if 'brackets' in content:
                 # Scale parameter - check for threshold_unit, rate_unit
                 metadata = content.get('metadata', {})
-                has_threshold = metadata.get('threshold_unit')
-                has_rate = metadata.get('rate_unit')
+                if not isinstance(metadata, dict):
+                    metadata = {}
+                existing_scale_units = {
+                    key: metadata.get(key)
+                    for key in ('threshold_unit', 'rate_unit', 'amount_unit')
+                    if metadata.get(key)
+                }
 
-                if has_threshold and has_rate:
-                    # Already has units
-                    self.files_with_units[str(relative_path)] = f"scale({has_threshold},{has_rate})"
-                else:
-                    # Suggest units for scale
-                    suggestions = self.suggest_scale_units(filepath, content)
-                    if suggestions:
-                        self.suggestions.append({
-                            'file': str(relative_path),
-                            'filepath': filepath,
-                            'suggested_unit': suggestions,
-                            'confidence': 'HIGH' if 'bareme' in str(filepath).lower() else 'MEDIUM',
-                            'content': content,
-                            'is_scale': True
-                        })
+                if existing_scale_units:
+                    self.files_with_units[str(relative_path)] = (
+                        "scale(" + ",".join(f"{k}={v}" for k, v in existing_scale_units.items()) + ")"
+                    )
+
+                suggestions = self.suggest_scale_units(filepath, content)
+                missing_scale_units = {
+                    key: value
+                    for key, value in suggestions.items()
+                    if value and key not in existing_scale_units
+                }
+                if missing_scale_units:
+                    self.suggestions.append({
+                        'file': str(relative_path),
+                        'filepath': filepath,
+                        'suggested_unit': missing_scale_units,
+                        'confidence': self.calculate_scale_confidence(filepath, missing_scale_units),
+                        'content': content,
+                        'is_scale': True
+                    })
             else:
                 # Simple parameter
                 existing_unit = content.get('unit') or content.get('metadata', {}).get('unit')
@@ -214,6 +224,23 @@ class UnitSuggester:
 
         return 'MEDIUM'
 
+    def calculate_scale_confidence(self, filepath: Path, suggested_units: dict) -> str:
+        """Calculate confidence level for scale parameter suggestions."""
+        path_str = str(filepath).lower()
+        high_confidence_patterns = [
+            'bareme',
+            'scale',
+            'income',
+            'revenu',
+            'tax',
+            'impot',
+        ]
+        if any(pattern in path_str for pattern in high_confidence_patterns):
+            return 'HIGH'
+        if suggested_units.get('rate_unit') == '/1' and suggested_units.get('threshold_unit') == 'currency':
+            return 'HIGH'
+        return 'MEDIUM'
+
     def generate_report(self, apply=False):
         """Generate suggestion report"""
         if not self.suggestions:
@@ -262,7 +289,12 @@ class UnitSuggester:
                 print(f"\n⚠️  MEDIUM CONFIDENCE (manual review):\n")
                 for s in medium[:10]:
                     print(f"   {s['file']}")
-                    print(f"      → unit: {s['suggested_unit']} (verify manually)")
+                    if s.get('is_scale'):
+                        units = s['suggested_unit']
+                        print(f"      → threshold_unit: {units.get('threshold_unit', 'N/A')} (verify manually)")
+                        print(f"      → rate_unit: {units.get('rate_unit', 'N/A')} (verify manually)")
+                    else:
+                        print(f"      → unit: {s['suggested_unit']} (verify manually)")
                     print()
 
                 if len(medium) > 10:
@@ -273,8 +305,13 @@ class UnitSuggester:
 
         if not apply:
             print("💡 To apply high-confidence suggestions automatically:")
-            print("   python suggest_units.py <path> --apply")
+            print("   uv run python suggest_units.py <path> --apply")
             print()
+
+    def write_yaml(self, filepath: Path, content: dict) -> None:
+        """Write YAML back safely after in-memory edits."""
+        with open(filepath, 'w', encoding='utf-8') as f:
+            yaml.safe_dump(content, f, sort_keys=False, allow_unicode=True)
 
     def apply_suggestion(self, suggestion: dict) -> bool:
         """Apply a unit suggestion to a file"""
@@ -282,54 +319,34 @@ class UnitSuggester:
             filepath = suggestion['filepath']
             unit = suggestion['suggested_unit']
 
-            # Read file
             with open(filepath, 'r', encoding='utf-8') as f:
-                lines = f.readlines()
+                content = yaml.safe_load(f)
 
-            # Find where to insert unit
-            # Strategy: insert after description or at beginning of metadata
-            new_lines = []
-            inserted = False
-
-            for i, line in enumerate(lines):
-                new_lines.append(line)
-
-                # Insert after description line
-                if not inserted and re.match(r'^description:', line):
-                    # Get indentation
-                    indent = len(line) - len(line.lstrip())
-                    new_lines.append(' ' * indent + f'unit: {unit}\n')
-                    inserted = True
-
-            # If not inserted, try adding to metadata section
-            if not inserted:
-                for i, line in enumerate(new_lines):
-                    if re.match(r'^metadata:', line):
-                        indent = len(line) - len(line.lstrip())
-                        # Insert unit as first item in metadata
-                        new_lines.insert(i + 1, ' ' * (indent + 2) + f'unit: {unit}\n')
-                        inserted = True
-                        break
-
-            # If still not inserted, add at top level before values
-            if not inserted:
-                for i, line in enumerate(new_lines):
-                    if re.match(r'^values:', line):
-                        indent = len(line) - len(line.lstrip())
-                        new_lines.insert(i, ' ' * indent + f'unit: {unit}\n')
-                        inserted = True
-                        break
-
-            if inserted:
-                # Write back
-                with open(filepath, 'w', encoding='utf-8') as f:
-                    f.writelines(new_lines)
-
-                print(f"✅ {suggestion['file']} → unit: {unit}")
-                return True
-            else:
-                print(f"⚠️  Could not insert unit in {suggestion['file']}")
+            if not isinstance(content, dict):
+                print(f"⚠️  Could not update non-mapping YAML in {suggestion['file']}")
                 return False
+
+            if suggestion.get('is_scale'):
+                metadata = content.get('metadata')
+                if not isinstance(metadata, dict):
+                    metadata = {}
+                    content['metadata'] = metadata
+                for key, value in unit.items():
+                    metadata.setdefault(key, value)
+                self.write_yaml(filepath, content)
+                rendered_units = ", ".join(f"{key}: {value}" for key, value in unit.items())
+                print(f"✅ {suggestion['file']} → {rendered_units}")
+                return True
+
+            metadata = content.get('metadata')
+            if isinstance(metadata, dict):
+                metadata.setdefault('unit', unit)
+            else:
+                content.setdefault('unit', unit)
+
+            self.write_yaml(filepath, content)
+            print(f"✅ {suggestion['file']} → unit: {unit}")
+            return True
 
         except Exception as e:
             print(f"❌ Error applying suggestion to {suggestion['file']}: {e}")
@@ -338,10 +355,10 @@ class UnitSuggester:
 
 def main():
     if len(sys.argv) < 2:
-        print("Usage: python suggest_units.py /path/to/openfisca-country [--apply]")
+        print("Usage: uv run python suggest_units.py /path/to/openfisca-country [--apply]")
         print("\nExamples:")
-        print("  python suggest_units.py /home/user/openfisca-tunisia")
-        print("  python suggest_units.py /home/user/openfisca-tunisia --apply")
+        print("  uv run python suggest_units.py /home/user/openfisca-tunisia")
+        print("  uv run python suggest_units.py /home/user/openfisca-tunisia --apply")
         sys.exit(1)
 
     package_path = Path(sys.argv[1])

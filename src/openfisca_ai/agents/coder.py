@@ -1,6 +1,7 @@
 """Agent that generates OpenFisca code from structured law data."""
 
 from openfisca_ai.core.agent import Agent
+from openfisca_ai.skills.generate_code import generate_scaffolding
 
 
 class CoderAgent(Agent):
@@ -14,6 +15,8 @@ class CoderAgent(Agent):
         extracted: dict,
         reference_code_path: str | None = None,
         country_config: dict | None = None,
+        reference_package_analysis: dict | None = None,
+        implementation_brief: dict | None = None,
         **kwargs,
     ):
         """
@@ -23,10 +26,19 @@ class CoderAgent(Agent):
         can use that codebase as reference for patterns and naming.
         country_config can provide conventions (entity_levels, parameter_hierarchy).
         """
-        # TODO: use skills.generate_code and LLM; optionally read reference_code_path
+        generated = generate_scaffolding(
+            extracted,
+            implementation_brief=implementation_brief,
+            country_config=country_config,
+            reference_package_analysis=reference_package_analysis,
+        )
         return {
-            "code": "",
+            "code": generated["primary_code"],
             "extracted": extracted,
             "reference_code_path": reference_code_path,
             "country_config": country_config,
+            "reference_package_analysis": reference_package_analysis,
+            "implementation_brief": implementation_brief,
+            "artifacts": generated["artifacts"],
+            "notes": generated["notes"],
         }

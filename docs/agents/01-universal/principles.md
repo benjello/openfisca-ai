@@ -448,9 +448,10 @@ Before every commit, verify:
 ## Resources
 
 ### Documentation
-- **Validation**: [UNIVERSAL_PRINCIPLES_VALIDATION.md](../UNIVERSAL_PRINCIPLES_VALIDATION.md)
-- **Learning**: [LEARNING_LOG.md](../../LEARNING_LOG.md)
-- **Final version**: [PRINCIPLES_UNIVERSELS_FINAUX.md](../PRINCIPLES_UNIVERSELS_FINAUX.md)
+- **Quality checklist**: [quality-checklist.md](quality-checklist.md)
+- **OpenFisca basics**: [openfisca-basics.md](openfisca-basics.md)
+- **Country package baseline**: [country-package-baseline.md](country-package-baseline.md)
+- **Development workflow**: [development-workflow.md](development-workflow.md)
 - **Country examples**: [country-template/](../country-template/)
 - **Country specifics**: [03-countries/](../03-countries/)
 

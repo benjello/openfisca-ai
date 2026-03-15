@@ -10,7 +10,8 @@ This repository is designed to be shared by multiple users. Each user needs to c
 
 ```bash
 cd openfisca-ai
-python config/setup.py
+uv sync --dev
+uv run python config/setup.py
 ```
 
 This creates `config/user.yaml` with your local paths.
@@ -19,6 +20,7 @@ This creates `config/user.yaml` with your local paths.
 
 ```bash
 cd openfisca-ai
+uv sync --dev
 cp config/user.yaml.template config/user.yaml
 # Edit config/user.yaml with your paths
 ```
@@ -33,10 +35,15 @@ If you only work with one country:
 
 ```yaml
 # config/user.yaml
+base_path: /home/yourname/projets
+legislation_base_path: /home/yourname/legislation
 active_country: tunisia
 countries:
   tunisia:
-    path: /home/yourname/projets/openfisca-tunisia
+    existing_code:
+      path: ${base_path}/openfisca-tunisia
+    legislative_sources:
+      root: ${legislation_base_path}/tunisia
 ```
 
 ### Multiple Countries with Shared Base Path
@@ -46,14 +53,24 @@ If all your OpenFisca repos are in the same parent directory (recommended):
 ```yaml
 # config/user.yaml
 base_path: /home/yourname/projets
+legislation_base_path: /home/yourname/legislation
 active_country: tunisia
 countries:
   tunisia:
-    path: ${base_path}/openfisca-tunisia
+    existing_code:
+      path: ${base_path}/openfisca-tunisia
+    legislative_sources:
+      root: ${legislation_base_path}/tunisia
   france:
-    path: ${base_path}/openfisca-france
+    existing_code:
+      path: ${base_path}/openfisca-france
+    legislative_sources:
+      root: ${legislation_base_path}/france
   senegal:
-    path: ${base_path}/openfisca-senegal
+    existing_code:
+      path: ${base_path}/openfisca-senegal
+    legislative_sources:
+      root: ${legislation_base_path}/senegal
 ```
 
 ### Multiple Countries with Different Locations
@@ -65,12 +82,23 @@ If your repos are in different directories:
 active_country: tunisia
 countries:
   tunisia:
-    path: /home/yourname/work/openfisca-tunisia
+    existing_code:
+      path: /home/yourname/work/openfisca-tunisia
+    legislative_sources:
+      root: /home/yourname/laws/tunisia
   france:
-    path: /mnt/shared/openfisca-france
+    existing_code:
+      path: /mnt/shared/openfisca-france
+    legislative_sources:
+      root: /mnt/shared/laws/france
   local_test:
-    path: /tmp/openfisca-test-country
+    existing_code:
+      path: /tmp/openfisca-test-country
 ```
+
+### Legacy Config Compatibility
+
+Older configs using `countries.<id>.path` are still supported, but deprecated. The loader normalizes them internally to `existing_code.path`.
 
 ---
 
@@ -78,7 +106,7 @@ countries:
 
 Instead of `config/user.yaml`, you can use a global configuration file:
 
-**Location**: `~/.config/openfisca-ai/config.yaml`
+**Location**: `~/.config/openfisca-ai/user.yaml`
 
 **Advantages**:
 - Shared across all openfisca-ai clones
@@ -88,31 +116,36 @@ Instead of `config/user.yaml`, you can use a global configuration file:
 
 ```bash
 mkdir -p ~/.config/openfisca-ai
-cp config/user.yaml.template ~/.config/openfisca-ai/config.yaml
-# Edit ~/.config/openfisca-ai/config.yaml
+cp config/user.yaml.template ~/.config/openfisca-ai/user.yaml
+# Edit ~/.config/openfisca-ai/user.yaml
 ```
+
+Legacy fallback still supported: `~/.config/openfisca-ai/config.yaml`.
 
 **Priority**:
 1. `config/user.yaml` (local, highest priority)
-2. `~/.config/openfisca-ai/config.yaml` (global)
-3. Environment variables (see below)
+2. `~/.config/openfisca-ai/user.yaml` (global)
+3. `~/.config/openfisca-ai/config.yaml` (legacy global)
+4. Environment variables referenced by `${...}` placeholders
 
 ---
 
 ## Alternative: Environment Variables
 
-For CI/CD or temporary overrides:
+For CI/CD or temporary overrides used inside `config/user.yaml` or `config/countries/*.yaml`:
 
 ```bash
-# Set base path
-export OPENFISCA_AI_BASE_PATH=/home/user/projets
-
 # Set specific country path
 export OPENFISCA_TUNISIA_PATH=/home/user/projets/openfisca-tunisia
+export OPENFISCA_TUNISIA_LAWS=/home/user/legislation/tunisia
 
-# Run tools
-cd $OPENFISCA_TUNISIA_PATH
-uv run python /path/to/openfisca-ai/tools/validate_units.py .
+# Example user.yaml entries:
+# countries:
+#   tunisia:
+#     existing_code:
+#       path: ${OPENFISCA_TUNISIA_PATH}
+#     legislative_sources:
+#       root: ${OPENFISCA_TUNISIA_LAWS}
 ```
 
 ---
@@ -125,9 +158,8 @@ After setup, verify your configuration:
 # Check config file exists
 ls -la config/user.yaml
 
-# Try running a validation tool
-cd /path/to/your/openfisca-tunisia
-uv run python /path/to/openfisca-ai/tools/validate_units.py .
+# Validate and resolve configured paths
+uv run python config/test_config.py
 ```
 
 ---
@@ -149,7 +181,8 @@ After cloning:
 
 ```bash
 cd openfisca-ai
-python config/setup.py  # Interactive setup
+uv sync --dev
+uv run python config/setup.py  # Interactive setup
 # OR
 cp config/user.yaml.template config/user.yaml
 # Edit config/user.yaml
@@ -165,9 +198,13 @@ cp config/user.yaml.template config/user.yaml
 # Your config/user.yaml
 active_country: tunisia
 base_path: /home/alice/repos
+legislation_base_path: /home/alice/legislation
 countries:
   tunisia:
-    path: ${base_path}/openfisca-tunisia
+    existing_code:
+      path: ${base_path}/openfisca-tunisia
+    legislative_sources:
+      root: ${legislation_base_path}/tunisia
 
 # Run validation
 cd /home/alice/repos/openfisca-tunisia
@@ -180,14 +217,18 @@ uv run python /path/to/openfisca-ai/tools/suggest_units.py .
 ```bash
 # Your config/user.yaml
 base_path: /home/bob/openfisca-projects
+legislation_base_path: /home/bob/legislation
 active_country: senegal
 countries:
   tunisia:
-    path: ${base_path}/openfisca-tunisia
+    existing_code:
+      path: ${base_path}/openfisca-tunisia
   senegal:
-    path: ${base_path}/openfisca-senegal
+    existing_code:
+      path: ${base_path}/openfisca-senegal
   france:
-    path: ${base_path}/openfisca-france
+    existing_code:
+      path: ${base_path}/openfisca-france
 
 # Validate all
 for country in tunisia senegal france; do
@@ -213,8 +254,9 @@ cat config/user.yaml
 
 Priority order:
 1. `config/user.yaml` (check this first)
-2. `~/.config/openfisca-ai/config.yaml`
-3. Environment variables
+2. `~/.config/openfisca-ai/user.yaml`
+3. `~/.config/openfisca-ai/config.yaml` (legacy)
+4. Environment variables referenced by `${...}`
 
 ### Accidentally committed user.yaml
 
@@ -233,12 +275,13 @@ cat .gitignore | grep user.yaml
 
 | Method | Location | Use Case |
 |--------|----------|----------|
-| **Interactive setup** | `python config/setup.py` | First-time setup (recommended) |
+| **Interactive setup** | `uv run python config/setup.py` | First-time setup (recommended) |
 | **Manual config** | `config/user.yaml` | Full control, local to repo |
-| **Global config** | `~/.config/openfisca-ai/config.yaml` | Shared across all clones |
-| **Environment vars** | `export OPENFISCA_*_PATH=...` | CI/CD, temporary overrides |
+| **Global config** | `~/.config/openfisca-ai/user.yaml` | Shared across all clones |
+| **Legacy global config** | `~/.config/openfisca-ai/config.yaml` | Backward compatibility |
+| **Environment vars** | `${OPENFISCA_*}` placeholders | CI/CD, temporary overrides |
 
-**Best practice**: Use `config/user.yaml` with `base_path` for simplicity.
+**Best practice**: Use `config/user.yaml` with `base_path` and the canonical nested keys.
 
 ---
 

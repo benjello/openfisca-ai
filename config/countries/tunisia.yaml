@@ -5,13 +5,13 @@ id: tunisia
 label: Tunisia
 
 legislative_sources:
-  root: ${OPENFISCA_TUNISIA_PATH}  # Configure in config/user.yaml
+  root: null  # Configure in config/user.yaml
   file_pattern: "*.md"
   # index_file: sources.md
 
 existing_code:
   repo_url: https://github.com/openfisca/openfisca-tunisia
-  path: ${OPENFISCA_TUNISIA_PATH}  # Configure in config/user.yaml
+  path: null  # Configure in config/user.yaml
   main_package: openfisca_tunisia
 
 conventions:

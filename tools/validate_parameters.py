@@ -3,13 +3,15 @@
 Parameter Validation Tool - NO AI REQUIRED
 
 Validates OpenFisca parameters against universal principles.
-Usage: python validate_parameters.py /path/to/openfisca-country
+Usage: uv run python validate_parameters.py /path/to/openfisca-country
 """
 
 import sys
-import yaml
+from collections import defaultdict
 from pathlib import Path
-from typing import Dict, List, Set
+from typing import Dict
+
+import yaml
 
 
 class ParameterValidator:
@@ -20,7 +22,35 @@ class ParameterValidator:
         self.errors = []
         self.warnings = []
         self.units_defined = set()
-        self.units_used = set()
+        self.units_used = defaultdict(list)
+
+    def get_metadata(self, content: dict) -> dict:
+        """Return the metadata section when present."""
+        metadata = content.get("metadata", {})
+        return metadata if isinstance(metadata, dict) else {}
+
+    def is_scale_parameter(self, content: dict) -> bool:
+        """Return True when the parameter file defines brackets."""
+        return isinstance(content, dict) and "brackets" in content
+
+    def get_reference(self, content: dict):
+        """Return the reference from root or metadata."""
+        metadata = self.get_metadata(content)
+        return content.get("reference") or metadata.get("reference") or []
+
+    def get_units(self, content: dict) -> list[str]:
+        """Return all units declared by a parameter."""
+        metadata = self.get_metadata(content)
+        if self.is_scale_parameter(content):
+            units = [
+                metadata.get("threshold_unit"),
+                metadata.get("rate_unit"),
+                metadata.get("amount_unit"),
+            ]
+            return [unit for unit in units if unit]
+
+        unit = content.get("unit") or metadata.get("unit")
+        return [unit] if unit else []
 
     def validate_all(self) -> Dict:
         """Run all validations"""
@@ -83,14 +113,14 @@ class ParameterValidator:
 
     def validate_parameters(self, param_dir: Path):
         """Validate all parameter YAML files"""
-        yaml_files = list(param_dir.rglob("*.yaml"))
+        yaml_files = [
+            yaml_file
+            for yaml_file in param_dir.rglob("*.yaml")
+            if yaml_file.name not in ("units.yaml", "index.yaml")
+        ]
         print(f"📋 Checking {len(yaml_files)} parameter files...\n")
 
         for yaml_file in yaml_files:
-            # Skip units.yaml and index.yaml
-            if yaml_file.name in ('units.yaml', 'index.yaml'):
-                continue
-
             self.validate_parameter_file(yaml_file)
 
     def validate_parameter_file(self, filepath: Path):
@@ -116,42 +146,60 @@ class ParameterValidator:
     def check_metadata(self, filepath: Path, content: dict):
         """Check required metadata fields"""
         relative_path = filepath.relative_to(self.package_path)
+        metadata = self.get_metadata(content)
+        is_scale = self.is_scale_parameter(content)
 
         # Required fields per Principle 4
         required_fields = {
-            'description': 'One clear sentence describing the parameter',
-            'label': 'Short name for UI',
-            'reference': 'Legal citation or URL with #page=XX',
-            'unit': 'Unit of measure (required, see units.yaml)'
+            "description": "One clear sentence describing the parameter",
+            "label": "Short name for UI",
+            "reference": "Legal citation or URL with #page=XX",
         }
-
-        # Check metadata section
-        metadata = content.get('metadata', {})
 
         for field, purpose in required_fields.items():
             # Check both root level and metadata section
             has_field = field in content or field in metadata
 
             if not has_field:
-                self.errors.append({
-                    "type": f"missing_{field}",
-                    "severity": "ERROR",
-                    "message": f"Missing '{field}' field ({purpose})",
-                    "file": str(relative_path),
-                    "principle": "Principle 4: Well-documented parameters"
-                })
+                self.errors.append(
+                    {
+                        "type": f"missing_{field}",
+                        "severity": "ERROR",
+                        "message": f"Missing '{field}' field ({purpose})",
+                        "file": str(relative_path),
+                        "parameter_type": "scale" if is_scale else "simple",
+                        "principle": "Principle 4: Well-documented parameters",
+                    }
+                )
 
-        # Track unit usage
-        unit = content.get('unit') or metadata.get('unit')
-        if unit:
-            self.units_used.add(unit)
+        units = self.get_units(content)
+        if not units:
+            message = (
+                "Missing unit metadata for scale parameter "
+                "(define metadata.threshold_unit, metadata.rate_unit, or metadata.amount_unit)"
+                if is_scale
+                else "Missing 'unit' field (Unit of measure, required, see units.yaml)"
+            )
+            self.errors.append(
+                {
+                    "type": "missing_unit",
+                    "severity": "ERROR",
+                    "message": message,
+                    "file": str(relative_path),
+                    "parameter_type": "scale" if is_scale else "simple",
+                    "principle": "Principle 4: Well-documented parameters",
+                }
+            )
+        else:
+            for unit in units:
+                self.units_used[unit].append(str(relative_path))
 
         # Check reference format (should have URLs with #page=XX for PDFs)
         self.check_reference_format(filepath, content)
 
     def check_reference_format(self, filepath: Path, content: dict):
         """Check that references include page numbers for PDFs"""
-        reference = content.get('reference', [])
+        reference = self.get_reference(content)
 
         if not reference:
             return
@@ -176,16 +224,22 @@ class ParameterValidator:
         if not self.units_defined:
             return  # Already reported missing units.yaml
 
-        undefined_units = self.units_used - self.units_defined
+        undefined_units = set(self.units_used) - self.units_defined
 
         if undefined_units:
             for unit in undefined_units:
-                self.errors.append({
-                    "type": "undefined_unit",
-                    "severity": "ERROR",
-                    "message": f"Unit '{unit}' used but not defined in units.yaml",
-                    "principle": "Principle 4: Well-documented parameters"
-                })
+                files = ", ".join(self.units_used[unit][:3])
+                extra = len(self.units_used[unit]) - 3
+                suffix = f" (and {extra} more)" if extra > 0 else ""
+                self.errors.append(
+                    {
+                        "type": "undefined_unit",
+                        "severity": "ERROR",
+                        "message": f"Unit '{unit}' used but not defined in units.yaml",
+                        "file": files + suffix if files else "<unknown>",
+                        "principle": "Principle 4: Well-documented parameters",
+                    }
+                )
 
         print(f"\n📊 Units: {len(self.units_used)} used, {len(self.units_defined)} defined")
         if undefined_units:
@@ -230,16 +284,16 @@ class ParameterValidator:
             "stats": {
                 "units_defined": len(self.units_defined),
                 "units_used": len(self.units_used),
-                "undefined_units": list(self.units_used - self.units_defined)
-            }
+                "undefined_units": list(set(self.units_used) - self.units_defined),
+            },
         }
 
 
 def main():
     if len(sys.argv) < 2:
-        print("Usage: python validate_parameters.py /path/to/openfisca-country")
+        print("Usage: uv run python validate_parameters.py /path/to/openfisca-country")
         print("\nExample:")
-        print("  python validate_parameters.py /home/user/openfisca-tunisia")
+        print("  uv run python validate_parameters.py /home/user/openfisca-tunisia")
         sys.exit(1)
 
     package_path = Path(sys.argv[1])
