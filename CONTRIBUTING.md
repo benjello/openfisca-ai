@@ -7,13 +7,13 @@ Thank you for your interest in contributing.
 ```bash
 git clone <repo-url>
 cd openfisca-ai
-pip install -e ".[dev]"
+uv sync
 ```
 
 ## Running tests
 
 ```bash
-pytest
+uv run pytest
 ```
 
 ## Code style
