@@ -33,6 +33,8 @@ To allow easy SSH to the VM, add the following line to `~/.ssh/config`:
 Include ~/.lima/*/ssh.config
 ```
 
+TODO: x86_64: "max" pour avoir tous les processeurs ?
+
 ```sh
 cd openfisca-france
 limactl start --mount-only .:w --mount-only ../openfisca-core --mount-only ../openfisca-ai --yes --name=openfisca-france
@@ -58,6 +60,15 @@ Delete a VM:
 `limactl delete openfisca-france`
 
 #### Custom configuration
+
+##### Github authentication
+
+Having your Github credentials in the VM can be useful to allow the agent read PR and CI with GH CLI. But you have to restrict the permissions of the GH token to only what is necessary for the agent to work. For example, you can create a token with only `read:repo` and `read:org` permissions.
+
+So you avoid giving the agent permissions to write to your repositories or access sensitive information. You can also use a separate Github account with limited permissions for the agent.
+
+
+##### OpenCode authentication
 
 ```sh
 echo 'export AZURE_RESOURCE_NAME=sample-us-resource' >> ~/.zshenv
