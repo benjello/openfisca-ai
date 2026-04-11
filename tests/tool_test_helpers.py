@@ -1,6 +1,6 @@
 """Helpers for tool tests."""
 
-from importlib.util import module_from_spec, spec_from_file_location
+from importlib import import_module
 from pathlib import Path
 from textwrap import dedent
 
@@ -8,15 +8,16 @@ from textwrap import dedent
 REPO_ROOT = Path(__file__).resolve().parent.parent
 
 
-def load_tool_module(filename: str, module_name: str):
-    """Load a tool module from the tools/ directory."""
-    module_path = REPO_ROOT / "tools" / filename
-    spec = spec_from_file_location(module_name, module_path)
-    module = module_from_spec(spec)
-    assert spec is not None
-    assert spec.loader is not None
-    spec.loader.exec_module(module)
-    return module
+def load_tool_module(filename: str, module_name: str | None = None):
+    """Load a packaged tool module by its filename (e.g. 'validate_units.py').
+
+    The ``module_name`` argument is kept for backwards compatibility with
+    existing tests but is ignored: the canonical import path is
+    ``openfisca_ai.tools.<stem>``.
+    """
+    del module_name  # unused
+    stem = Path(filename).stem
+    return import_module(f"openfisca_ai.tools.{stem}")
 
 
 def write_file(path: Path, content: str) -> None:

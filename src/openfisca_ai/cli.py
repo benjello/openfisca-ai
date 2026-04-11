@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """CLI for openfisca-ai."""
 
+import importlib
 import json
-import importlib.util
 import sys
 from pathlib import Path
 
@@ -30,24 +30,19 @@ TOOL_COMMANDS = {
 }
 
 
-def _repo_root() -> Path:
-    """Return the repository root from the installed source tree."""
-    return Path(__file__).resolve().parents[2]
-
-
 def _load_tool_module(filename: str):
-    """Load a tool module from the repository tools/ directory."""
-    module_path = _repo_root() / "tools" / filename
-    if not module_path.exists():
-        raise FileNotFoundError(f"Tool module not found: {module_path}")
+    """Load a packaged tool module by its filename (e.g. 'validate_units.py').
 
-    module_name = f"openfisca_ai_cli_{module_path.stem}"
-    spec = importlib.util.spec_from_file_location(module_name, module_path)
-    module = importlib.util.module_from_spec(spec)
-    assert spec is not None
-    assert spec.loader is not None
-    spec.loader.exec_module(module)
-    return module
+    Tools live under ``openfisca_ai.tools`` and are imported via the standard
+    ``importlib`` machinery so that wheel installs and editable installs both
+    work without relying on the source tree layout.
+    """
+    stem = Path(filename).stem
+    module_name = f"openfisca_ai.tools.{stem}"
+    try:
+        return importlib.import_module(module_name)
+    except ModuleNotFoundError as exc:
+        raise FileNotFoundError(f"Tool module not found: {module_name}") from exc
 
 
 def _print_usage(stream):

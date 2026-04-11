@@ -2,29 +2,23 @@
 
 from __future__ import annotations
 
-import importlib.util
+from importlib import import_module
 from pathlib import Path
 from typing import Any
 
 
-def _repo_root() -> Path:
-    """Return the repository root from the installed source tree."""
-    return Path(__file__).resolve().parents[3]
-
-
 def _load_tool_module(filename: str):
-    """Load a tool module from the repository tools/ directory."""
-    module_path = _repo_root() / "tools" / filename
-    if not module_path.exists():
-        raise FileNotFoundError(f"Tool module not found: {module_path}")
+    """Load a packaged tool module by its filename.
 
-    module_name = f"openfisca_ai_runtime_{module_path.stem}"
-    spec = importlib.util.spec_from_file_location(module_name, module_path)
-    module = importlib.util.module_from_spec(spec)
-    assert spec is not None
-    assert spec.loader is not None
-    spec.loader.exec_module(module)
-    return module
+    Tools live under ``openfisca_ai.tools``; this helper preserves the
+    filename-based call sites while routing through standard imports so the
+    code works equally well in editable and wheel installs.
+    """
+    stem = Path(filename).stem
+    try:
+        return import_module(f"openfisca_ai.tools.{stem}")
+    except ModuleNotFoundError as exc:
+        raise FileNotFoundError(f"Tool module not found: openfisca_ai.tools.{stem}") from exc
 
 
 def summarize_pattern_report(report: dict[str, Any]) -> dict[str, Any]:
