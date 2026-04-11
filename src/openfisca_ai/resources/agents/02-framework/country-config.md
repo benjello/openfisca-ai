@@ -257,7 +257,7 @@ countries:
 
 ### 3. (Optional) Document specifics
 If the country has **deviations** from the norm, create:
-`docs/agents/03-countries/newland/specifics.md`
+`src/openfisca_ai/resources/agents/03-countries/newland/specifics.md`
 
 See [template](../03-countries/_template.md).
 
@@ -326,7 +326,7 @@ yamllint config/countries/countria.yaml
 | Public config | `config/countries/<country>.yaml` | Structure, conventions (versioned in git) |
 | Local paths | `config/user.yaml` | Machine-specific paths (gitignored) |
 | Global fallback | `~/.config/openfisca-ai/user.yaml` or `~/.config/openfisca-ai/config.yaml` | Shared machine-level config |
-| Specifics | `docs/agents/03-countries/<country>/specifics.md` | Deviations from norm (documentation) |
+| Specifics | `src/openfisca_ai/resources/agents/03-countries/<country>/specifics.md` | Deviations from norm (documentation) |
 | Tasks | `tasks/countries/<country>/*.json` | Country-specific tasks |
 
 ---

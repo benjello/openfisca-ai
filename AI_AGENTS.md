@@ -13,12 +13,24 @@ Do not assume the runtime can already perform a full end-to-end implementation f
 
 ## Read Order
 
-1. [`docs/agents/01-universal/principles.md`](docs/agents/01-universal/principles.md)
-2. [`docs/agents/01-universal/openfisca-basics.md`](docs/agents/01-universal/openfisca-basics.md)
-3. [`docs/agents/01-universal/quality-checklist.md`](docs/agents/01-universal/quality-checklist.md)
-4. [`docs/agents/02-framework/country-config.md`](docs/agents/02-framework/country-config.md)
-5. Relevant file in [`docs/agents/02-framework/roles/`](docs/agents/02-framework/roles/)
-6. Country-specific doc in [`docs/agents/03-countries/`](docs/agents/03-countries/) when applicable
+Guides are packaged under `src/openfisca_ai/resources/agents/` and accessible
+via the `openfisca-ai guide` CLI from any project depending on openfisca-ai:
+
+```bash
+uv run openfisca-ai guide list                # list available guides
+uv run openfisca-ai guide cat principles      # read a guide
+uv run openfisca-ai guide show test-creator   # absolute path
+```
+
+Recommended reading:
+
+1. `principles` — non-negotiable rules
+2. `openfisca-basics` — variables, entities, parameters
+3. `quality-checklist` — pre-commit checks
+4. `country-config` — config loading
+5. Role guide: `document-collector`, `parameter-architect`, `rules-engineer`,
+   `test-creator`, `validators`
+6. Country specifics: `03-countries/<country>/specifics`
 
 ## Non-Negotiable Rules
 
@@ -34,7 +46,8 @@ Do not assume the runtime can already perform a full end-to-end implementation f
 ### What works today
 
 - Config loading from [`config/countries/`](config/countries/) plus local overrides in `config/user.yaml`
-- Validation tools in [`tools/`](tools/)
+- Autonomous validation tools (in `tools/`, exposed via the CLI)
+- Methodology guides packaged in the wheel and accessible via `openfisca-ai guide`
 - Minimal CLI entrypoint: `uv run openfisca-ai run <task.json>`
 
 ### What is not complete
@@ -87,13 +100,13 @@ uv run python /path/to/openfisca-ai/tools/check_tooling.py .
 
 Treat the role documents as **guidance**, not as proof that a runtime agent for that role exists in code.
 
-Typical mapping:
+Typical mapping (read with `openfisca-ai guide cat <name>`):
 
-- collecting sources -> [`document-collector.md`](docs/agents/02-framework/roles/document-collector.md)
-- designing parameter trees -> [`parameter-architect.md`](docs/agents/02-framework/roles/parameter-architect.md)
-- implementing formulas -> [`rules-engineer.md`](docs/agents/02-framework/roles/rules-engineer.md)
-- creating tests -> [`test-creator.md`](docs/agents/02-framework/roles/test-creator.md)
-- reviewing quality -> [`validators.md`](docs/agents/02-framework/roles/validators.md)
+- collecting sources -> `document-collector`
+- designing parameter trees -> `parameter-architect`
+- implementing formulas -> `rules-engineer`
+- creating tests -> `test-creator`
+- reviewing quality -> `validators`
 
 ## Practical Expectation
 

@@ -13,12 +13,25 @@ Ne pas supposer qu'il sait déjà transformer automatiquement une loi en implém
 
 ## Ordre de lecture
 
-1. [docs/agents/01-universal/principles.md](docs/agents/01-universal/principles.md)
-2. [docs/agents/01-universal/openfisca-basics.md](docs/agents/01-universal/openfisca-basics.md)
-3. [docs/agents/01-universal/quality-checklist.md](docs/agents/01-universal/quality-checklist.md)
-4. [docs/agents/02-framework/country-config.md](docs/agents/02-framework/country-config.md)
-5. Le guide de rôle pertinent dans [docs/agents/02-framework/roles/](docs/agents/02-framework/roles/)
-6. La doc pays dans [docs/agents/03-countries/](docs/agents/03-countries/) si nécessaire
+Les guides sont packagés dans `src/openfisca_ai/resources/agents/` et accessibles
+via la commande `openfisca-ai guide` (depuis n'importe quel projet ayant
+openfisca-ai en dépendance).
+
+```bash
+uv run openfisca-ai guide list                # liste les guides
+uv run openfisca-ai guide cat principles      # affiche un guide
+uv run openfisca-ai guide show test-creator   # chemin absolu
+```
+
+Lecture recommandée :
+
+1. `principles` — règles fondamentales
+2. `openfisca-basics` — variables, entités, paramètres
+3. `quality-checklist` — vérifications avant commit
+4. `country-config` — chargement de la config pays
+5. Le guide de rôle pertinent : `document-collector`, `parameter-architect`,
+   `rules-engineer`, `test-creator`, `validators`
+6. Doc pays : `03-countries/<pays>/specifics`
 
 ## Règles de base
 
@@ -32,7 +45,8 @@ Ne pas supposer qu'il sait déjà transformer automatiquement une loi en implém
 
 - Chargement de config via `config_loader.py`
 - Overrides locaux via `config/user.yaml`
-- Outils dans `tools/`
+- Outils de validation autonomes dans `tools/` exposés via la CLI
+- Guides packagés accessibles via `openfisca-ai guide`
 - CLI minimal : `uv run openfisca-ai run <task.json>`
 
 ## Ce qui n'est pas implémenté
@@ -85,15 +99,16 @@ uv run python /path/to/openfisca-ai/tools/check_tooling.py .
 
 ## Utilisation comme agent
 
-Les fichiers de rôles dans `docs/agents/02-framework/roles/` doivent être lus comme des guides de méthode, pas comme la preuve qu'un agent runtime existe déjà pour chaque rôle.
+Les guides de rôles (accessibles via `openfisca-ai guide cat <name>`) sont des
+guides de méthode, pas la preuve qu'un agent runtime existe déjà pour chaque rôle.
 
 Correspondance utile :
 
-- collecte de sources -> `document-collector.md`
-- architecture paramètres -> `parameter-architect.md`
-- implémentation règles -> `rules-engineer.md`
-- génération de tests -> `test-creator.md`
-- revue qualité -> `validators.md`
+- collecte de sources -> `document-collector`
+- architecture paramètres -> `parameter-architect`
+- implémentation règles -> `rules-engineer`
+- génération de tests -> `test-creator`
+- revue qualité -> `validators`
 
 ## Attendu concret
 

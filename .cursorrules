@@ -15,24 +15,28 @@ openfisca-ai/
 ├── src/openfisca_ai/        # Core code
 │   ├── agents/              # ExtractorAgent, CoderAgent
 │   ├── pipelines/           # law_to_code pipeline
-│   └── config_loader.py     # Load country configs
+│   ├── guide.py             # Guide discovery API
+│   ├── config_loader.py     # Load country configs
+│   └── resources/agents/    # 3-level methodology guides (packaged)
+│       ├── 01-universal/    # Universal principles
+│       ├── 02-framework/    # Country-agnostic framework
+│       └── 03-countries/    # Country-specific details
 ├── config/countries/        # YAML configs per country
-├── tasks/countries/         # JSON tasks per country
-└── docs/agents/             # 3-level documentation
-    ├── 01-universal/        # Universal principles
-    ├── 02-framework/        # Country-agnostic framework
-    └── 03-countries/        # Country-specific details
+└── tasks/countries/         # JSON tasks per country
 ```
+
+Guides are accessible from any project depending on openfisca-ai via:
+`uv run openfisca-ai guide list|show|cat <name>`
 
 ## 3-Level Documentation (MANDATORY)
 
 ### Level 1: Universal Principles
 Apply to ALL agents, ALL countries, ALL tasks.
 
-**Read first**:
-- `docs/agents/01-universal/principles.md` - Law is truth, zero hardcoding
-- `docs/agents/01-universal/openfisca-basics.md` - Variables, entities, parameters
-- `docs/agents/01-universal/quality-checklist.md` - Pre-commit validation
+**Read first** (via `openfisca-ai guide cat <name>`):
+- `principles` - Law is truth, zero hardcoding
+- `openfisca-basics` - Variables, entities, parameters
+- `quality-checklist` - Pre-commit validation
 
 **Key principles**:
 1. **Law is source of truth** - Never guess
@@ -45,26 +49,22 @@ Apply to ALL agents, ALL countries, ALL tasks.
 ### Level 2: Country-Agnostic Framework
 Reusable workflows and roles for all countries (via configuration).
 
-**Consult by role**:
-- `docs/agents/02-framework/country-config.md` - How to load country config
-- `docs/agents/02-framework/workflows.md` - Pipeline law_to_code
-- `docs/agents/02-framework/roles/` - Guides per agent:
-  - `document-collector.md`
-  - `parameter-architect.md`
-  - `rules-engineer.md`
-  - `test-creator.md`
-  - `validators.md`
+**Consult by role** (via `openfisca-ai guide cat <name>`):
+- `country-config` - How to load country config
+- `workflows` - Pipeline law_to_code
+- Role guides: `document-collector`, `parameter-architect`, `rules-engineer`,
+  `test-creator`, `validators`
 
 ### Level 3: Country Specifics
 Deviations from the norm for a given country (YAML + markdown).
 
 **For country-specific work**:
 1. Load config: `config/countries/<country>.yaml`
-2. Read specifics: `docs/agents/03-countries/<country>/specifics.md`
+2. Read specifics: `openfisca-ai guide cat 03-countries/<country>/specifics`
 3. Respect amendments (naming, hierarchy, workflows)
 
 **Available countries**:
-- Tunisia (`docs/agents/03-countries/tunisia/specifics.md`) - reference country
+- Tunisia (`openfisca-ai guide cat 03-countries/tunisia/specifics`) - reference country
 
 ## Automatic Country Config Loading
 
@@ -94,18 +94,18 @@ result = coder.run(
 
 **Auto-detect role** based on user request:
 
-| If user asks... | Your role | Guide |
-|----------------|-----------|-------|
-| "Collect sources for X" | document-collector | `docs/agents/02-framework/roles/document-collector.md` |
-| "Create parameters for X" | parameter-architect | `docs/agents/02-framework/roles/parameter-architect.md` |
-| "Implement rule X" | rules-engineer | `docs/agents/02-framework/roles/rules-engineer.md` |
-| "Generate tests for X" | test-creator | `docs/agents/02-framework/roles/test-creator.md` |
-| "Validate implementation X" | validators | `docs/agents/02-framework/roles/validators.md` |
-| "Implement program X end-to-end" | **All** (full workflow) | `docs/agents/02-framework/workflows.md` |
+| If user asks... | Your role | Guide command |
+|----------------|-----------|---------------|
+| "Collect sources for X" | document-collector | `openfisca-ai guide cat document-collector` |
+| "Create parameters for X" | parameter-architect | `openfisca-ai guide cat parameter-architect` |
+| "Implement rule X" | rules-engineer | `openfisca-ai guide cat rules-engineer` |
+| "Generate tests for X" | test-creator | `openfisca-ai guide cat test-creator` |
+| "Validate implementation X" | validators | `openfisca-ai guide cat validators` |
+| "Implement program X end-to-end" | **All** (full workflow) | `openfisca-ai guide cat workflows` |
 
 ## Pre-Commit Checklist
 
-See `docs/agents/01-universal/quality-checklist.md` for full checklist.
+See `openfisca-ai guide cat quality-checklist` for full checklist.
 
 **Essential**:
 - [ ] No hardcoded values (except 0, 1)
@@ -138,7 +138,7 @@ See `docs/agents/01-universal/quality-checklist.md` for full checklist.
 
 **You**:
 1. Load `config/countries/tunisia.yaml`
-2. Read `docs/agents/03-countries/tunisia/specifics.md`
+2. Read `openfisca-ai guide cat 03-countries/tunisia/specifics`
 3. **document-collector**: Find Law 2020-15, Article 46
 4. **parameter-architect**: Create `parameters/social_security/prestations/allocation_logement/plafond_revenu.yaml` with metadata
 5. **rules-engineer**: Create `variables/allocation_logement.py` (entity Famille, vectorized formula, no hardcoding)
@@ -165,4 +165,4 @@ prettier --write config/
 - PolicyEngine: https://github.com/PolicyEngine/policyengine-claude
 - Tunisia code: https://github.com/openfisca/openfisca-tunisia
 
-**Always start** by reading `docs/agents/01-universal/principles.md` and loading the relevant country config.
+**Always start** by reading `openfisca-ai guide cat principles` and loading the relevant country config.

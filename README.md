@@ -1,49 +1,172 @@
 # OpenFisca AI
 
-Validation tools, configuration helpers, and agent scaffolding for working with [OpenFisca](https://openfisca.org) country packages.
+A reusable toolkit for [OpenFisca](https://openfisca.org) country packages:
+methodology guides, validation tools, configuration helpers, and (alpha) agent
+scaffolding. Designed to be **added as a dependency** to any OpenFisca country
+project so its tools, guides, and conventions travel with the package.
 
-Designed for agents like **Cursor**, **Claude Code**, **Gemini**, **Antigravity**, etc.
+Friendly with **Claude Code**, **Cursor**, **Gemini**, **Antigravity**, etc.
 
 ---
 
-## Quick Start
+## Use as a dependency in your OpenFisca package
 
-### 1. Clone Repository
+This is the **recommended** way to consume openfisca-ai. You don't need to
+clone it: add it as a dev dependency, then call its CLI from your country
+project.
+
+### 1. Add to your project
+
+`pyproject.toml` of your OpenFisca country package:
+
+```toml
+[dependency-groups]
+dev = [
+    "openfisca-ai @ git+https://github.com/openfisca/openfisca-ai.git",
+]
+```
+
+Then:
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/openfisca-ai
+uv sync --group dev
+```
+
+### 2. Discover and read methodology guides
+
+The methodology guides (universal principles, role guides, country-config, etc.)
+are **packaged inside openfisca-ai** and accessible via the CLI from any project
+that depends on it — no relative paths, no clone required.
+
+```bash
+# List all available guides
+uv run openfisca-ai guide list
+
+# Read a guide (short name or relative path)
+uv run openfisca-ai guide cat principles
+uv run openfisca-ai guide cat test-creator
+uv run openfisca-ai guide cat 02-framework/roles/rules-engineer
+
+# Show absolute file path of a guide (useful for editor integration)
+uv run openfisca-ai guide show test-creator
+
+# Print the root of the packaged resources directory
+uv run openfisca-ai guide path
+```
+
+Available guide names:
+
+- **Universal**: `principles`, `openfisca-basics`, `quality-checklist`,
+  `country-package-baseline`, `development-workflow`
+- **Framework**: `country-config`, `workflows`
+- **Roles**: `document-collector`, `parameter-architect`, `rules-engineer`,
+  `test-creator`, `validators`
+- **Country specifics**: `03-countries/<country>/specifics`
+
+### 3. Override or extend a guide for your project (overlay)
+
+If your country project has specific conventions that should augment a generic
+guide, drop a markdown file at the same relative path under
+`docs/openfisca-ai/agents/` in your project. `openfisca-ai guide cat` will
+return the generic guide followed by a `## Spécificités projet` section
+containing your overlay.
+
+Example — extend the test-creator guide for `openfisca-paris-rh`:
+
+```
+openfisca-paris-rh/
+└── docs/
+    └── openfisca-ai/
+        └── agents/
+            └── 02-framework/
+                └── roles/
+                    └── test-creator.md   # your overlay (project specific)
+```
+
+Then:
+
+```bash
+uv run openfisca-ai guide cat test-creator
+# → generic content
+# → ---
+# → ## Spécificités projet
+# → your overlay
+```
+
+### 4. Run the validation tools
+
+The same CLI exposes the autonomous validation tools, runnable against any
+OpenFisca country package:
+
+```bash
+cd /path/to/your/openfisca-country
+
+uv run openfisca-ai check-all .              # full audit (preferred entrypoint)
+uv run openfisca-ai validate-units .         # units coverage
+uv run openfisca-ai validate-parameters .    # parameter metadata
+uv run openfisca-ai validate-code .          # python formula sanity
+uv run openfisca-ai validate-tests .         # test coverage
+uv run openfisca-ai check-tooling .          # ruff / yamllint / uv config
+uv run openfisca-ai check-package-baseline . # package baseline
+uv run openfisca-ai suggest-units . --apply  # auto-fix missing units
+uv run openfisca-ai extract-patterns .       # learn patterns from existing code
+uv run openfisca-ai audit .                  # consolidated report
+```
+
+These tools are static, offline, and free — use them as the first line of
+defense and in CI.
+
+### 5. Tell Claude Code (or your assistant) where to look
+
+In your project's `CLAUDE.md` (or equivalent), point the assistant at the
+guide CLI rather than at relative file paths:
+
+```markdown
+## Toolkit méthodologique
+
+Les guides et outils viennent du package openfisca-ai (dep dev).
+
+- Lister les guides : `uv run openfisca-ai guide list`
+- Lire un guide :    `uv run openfisca-ai guide cat <name>`
+- Lecture obligatoire avant toute tâche :
+    - `principles`
+    - `openfisca-basics`
+    - `quality-checklist`
+- Pour générer des tests YAML : `uv run openfisca-ai guide cat test-creator`
+
+## Spécificités projet
+
+[décrire ici les conventions du projet — ou créer des overlays
+sous docs/openfisca-ai/agents/]
+```
+
+---
+
+## Develop on openfisca-ai itself
+
+If instead of consuming openfisca-ai you want to **work on it** (add a guide,
+add a tool, fix a bug):
+
+```bash
+git clone https://github.com/openfisca/openfisca-ai
 cd openfisca-ai
 uv sync --dev
 ```
 
-### 2. Configure Local Paths
+Configure local country paths (so the runtime can find your reference repos):
 
-**Option A - Interactive (recommended)**:
 ```bash
-uv run python config/setup.py
+cp config/user.example.yaml config/user.yaml
+# Edit config/user.yaml:
+# countries.<id>.existing_code.path
+# countries.<id>.legislative_sources.root
 ```
 
-**Option B - Manual**:
-```bash
-cp config/user.yaml.template config/user.yaml
-# Edit config/user.yaml using:
-#   countries.<id>.existing_code.path
-#   countries.<id>.legislative_sources.root
-```
+Validate the config and run tests:
 
-Validate the config with:
 ```bash
 uv run python config/test_config.py
-```
-
-See [Local Configuration Guide](docs/setup/local-configuration.md) for details.
-
-### 3. Use Validation Tools
-
-```bash
-cd /path/to/your/openfisca-country
-uv run openfisca-ai check-all .
-uv run openfisca-ai suggest-units . --apply
+uv run pytest
 ```
 
 ### 4. Try the Alpha Runtime
@@ -222,22 +345,26 @@ explicitly set.
 
 ## What's Inside
 
-### 📚 Documentation
+### 📚 Methodology guides (packaged, accessible via `openfisca-ai guide`)
 
 **Universal Principles** (apply to all countries):
-- [Universal Principles](docs/agents/01-universal/principles.md) - 14 core rules
-- [Country Package Baseline](docs/agents/01-universal/country-package-baseline.md) - shared package structure, tooling, tests, and CI
-- [Quality Checklist](docs/agents/01-universal/quality-checklist.md)
-- [Development Workflow](docs/agents/01-universal/development-workflow.md)
+- `principles` — 14 core rules
+- `country-package-baseline` — shared package structure, tooling, tests, and CI
+- `quality-checklist`
+- `development-workflow`
 
 **Framework** (country-agnostic guidelines):
-- [Workflows](docs/agents/02-framework/workflows.md)
-- [Country Configuration](docs/agents/02-framework/country-config.md)
-- [Roles](docs/agents/02-framework/roles/)
+- `workflows`
+- `country-config`
+- Role guides: `document-collector`, `parameter-architect`, `rules-engineer`,
+  `test-creator`, `validators`
 
 **Country-Specific** (tested with openfisca-tunisia):
-- [Tunisia Specifics](docs/agents/03-countries/tunisia/specifics.md)
+- `03-countries/tunisia/specifics`
 - [Tunisia Validation Report](TUNISIA_VALIDATION_REPORT.md)
+
+Source files live under `src/openfisca_ai/resources/agents/` and ship inside
+the wheel as package data.
 
 ### 🛠️ Validation Tools
 
@@ -364,8 +491,8 @@ See [Tunisia Validation Report](TUNISIA_VALIDATION_REPORT.md) for full results.
 
 2. Create specifics doc:
    ```bash
-   cp docs/agents/03-countries/tunisia/specifics.md \
-      docs/agents/03-countries/yourcountry/specifics.md
+   cp src/openfisca_ai/resources/agents/03-countries/tunisia/specifics.md \
+      src/openfisca_ai/resources/agents/03-countries/yourcountry/specifics.md
    # Document country-specific conventions
    ```
 
@@ -438,9 +565,9 @@ MIT (same as OpenFisca)
 
 ## Support
 
-- **Issues**: https://github.com/YOUR_USERNAME/openfisca-ai/issues
+- **Issues**: https://github.com/openfisca/openfisca-ai/issues
 - **OpenFisca Slack**: https://openfisca.org/community
-- **Documentation**: [docs/](docs/)
+- **Methodology guides**: `uv run openfisca-ai guide list`
 
 ---
 

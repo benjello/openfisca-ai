@@ -5,7 +5,7 @@ Architecture à 3 niveaux pour guider les agents IA (Claude, Cursor, Gemini, etc
 ## Structure
 
 ```
-docs/agents/
+src/openfisca_ai/resources/agents/
 ├── 01-universal/         # Niveau 1 : Principes universels (tous agents, tous pays)
 │   ├── principles.md     # Loi = source de vérité, zéro hardcode
 │   ├── openfisca-basics.md  # Entités, variables, paramètres OpenFisca
@@ -60,21 +60,45 @@ Applicables à **tous les agents**, **tous les pays**, **toutes les tâches**.
 ## Utilisation
 
 ### Pour agents IA (Claude, Cursor, etc.)
-Les points d'entrée principaux résument ou référencent ces 3 niveaux :
-- [CLAUDE.md](../../CLAUDE.md) pour Claude
-- [.cursorrules](../../.cursorrules) pour Cursor
-- [AI_AGENTS.md](../../AI_AGENTS.md) pour autres agents
+Les guides sont accessibles depuis n'importe quel projet qui dépend
+d'openfisca-ai via :
+
+```bash
+uv run openfisca-ai guide list
+uv run openfisca-ai guide cat <name>
+uv run openfisca-ai guide show <name>
+```
+
+Les points d'entrée principaux du repo openfisca-ai eux-mêmes :
+- `CLAUDE.md` pour Claude
+- `.cursorrules` pour Cursor
+- `AI_AGENTS.md` pour autres agents
 
 ### Pour développeurs
-1. Lire [01-universal/principles.md](01-universal/principles.md) en premier
-2. Poser la structure cible avec [01-universal/country-package-baseline.md](01-universal/country-package-baseline.md)
-3. Consulter [02-framework/roles/](02-framework/roles/) selon la tâche
-4. Vérifier [03-countries/<pays>/specifics.md](03-countries/) si aménagements
+1. Lire `principles` en premier (`openfisca-ai guide cat principles`)
+2. Poser la structure cible avec `country-package-baseline`
+3. Consulter le rôle pertinent : `document-collector`, `parameter-architect`,
+   `rules-engineer`, `test-creator`, `validators`
+4. Vérifier `03-countries/<pays>/specifics` si aménagements
+
+### Overlays projet
+
+Un projet consommateur peut surcharger un guide en plaçant un fichier au même
+chemin relatif sous `docs/openfisca-ai/agents/`. Exemple pour étendre le guide
+test-creator :
+
+```
+mon-projet/
+└── docs/openfisca-ai/agents/02-framework/roles/test-creator.md
+```
+
+`openfisca-ai guide cat test-creator` retournera alors le guide générique suivi
+de la section « Spécificités projet » contenant l'overlay.
 
 ## Ajout d'un nouveau pays
 
-1. Créer `config/countries/<pays>.yaml` (voir [_schema.yaml](../../config/countries/_schema.yaml))
-2. Optionnel : créer `docs/agents/03-countries/<pays>/specifics.md` si déviations
+1. Créer `config/countries/<pays>.yaml` (voir `config/countries/_schema.yaml`)
+2. Optionnel : créer `src/openfisca_ai/resources/agents/03-countries/<pays>/specifics.md` si déviations
 3. Le runtime Python peut charger la config via `config_loader.py`
 
 ## Inspiration

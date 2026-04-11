@@ -18,8 +18,8 @@ These tools help you validate OpenFisca code **autonomously**:
 - ✅ Actionable error messages
 - ✅ CI/CD integration ready
 
-They complement the shared package baseline documented in
-[`docs/agents/01-universal/country-package-baseline.md`](../docs/agents/01-universal/country-package-baseline.md).
+They complement the shared package baseline (read it via
+`uv run openfisca-ai guide cat country-package-baseline`).
 
 `check-all` is the preferred repo-wide entrypoint when you want one command to
 run the full OpenFisca AI audit stack.
@@ -323,8 +323,6 @@ uv run python /path/to/openfisca-ai/tools/audit_country_package.py . --markdown
 uv run python /path/to/openfisca-ai/tools/audit_country_package.py . --markdown --output audit.md
 ```
 
----
-
 ## Future Tools (Planned)
 
 ## Philosophy: Code as Documentation
@@ -365,7 +363,7 @@ Add new validation tools following this pattern:
 
 ## See Also
 
-- [Universal Principles](../docs/agents/01-universal/principles.md)
-- [Country Package Baseline](../docs/agents/01-universal/country-package-baseline.md)
-- [Quality Checklist](../docs/agents/01-universal/quality-checklist.md)
+- Universal Principles: `openfisca-ai guide cat principles`
+- Country Package Baseline: `openfisca-ai guide cat country-package-baseline`
+- Quality Checklist: `openfisca-ai guide cat quality-checklist`
 - [Tunisia Validation Report](../TUNISIA_VALIDATION_REPORT.md)

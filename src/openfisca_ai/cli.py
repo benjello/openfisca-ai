@@ -12,6 +12,9 @@ from openfisca_ai.core.scaffold_report import (
 )
 
 
+GUIDE_SUBCOMMANDS = {"list", "show", "cat", "path"}
+
+
 TOOL_COMMANDS = {
     "audit": "audit_country_package.py",
     "check-all": "audit_country_package.py",
@@ -62,6 +65,10 @@ def _print_usage(stream):
     print("  openfisca-ai validate-parameters <package-path>", file=stream)
     print("  openfisca-ai validate-units <package-path>", file=stream)
     print("  openfisca-ai suggest-units <package-path> [--apply]", file=stream)
+    print("  openfisca-ai guide list", file=stream)
+    print("  openfisca-ai guide show <name>", file=stream)
+    print("  openfisca-ai guide cat <name>", file=stream)
+    print("  openfisca-ai guide path", file=stream)
 
 
 def _render_task_report(result: dict, report_format: str) -> str:
@@ -179,6 +186,70 @@ def _run_tool_command(command: str, args: list[str]) -> int:
         sys.argv = old_argv
 
 
+def _run_guide_command(args: list[str]) -> int:
+    """Discover, locate and read methodology guides packaged with openfisca-ai."""
+    from openfisca_ai.guide import (
+        list_guides,
+        read_guide,
+        resolve_guide,
+        guide_resource_path,
+        overlay_path,
+        resources_root_path,
+    )
+
+    if len(args) < 2 or args[1] not in GUIDE_SUBCOMMANDS:
+        print(
+            "Usage: openfisca-ai guide {list|show|cat|path} [name]",
+            file=sys.stderr,
+        )
+        return 1
+
+    sub = args[1]
+
+    if sub == "list":
+        guides = list_guides()
+        if not guides:
+            print("No guides found.", file=sys.stderr)
+            return 1
+        width = max(len(g.name) for g in guides)
+        for guide in guides:
+            print(f"{guide.name.ljust(width)}  {guide.relative_path}")
+        return 0
+
+    if sub == "path":
+        print(resources_root_path())
+        return 0
+
+    if len(args) < 3:
+        print(f"Usage: openfisca-ai guide {sub} <name>", file=sys.stderr)
+        return 1
+
+    name = args[2]
+    try:
+        guide = resolve_guide(name)
+    except LookupError as exc:
+        print(str(exc), file=sys.stderr)
+        return 1
+
+    if sub == "show":
+        base = guide_resource_path(guide)
+        print(base)
+        overlay = overlay_path(guide)
+        if overlay.is_file():
+            print(f"overlay: {overlay}")
+        return 0
+
+    if sub == "cat":
+        try:
+            print(read_guide(name))
+        except LookupError as exc:
+            print(str(exc), file=sys.stderr)
+            return 1
+        return 0
+
+    return 1
+
+
 def main(argv: list[str] | None = None) -> int:
     """Entry point for the openfisca-ai command."""
     args = list(sys.argv[1:] if argv is None else argv)
@@ -190,7 +261,10 @@ def main(argv: list[str] | None = None) -> int:
     if command in {"run", "scaffold", "scaffold-apply"}:
         return _run_task_command(args, command=command)
 
-    if command in TOOL_COMMANDS:
+    if command == "guide":
+        return _run_guide_command(args)
+
+    if command in TOOL_COMMANDS:  # noqa: RET505
         return _run_tool_command(command, args)
 
     _print_usage(sys.stderr)

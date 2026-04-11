@@ -91,7 +91,7 @@ conventions:
 #    - Copy config/countries/tunisia.yaml
 #    - Update id, label, paths
 #    - Add conventions if needed
-#    - Optionally create docs/agents/03-countries/<country>/specifics.md
+#    - Optionally create src/openfisca_ai/resources/agents/03-countries/<country>/specifics.md
 
 # === EXAMPLE ===
 

@@ -2,7 +2,7 @@
 
 One YAML file per country (in `config/countries/`). The pipeline merges them with **your local paths** from a user config file that is **not committed** (see below).
 
-See [country-config.md](../../docs/agents/02-framework/country-config.md) for the current configuration model.
+See `uv run openfisca-ai guide cat country-config` for the current configuration model.
 
 ## Your local paths (user config, gitignored)
 

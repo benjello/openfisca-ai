@@ -485,7 +485,7 @@ Concept à vérifier si existe dans autres pays.
 - **Statut** : Pays de référence (premier implémenté)
 - **Maturité** : ✅ Très mature (439 paramètres, historique depuis 1959)
 - **Couverture** : ✅ Très complète (impôts, cotisations, prestations, retraite)
-- **Documentation** : Voir [config/countries/tunisia.yaml](../../../../config/countries/tunisia.yaml) et [docs/agents/02-framework/country-config.md](../../02-framework/country-config.md)
+- **Documentation** : voir `config/countries/tunisia.yaml` dans le repo openfisca-ai et `openfisca-ai guide cat country-config`
 
 **Recommandation** : Utiliser openfisca-tunisia comme **référence** pour nouveaux agents et nouvelles implémentations.
 
