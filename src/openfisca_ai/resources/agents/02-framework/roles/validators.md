@@ -39,29 +39,43 @@ Use this role to review:
 
 ## Practical Workflow
 
-1. read the relevant legal source or specification
-2. inspect code, parameters, and tests together
-3. compare implementation to country conventions
-4. run validation tools and the repository test suite
-5. produce a concise review report with concrete fixes
+1. Run the full static audit first:
+   ```bash
+   uv run openfisca-ai audit .
+   ```
+
+2. For each failing variable, spot-check with a live calculation if the MCP server is running:
+   ```
+   calculate(situation)        # verify a specific scenario
+   trace_calculation(situation) # understand why a result is wrong
+   ```
+
+3. Compare implementation to country conventions and legal source
+
+4. Produce a concise review report with concrete fixes
+
+## MCP saves tokens here
+
+Static tools detect structural errors (missing metadata, wrong entity, no tests).
+`calculate` and `trace_calculation` detect semantic errors (wrong formula logic, wrong parameter path).
+Use static tools first — they're fast and offline. Use MCP for the cases that pass static checks but feel wrong.
 
 ## Recommended Commands
 
-In this repository:
-
 ```bash
+# Full audit (static)
+uv run openfisca-ai audit .
+
+# Individual checks
+uv run openfisca-ai validate-code .
+uv run openfisca-ai validate-tests .
+uv run openfisca-ai validate-units .
+uv run openfisca-ai validate-parameters .
+uv run openfisca-ai check-package-baseline .
+uv run openfisca-ai check-tooling .
+
+# Tests
 uv run pytest
-```
-
-In the target OpenFisca country package:
-
-```bash
-uv run python /path/to/openfisca-ai/tools/check_package_baseline.py .
-uv run python /path/to/openfisca-ai/tools/validate_code.py .
-uv run python /path/to/openfisca-ai/tools/validate_tests.py .
-uv run python /path/to/openfisca-ai/tools/validate_units.py .
-uv run python /path/to/openfisca-ai/tools/validate_parameters.py .
-uv run python /path/to/openfisca-ai/tools/check_tooling.py .
 ```
 
 ## Suggested Report Structure

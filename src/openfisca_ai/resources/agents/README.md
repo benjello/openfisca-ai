@@ -81,6 +81,15 @@ Les points d'entrée principaux du repo openfisca-ai eux-mêmes :
    `rules-engineer`, `test-creator`, `validators`
 4. Vérifier `03-countries/<pays>/specifics` si aménagements
 
+### Outils CLI complémentaires aux guides
+
+- Validation statique : `openfisca-ai audit .`, `openfisca-ai validate-*`
+- Serveur MCP (live, sémantique) : `openfisca-ai mcp --serve`
+- Génération de test à partir d'une trace : `openfisca-ai generate-test-from-trace trace.json`
+
+Les guides `rules-engineer`, `test-creator` et `validators` détaillent comment
+combiner ces outils par rôle.
+
 ### Overlays projet
 
 Un projet consommateur peut surcharger un guide en plaçant un fichier au même

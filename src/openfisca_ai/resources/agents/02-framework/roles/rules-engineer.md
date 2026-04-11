@@ -31,17 +31,34 @@ Translate documented rules and YAML parameters into clean OpenFisca code that fi
 
 ## Practical Workflow
 
-1. identify:
-   - target variable
-   - entity
-   - period
-   - legal conditions
-   - parameter dependencies
-2. inspect similar variables in the target package
-   - if the package is large, start with `extract_patterns.py` for a quick summary
-3. implement the formula with OpenFisca idioms
-4. verify that every legal threshold, rate, and amount comes from YAML
-5. keep labels and references understandable
+1. **Explore what already exists** — before writing anything:
+
+   If the MCP server is running (`openfisca serve` + `openfisca-ai mcp`):
+   ```
+   search_variables("keyword")          # find related variables
+   describe_variable("variable_name")   # get entity, period, formula, references
+   list_parameters                      # check existing parameter hierarchy
+   get_parameter("path.to.param")       # verify current values
+   ```
+
+   If the MCP server is not running:
+   ```bash
+   uv run openfisca-ai extract-patterns .
+   ```
+
+2. **Identify** target variable, entity, period, legal conditions, parameter dependencies
+
+3. **Implement** the formula with OpenFisca idioms
+
+4. **Verify** every legal threshold, rate, and amount comes from YAML
+
+5. **Keep** labels and references understandable
+
+## MCP saves tokens here
+
+`describe_variable` replaces reading the Python file + tracing imports.
+`search_variables` replaces grepping through the codebase.
+`get_parameter` replaces walking the YAML hierarchy manually.
 
 ## Minimum Checklist
 
@@ -54,15 +71,11 @@ Translate documented rules and YAML parameters into clean OpenFisca code that fi
 
 ## Recommended Verification
 
-Run the package checks before final review:
-
 ```bash
-uv run python /path/to/openfisca-ai/tools/extract_patterns.py .
-uv run python /path/to/openfisca-ai/tools/check_package_baseline.py .
-uv run python /path/to/openfisca-ai/tools/validate_code.py .
-uv run python /path/to/openfisca-ai/tools/validate_tests.py .
-uv run python /path/to/openfisca-ai/tools/validate_parameters.py .
-uv run python /path/to/openfisca-ai/tools/validate_units.py .
+uv run openfisca-ai validate-code .
+uv run openfisca-ai validate-parameters .
+uv run openfisca-ai validate-units .
+uv run openfisca-ai check-package-baseline .
 ```
 
 ## Notes

@@ -47,6 +47,8 @@ Lecture recommandée :
 - Overrides locaux via `config/user.yaml`
 - Outils de validation autonomes dans `tools/` exposés via la CLI
 - Guides packagés accessibles via `openfisca-ai guide`
+- **Serveur MCP** branché sur l'API web OpenFisca (`openfisca-ai mcp`) — voir
+  section dédiée plus bas
 - CLI minimal : `uv run openfisca-ai run <task.json>`
 
 ## Ce qui n'est pas implémenté
@@ -109,6 +111,44 @@ Correspondance utile :
 - implémentation règles -> `rules-engineer`
 - génération de tests -> `test-creator`
 - revue qualité -> `validators`
+
+## Serveur MCP — outils live sur le système OpenFisca cible
+
+Quand un package OpenFisca pays est servi via son API web (`openfisca serve`),
+le serveur MCP d'openfisca-ai expose ce système comme un ensemble d'outils
+exploitables par les agents.
+
+```bash
+# Lance l'API OpenFisca + le serveur MCP en une commande
+uv run openfisca-ai mcp --serve
+
+# Ou si l'API tourne déjà ailleurs
+uv run openfisca-ai mcp --url http://localhost:5000
+```
+
+Outils MCP exposés (voir `src/openfisca_ai/mcp/server.py` pour la liste exacte) :
+
+- `list_entities`, `list_variables`, `list_parameters` — exploration du système
+- `search_variables` — recherche par mot-clé dans noms et descriptions
+- `describe_variable` — entité, période, formule, références légales
+- `get_parameter` — valeurs et historique d'un paramètre
+- `validate_situation` — vérifie la structure d'une situation avant calcul
+- `calculate` — calcule des variables pour une situation
+- `trace_calculation` — calcule + retourne tout l'arbre de dépendances et les
+  valeurs intermédiaires (essentiel pour générer des tests YAML grâce à
+  `openfisca-ai generate-test-from-trace`)
+
+**Quand utiliser MCP plutôt que les outils statiques :**
+
+- `audit` / `validate-*` : erreurs structurelles, hors-ligne, gratuit, rapide
+- MCP : sémantique (formule fausse, mauvais paramètre), nécessite une API OpenFisca live
+
+Utilise les outils statiques d'abord, MCP ensuite pour les cas qui passent les
+checks statiques mais semblent suspects, ou quand tu as besoin de valeurs
+calculées réelles (génération de tests, debugging).
+
+Les guides `rules-engineer`, `test-creator` et `validators` détaillent les
+workflows MCP par rôle.
 
 ## Attendu concret
 

@@ -48,6 +48,7 @@ Recommended reading:
 - Config loading from [`config/countries/`](config/countries/) plus local overrides in `config/user.yaml`
 - Autonomous validation tools (in `tools/`, exposed via the CLI)
 - Methodology guides packaged in the wheel and accessible via `openfisca-ai guide`
+- **MCP server** wrapping a running OpenFisca Web API (`openfisca-ai mcp`) — see dedicated section below
 - Minimal CLI entrypoint: `uv run openfisca-ai run <task.json>`
 
 ### What is not complete
@@ -107,6 +108,41 @@ Typical mapping (read with `openfisca-ai guide cat <name>`):
 - implementing formulas -> `rules-engineer`
 - creating tests -> `test-creator`
 - reviewing quality -> `validators`
+
+## MCP Server — live access to a target OpenFisca system
+
+When an OpenFisca country package is served via its Web API
+(`openfisca serve`), openfisca-ai can expose it as MCP tools usable by agents:
+
+```bash
+# Start the OpenFisca API and the MCP server in one command
+uv run openfisca-ai mcp --serve
+
+# Or, if the API is already running elsewhere
+uv run openfisca-ai mcp --url http://localhost:5000
+```
+
+Tools exposed (see `src/openfisca_ai/mcp/server.py` for the canonical list):
+
+- `list_entities`, `list_variables`, `list_parameters` — explore the system
+- `search_variables` — keyword search across names and descriptions
+- `describe_variable` — entity, period, formula, legal references
+- `get_parameter` — values and full historical dates
+- `validate_situation` — structural validation before computing
+- `calculate` — compute variables for a situation
+- `trace_calculation` — compute + return the full dependency tree and
+  intermediate values; pipe its output to `openfisca-ai generate-test-from-trace`
+  to produce a YAML test in one step
+
+**When to prefer MCP over static tools:**
+
+- `audit` / `validate-*` first: structural errors, offline, free, fast
+- MCP next: semantic errors (wrong formula, wrong parameter path), needs a
+  live API; also the canonical way to ground test fixtures in real values
+  rather than hand-computed estimates
+
+The role guides (`rules-engineer`, `test-creator`, `validators`) document the
+MCP workflow per role.
 
 ## Practical Expectation
 

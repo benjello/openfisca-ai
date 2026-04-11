@@ -21,6 +21,7 @@ TOOL_COMMANDS = {
     "check-package-baseline": "check_package_baseline.py",
     "check-tooling": "check_tooling.py",
     "extract-patterns": "extract_patterns.py",
+    "generate-test-from-trace": "generate_test_from_trace.py",
     "suggest-units": "suggest_units.py",
     "validate-code": "validate_code.py",
     "validate-parameters": "validate_parameters.py",
@@ -65,6 +66,8 @@ def _print_usage(stream):
     print("  openfisca-ai validate-parameters <package-path>", file=stream)
     print("  openfisca-ai validate-units <package-path>", file=stream)
     print("  openfisca-ai suggest-units <package-path> [--apply]", file=stream)
+    print("  openfisca-ai mcp [--url http://localhost:5000]", file=stream)
+    print("  openfisca-ai generate-test-from-trace <trace.json> [--output test.yaml] [--name NAME]", file=stream)
     print("  openfisca-ai guide list", file=stream)
     print("  openfisca-ai guide show <name>", file=stream)
     print("  openfisca-ai guide cat <name>", file=stream)
@@ -250,6 +253,48 @@ def _run_guide_command(args: list[str]) -> int:
     return 1
 
 
+def _run_mcp_command(args: list[str]) -> int:
+    """Start the OpenFisca MCP server.
+
+    Options:
+        --url URL            OpenFisca API URL (default: http://localhost:5000)
+        --serve              Start `openfisca serve` automatically as a subprocess
+        --serve-command CMD  Custom serve command (e.g. "uv run openfisca serve")
+    """
+    url = None
+    serve = False
+    serve_command: list[str] | None = None
+
+    remaining = args[1:]
+    i = 0
+    while i < len(remaining):
+        if remaining[i] == "--url" and i + 1 < len(remaining):
+            url = remaining[i + 1]
+            i += 2
+        elif remaining[i] == "--serve":
+            serve = True
+            i += 1
+        elif remaining[i] == "--serve-command" and i + 1 < len(remaining):
+            import shlex
+            serve_command = shlex.split(remaining[i + 1])
+            serve = True
+            i += 2
+        else:
+            i += 1
+
+    try:
+        from openfisca_ai.mcp.server import run
+    except ImportError:
+        print(
+            "MCP dependencies not installed. Run: uv pip install 'openfisca-ai[mcp]'",
+            file=sys.stderr,
+        )
+        return 1
+
+    run(url=url, serve=serve, serve_command=serve_command)
+    return 0
+
+
 def main(argv: list[str] | None = None) -> int:
     """Entry point for the openfisca-ai command."""
     args = list(sys.argv[1:] if argv is None else argv)
@@ -260,6 +305,9 @@ def main(argv: list[str] | None = None) -> int:
     command = args[0]
     if command in {"run", "scaffold", "scaffold-apply"}:
         return _run_task_command(args, command=command)
+
+    if command == "mcp":
+        return _run_mcp_command(args)
 
     if command == "guide":
         return _run_guide_command(args)

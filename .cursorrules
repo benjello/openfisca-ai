@@ -103,6 +103,25 @@ result = coder.run(
 | "Validate implementation X" | validators | `openfisca-ai guide cat validators` |
 | "Implement program X end-to-end" | **All** (full workflow) | `openfisca-ai guide cat workflows` |
 
+## MCP Server (live OpenFisca system)
+
+When the target country package is served via `openfisca serve`, openfisca-ai
+exposes it as MCP tools:
+
+```bash
+uv run openfisca-ai mcp --serve            # start API + MCP together
+uv run openfisca-ai mcp --url <api-url>    # use an already-running API
+```
+
+Tools: `list_entities`, `list_variables`, `list_parameters`, `search_variables`,
+`describe_variable`, `get_parameter`, `validate_situation`, `calculate`,
+`trace_calculation`.
+
+Use static tools first (`audit`, `validate-*`) — they're free and offline.
+Use MCP for semantic verification, debugging, and grounding test fixtures in
+real computed values. `trace_calculation` + `openfisca-ai generate-test-from-trace`
+produces a YAML test from a live trace in one step.
+
 ## Pre-Commit Checklist
 
 See `openfisca-ai guide cat quality-checklist` for full checklist.

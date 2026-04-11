@@ -116,7 +116,74 @@ uv run openfisca-ai audit .                  # consolidated report
 These tools are static, offline, and free — use them as the first line of
 defense and in CI.
 
-### 5. Tell Claude Code (or your assistant) where to look
+### 5. Use the MCP server for live, semantic checks
+
+When your country package is served via its OpenFisca Web API
+(`openfisca serve`), openfisca-ai exposes it as a set of MCP tools that an
+agent can call directly. Install with the `mcp` extra:
+
+```bash
+uv add --group dev "openfisca-ai[mcp] @ git+https://github.com/openfisca/openfisca-ai.git"
+```
+
+Start the MCP server (and optionally the API as a subprocess):
+
+```bash
+uv run openfisca-ai mcp --serve              # start API + MCP server together
+uv run openfisca-ai mcp --url http://localhost:5000  # use an already-running API
+```
+
+Tools exposed by the MCP server:
+
+| Tool | Use it to |
+|---|---|
+| `list_entities` | Discover entity types and roles before constructing a situation |
+| `list_variables` / `search_variables` | Find variables by name, description, or entity |
+| `describe_variable` | Get entity, period, formula, references for one variable |
+| `list_parameters` / `get_parameter` | Inspect parameter trees and historical values |
+| `validate_situation` | Catch entity/variable/period errors before computing |
+| `calculate` | Compute variables for a given situation |
+| `trace_calculation` | Compute + return the full dependency tree and intermediate values |
+
+**Workflow: generate a YAML test in one step**
+
+```bash
+# 1. Build a situation JSON with inputs filled and outputs set to null
+# 2. Validate it (MCP):           validate_situation(situation)
+# 3. Compute with full trace:     trace_calculation(situation)  → trace.json
+# 4. Convert the trace into YAML:
+uv run openfisca-ai generate-test-from-trace trace.json \
+  --name test_my_variable \
+  --reference "Article 12 du décret 2024-XXX" \
+  --output tests/test_my_variable.yaml
+```
+
+This grounds the expected values in what the live system actually computes,
+instead of being reconstructed by hand.
+
+**Static tools vs. MCP — when to use each**
+
+- Static tools (`audit`, `validate-*`): structural errors, missing metadata,
+  wrong entity, no test. Free, offline, fast — use them first and in CI.
+- MCP: semantic errors (formula wrong, parameter path wrong) and test fixture
+  generation. Needs a live API, but is the canonical way to ground a test in
+  reality.
+
+Connect the MCP server to Claude Code (or any MCP-aware agent) by adding it
+to your project's `.mcp.json`:
+
+```json
+{
+  "mcpServers": {
+    "openfisca": {
+      "command": "uv",
+      "args": ["run", "openfisca-ai", "mcp", "--serve"]
+    }
+  }
+}
+```
+
+### 6. Tell Claude Code (or your assistant) where to look
 
 In your project's `CLAUDE.md` (or equivalent), point the assistant at the
 guide CLI rather than at relative file paths:
@@ -133,6 +200,9 @@ Les guides et outils viennent du package openfisca-ai (dep dev).
     - `openfisca-basics`
     - `quality-checklist`
 - Pour générer des tests YAML : `uv run openfisca-ai guide cat test-creator`
+- Outils statiques d'abord : `uv run openfisca-ai audit .`
+- Pour les checks sémantiques sur le système live, démarrer le MCP server :
+  `uv run openfisca-ai mcp --serve` (voir `.mcp.json`)
 
 ## Spécificités projet
 
