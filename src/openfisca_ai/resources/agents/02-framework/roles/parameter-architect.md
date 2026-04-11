@@ -27,7 +27,8 @@ Turn extracted legal values into a coherent parameter tree that fits the target 
 3. reuse existing naming when the target package already has a pattern
    - if the MCP server is running, use `list_parameters` and `get_parameter`
      to inspect the existing tree and avoid duplicating an existing parameter
-     under a new name; otherwise rely on `extract-patterns` and grep
+     under a new name (see `openfisca-ai guide cat mcp`); otherwise rely on
+     `extract-patterns` and grep
 4. choose between:
    - simple parameter with `unit`
    - scale parameter with `brackets` and unit metadata

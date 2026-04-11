@@ -225,19 +225,29 @@ def main() -> None:
     parser = argparse.ArgumentParser(
         description="Generate an OpenFisca YAML test from a trace_calculation response."
     )
-    parser.add_argument("trace_file", help="JSON file containing the trace_calculation response")
+    parser.add_argument(
+        "trace_file",
+        help="JSON file containing the trace_calculation response, or '-' to read from stdin",
+    )
     parser.add_argument("--output", "-o", help="Output YAML file (default: stdout)")
     parser.add_argument("--name", "-n", default="test_generated", help="Test name")
     parser.add_argument("--reference", "-r", help="Legal reference to document in the test")
     args = parser.parse_args()
 
-    trace_path = Path(args.trace_file)
-    if not trace_path.exists():
-        print(f"File not found: {trace_path}", file=sys.stderr)
-        sys.exit(1)
+    if args.trace_file == "-":
+        try:
+            trace_response = json.load(sys.stdin)
+        except json.JSONDecodeError as exc:
+            print(f"Invalid JSON on stdin: {exc}", file=sys.stderr)
+            sys.exit(1)
+    else:
+        trace_path = Path(args.trace_file)
+        if not trace_path.exists():
+            print(f"File not found: {trace_path}", file=sys.stderr)
+            sys.exit(1)
 
-    with open(trace_path, encoding="utf-8") as f:
-        trace_response = json.load(f)
+        with open(trace_path, encoding="utf-8") as f:
+            trace_response = json.load(f)
 
     yaml_str = generate_yaml_test(
         trace_response,

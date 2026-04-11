@@ -24,10 +24,10 @@ They complement the shared package baseline (read it via
 `check-all` is the preferred repo-wide entrypoint when you want one command to
 run the full OpenFisca AI audit stack.
 
-For **semantic** checks against a live OpenFisca system, see the MCP server
-(`uv run openfisca-ai mcp --serve`) and `generate-test-from-trace`. The static
-tools below catch structural issues; MCP catches logic issues by running real
-calculations on a served package.
+For **semantic** checks against a live OpenFisca system, see the canonical
+MCP guide: `uv run openfisca-ai guide cat mcp`. It lists the 9 tools the
+MCP server exposes, the startup cost, and the task-based strategy for
+choosing between static and MCP tools.
 
 ---
 
@@ -335,18 +335,24 @@ test. Inputs (provided non-null values) become the test inputs; outputs
 (originally null) become the expected values, grounded in the live
 calculation.
 
-**Usage:**
+**Usage (file form):**
 ```bash
-# After capturing trace_calculation output to trace.json
 uv run openfisca-ai generate-test-from-trace trace.json \
   --name test_my_variable \
   --reference "Article 12 du décret 2024-XXX" \
   --output tests/test_my_variable.yaml
 ```
 
-This pairs with the MCP server (`uv run openfisca-ai mcp --serve`) and
-removes the need to compute expected values by hand. See the `test-creator`
-guide (`uv run openfisca-ai guide cat test-creator`) for the full workflow.
+**Usage (stdin form, no intermediate file):**
+```bash
+cat trace.json | uv run openfisca-ai generate-test-from-trace - \
+  --name test_my_variable \
+  --output tests/test_my_variable.yaml
+```
+
+This pairs with the MCP server. See `uv run openfisca-ai guide cat mcp` for
+the full workflow and `uv run openfisca-ai guide cat test-creator` for the
+test-creation pattern.
 
 ---
 
@@ -393,6 +399,6 @@ Add new validation tools following this pattern:
 - Universal Principles: `openfisca-ai guide cat principles`
 - Country Package Baseline: `openfisca-ai guide cat country-package-baseline`
 - Quality Checklist: `openfisca-ai guide cat quality-checklist`
-- MCP server (live semantic checks): `uv run openfisca-ai mcp --serve`
+- MCP server (canonical guide): `openfisca-ai guide cat mcp`
 - Test generation from trace: `openfisca-ai generate-test-from-trace`
 - [Tunisia Validation Report](../TUNISIA_VALIDATION_REPORT.md)

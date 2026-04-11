@@ -118,66 +118,43 @@ defense and in CI.
 
 ### 5. Use the MCP server for live, semantic checks
 
-When your country package is served via its OpenFisca Web API
-(`openfisca serve`), openfisca-ai exposes it as a set of MCP tools that an
-agent can call directly. Install with the `mcp` extra:
+The full MCP guide is packaged with openfisca-ai. Read it with:
+
+```bash
+uv run openfisca-ai guide cat mcp
+```
+
+It is the **single source of truth** for the MCP surface and covers:
+
+- The 9 tools exposed (`search_variables`, `describe_variable`, `get_parameter`,
+  `validate_situation`, `calculate`, `trace_calculation`, `list_*`)
+- The startup cost of `openfisca serve` and when MCP pays off vs. static tools
+- A **task-based** strategy table (audit → static-first, implement → MCP-first,
+  test generation → MCP only) instead of the oversimplified "static first" rule
+- The `trace_calculation` → `generate-test-from-trace` workflow with both
+  file-based and stdin-based forms
+
+Install with the `mcp` extra and start the server:
 
 ```bash
 uv add --group dev "openfisca-ai[mcp] @ git+https://github.com/openfisca/openfisca-ai.git"
+
+uv run openfisca-ai mcp --serve \
+  --serve-command "uv run openfisca serve --country-package openfisca_<country>"
 ```
 
-Start the MCP server (and optionally the API as a subprocess):
-
-```bash
-uv run openfisca-ai mcp --serve              # start API + MCP server together
-uv run openfisca-ai mcp --url http://localhost:5000  # use an already-running API
-```
-
-Tools exposed by the MCP server:
-
-| Tool | Use it to |
-|---|---|
-| `list_entities` | Discover entity types and roles before constructing a situation |
-| `list_variables` / `search_variables` | Find variables by name, description, or entity |
-| `describe_variable` | Get entity, period, formula, references for one variable |
-| `list_parameters` / `get_parameter` | Inspect parameter trees and historical values |
-| `validate_situation` | Catch entity/variable/period errors before computing |
-| `calculate` | Compute variables for a given situation |
-| `trace_calculation` | Compute + return the full dependency tree and intermediate values |
-
-**Workflow: generate a YAML test in one step**
-
-```bash
-# 1. Build a situation JSON with inputs filled and outputs set to null
-# 2. Validate it (MCP):           validate_situation(situation)
-# 3. Compute with full trace:     trace_calculation(situation)  → trace.json
-# 4. Convert the trace into YAML:
-uv run openfisca-ai generate-test-from-trace trace.json \
-  --name test_my_variable \
-  --reference "Article 12 du décret 2024-XXX" \
-  --output tests/test_my_variable.yaml
-```
-
-This grounds the expected values in what the live system actually computes,
-instead of being reconstructed by hand.
-
-**Static tools vs. MCP — when to use each**
-
-- Static tools (`audit`, `validate-*`): structural errors, missing metadata,
-  wrong entity, no test. Free, offline, fast — use them first and in CI.
-- MCP: semantic errors (formula wrong, parameter path wrong) and test fixture
-  generation. Needs a live API, but is the canonical way to ground a test in
-  reality.
-
-Connect the MCP server to Claude Code (or any MCP-aware agent) by adding it
-to your project's `.mcp.json`:
+`.mcp.json` for a Claude Code project:
 
 ```json
 {
   "mcpServers": {
     "openfisca": {
       "command": "uv",
-      "args": ["run", "openfisca-ai", "mcp", "--serve"]
+      "args": [
+        "run", "openfisca-ai", "mcp",
+        "--serve",
+        "--serve-command", "uv run openfisca serve --country-package openfisca_<country>"
+      ]
     }
   }
 }
@@ -200,9 +177,8 @@ Les guides et outils viennent du package openfisca-ai (dep dev).
     - `openfisca-basics`
     - `quality-checklist`
 - Pour générer des tests YAML : `uv run openfisca-ai guide cat test-creator`
-- Outils statiques d'abord : `uv run openfisca-ai audit .`
-- Pour les checks sémantiques sur le système live, démarrer le MCP server :
-  `uv run openfisca-ai mcp --serve` (voir `.mcp.json`)
+- Stratégie outils statiques vs MCP par tâche :
+  `uv run openfisca-ai guide cat mcp`
 
 ## Spécificités projet
 

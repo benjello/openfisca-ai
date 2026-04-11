@@ -75,20 +75,27 @@ Les points d'entrée principaux du repo openfisca-ai eux-mêmes :
 - `AI_AGENTS.md` pour autres agents
 
 ### Pour développeurs
+
 1. Lire `principles` en premier (`openfisca-ai guide cat principles`)
 2. Poser la structure cible avec `country-package-baseline`
-3. Consulter le rôle pertinent : `document-collector`, `parameter-architect`,
-   `rules-engineer`, `test-creator`, `validators`
+3. Appliquer les patterns dans l'ordre utile : `document-collector` →
+   `parameter-architect` → `rules-engineer` → `test-creator` → `validators`
 4. Vérifier `03-countries/<pays>/specifics` si aménagements
 
-### Outils CLI complémentaires aux guides
+Les guides de rôle sont des **patterns de méthode**, pas des identités
+exclusives — une seule tâche enchaîne plusieurs patterns.
+
+### Outils CLI complémentaires
 
 - Validation statique : `openfisca-ai audit .`, `openfisca-ai validate-*`
-- Serveur MCP (live, sémantique) : `openfisca-ai mcp --serve`
-- Génération de test à partir d'une trace : `openfisca-ai generate-test-from-trace trace.json`
+- Serveur MCP (live, sémantique) — guide canonique : `openfisca-ai guide cat mcp`
+- Génération de test à partir d'une trace :
+  `openfisca-ai generate-test-from-trace trace.json`
+  ou via stdin : `cat trace.json | openfisca-ai generate-test-from-trace -`
 
-Les guides `rules-engineer`, `test-creator` et `validators` détaillent comment
-combiner ces outils par rôle.
+Le guide `mcp` décrit la stratégie task-based pour choisir entre outils
+statiques et MCP (audit → static-first, implémentation → MCP-first, génération
+de tests → MCP only).
 
 ### Overlays projet
 

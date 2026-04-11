@@ -31,15 +31,25 @@ Translate documented rules and YAML parameters into clean OpenFisca code that fi
 
 ## Practical Workflow
 
+For implementation work, **MCP-first** is more efficient than static-first:
+exploring the existing system through MCP saves more agent context than
+running static validation tools you don't yet have anything to validate. See
+`openfisca-ai guide cat mcp` for the task-based strategy and the full tool
+list.
+
 1. **Explore what already exists** — before writing anything:
 
-   If the MCP server is running (`openfisca serve` + `openfisca-ai mcp`):
+   If the MCP server is running:
    ```
    search_variables("keyword")          # find related variables
    describe_variable("variable_name")   # get entity, period, formula, references
    list_parameters                      # check existing parameter hierarchy
    get_parameter("path.to.param")       # verify current values
    ```
+
+   `describe_variable` replaces reading the Python file + tracing imports.
+   `search_variables` replaces grepping the codebase. `get_parameter`
+   replaces walking the YAML hierarchy manually.
 
    If the MCP server is not running:
    ```bash
@@ -54,11 +64,7 @@ Translate documented rules and YAML parameters into clean OpenFisca code that fi
 
 5. **Keep** labels and references understandable
 
-## MCP saves tokens here
-
-`describe_variable` replaces reading the Python file + tracing imports.
-`search_variables` replaces grepping through the codebase.
-`get_parameter` replaces walking the YAML hierarchy manually.
+6. **Run static validation at the end** — see "Recommended Verification" below.
 
 ## Minimum Checklist
 

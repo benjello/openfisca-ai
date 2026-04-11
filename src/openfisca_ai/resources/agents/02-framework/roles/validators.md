@@ -39,26 +39,31 @@ Use this role to review:
 
 ## Practical Workflow
 
+For audit / review, **static-first** is the right strategy: you don't yet
+know where issues are, and the static tools give you a punch list cheaply.
+Switch to MCP for cases that pass static checks but feel wrong, or to verify
+a specific calculation. See `openfisca-ai guide cat mcp` for the canonical
+strategy and tool list.
+
 1. Run the full static audit first:
    ```bash
    uv run openfisca-ai audit .
    ```
 
-2. For each failing variable, spot-check with a live calculation if the MCP server is running:
+2. For each suspect variable, spot-check with a live calculation if the MCP
+   server is running:
    ```
-   calculate(situation)        # verify a specific scenario
+   calculate(situation)         # verify a specific scenario
    trace_calculation(situation) # understand why a result is wrong
    ```
 
-3. Compare implementation to country conventions and legal source
+   Static tools detect structural errors (missing metadata, wrong entity,
+   no tests). `calculate` and `trace_calculation` detect semantic errors
+   (wrong formula logic, wrong parameter path).
 
-4. Produce a concise review report with concrete fixes
+3. Compare implementation to country conventions and legal source.
 
-## MCP saves tokens here
-
-Static tools detect structural errors (missing metadata, wrong entity, no tests).
-`calculate` and `trace_calculation` detect semantic errors (wrong formula logic, wrong parameter path).
-Use static tools first — they're fast and offline. Use MCP for the cases that pass static checks but feel wrong.
+4. Produce a concise review report with concrete fixes.
 
 ## Recommended Commands
 

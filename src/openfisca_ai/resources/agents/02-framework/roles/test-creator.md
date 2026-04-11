@@ -24,9 +24,14 @@ Write tests that prove the implementation matches the intended legal rule and ca
 
 ## Practical Workflow
 
-### With MCP server running (fastest path)
+Test creation is the **clearest case for going MCP-only**: hand-computing
+expected values is the most token-expensive thing an agent can do, and any
+manual reconstruction risks diverging from what the live system computes.
+See `openfisca-ai guide cat mcp` for the canonical MCP workflow.
 
-1. Build the situation with inputs set and outputs set to `null`
+### With MCP server running (recommended path)
+
+1. Build the situation with inputs set and outputs set to `null`.
 2. Validate the input structure:
    ```
    validate_situation(situation)
@@ -35,28 +40,32 @@ Write tests that prove the implementation matches the intended legal rule and ca
    ```
    trace_calculation(situation)
    ```
-4. Generate the YAML test automatically:
+4. Generate the YAML test, either from a saved file:
    ```bash
-   # Save trace output to trace.json, then:
    uv run openfisca-ai generate-test-from-trace trace.json \
      --name test_my_variable \
      --reference "Article 12 du décret 2024-XXX" \
      --output tests/test_my_variable.yaml
    ```
-5. Review the generated test, add boundary cases by hand
+   …or by piping the trace JSON directly through stdin:
+   ```bash
+   echo "$trace_json" | uv run openfisca-ai generate-test-from-trace - \
+     --name test_my_variable \
+     --output tests/test_my_variable.yaml
+   ```
+5. Review the generated test, add boundary cases by hand.
 
-### Without MCP server
+### Fallback: without an MCP server
 
-1. Write at least one nominal test for each meaningful formula
-2. Add boundary cases: exact threshold, just below / just above, zero/null where relevant
-3. Document the expected result with the legal reasoning (manual calculation)
-4. Run the target repository test suite
+1. Write at least one nominal test for each meaningful formula.
+2. Add boundary cases: exact threshold, just below / just above, zero/null
+   where relevant.
+3. Document the expected result with the legal reasoning (manual calculation).
+4. Run the target repository test suite.
 
-## Why trace_calculation saves time
-
-Computing expected values manually is error-prone and expensive (tokens + time).
-`trace_calculation` gives the exact computed value **and** every intermediate result,
-so the test is grounded in what the live system actually computes — not a reconstruction.
+This fallback is fine for trivial formulas, but for anything non-trivial the
+MCP path produces tests that are both faster to write **and** correct by
+construction.
 
 ## Minimum Checklist
 

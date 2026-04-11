@@ -90,37 +90,37 @@ result = coder.run(
 - Consult `reference_code_path` for existing patterns
 - Adapt output according to country
 
-## Your Current Role
+## Roles as sequential patterns
 
-**Auto-detect role** based on user request:
+Role guides are method patterns, not exclusive identities. A typical task
+chains several patterns in order:
 
-| If user asks... | Your role | Guide command |
-|----------------|-----------|---------------|
-| "Collect sources for X" | document-collector | `openfisca-ai guide cat document-collector` |
-| "Create parameters for X" | parameter-architect | `openfisca-ai guide cat parameter-architect` |
-| "Implement rule X" | rules-engineer | `openfisca-ai guide cat rules-engineer` |
-| "Generate tests for X" | test-creator | `openfisca-ai guide cat test-creator` |
-| "Validate implementation X" | validators | `openfisca-ai guide cat validators` |
-| "Implement program X end-to-end" | **All** (full workflow) | `openfisca-ai guide cat workflows` |
+| Step | Pattern | Read with |
+|---|---|---|
+| 1 | document-collector | `openfisca-ai guide cat document-collector` |
+| 2 | parameter-architect | `openfisca-ai guide cat parameter-architect` |
+| 3 | rules-engineer | `openfisca-ai guide cat rules-engineer` |
+| 4 | test-creator | `openfisca-ai guide cat test-creator` |
+| 5 | validators | `openfisca-ai guide cat validators` |
 
-## MCP Server (live OpenFisca system)
+Skip steps that are already done. End-to-end workflow: `openfisca-ai guide cat workflows`.
 
-When the target country package is served via `openfisca serve`, openfisca-ai
-exposes it as MCP tools:
+## MCP Server
+
+The MCP server exposes a running OpenFisca system as tools (exploration,
+calculation, trace).
+
+**Single source of truth**: `openfisca-ai guide cat mcp`. That guide lists
+the tools, the startup cost, and the **task-based** strategy for choosing
+between static tools and MCP — the simple "static first" rule only fits
+audit work; for implementing or generating tests, MCP is more efficient.
+
+Quickstart:
 
 ```bash
-uv run openfisca-ai mcp --serve            # start API + MCP together
-uv run openfisca-ai mcp --url <api-url>    # use an already-running API
+uv run openfisca-ai mcp --serve \
+  --serve-command "uv run openfisca serve --country-package openfisca_<country>"
 ```
-
-Tools: `list_entities`, `list_variables`, `list_parameters`, `search_variables`,
-`describe_variable`, `get_parameter`, `validate_situation`, `calculate`,
-`trace_calculation`.
-
-Use static tools first (`audit`, `validate-*`) — they're free and offline.
-Use MCP for semantic verification, debugging, and grounding test fixtures in
-real computed values. `trace_calculation` + `openfisca-ai generate-test-from-trace`
-produces a YAML test from a live trace in one step.
 
 ## Pre-Commit Checklist
 

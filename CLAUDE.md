@@ -101,54 +101,40 @@ uv run python /path/to/openfisca-ai/tools/check_tooling.py .
 
 ## Utilisation comme agent
 
-Les guides de rôles (accessibles via `openfisca-ai guide cat <name>`) sont des
-guides de méthode, pas la preuve qu'un agent runtime existe déjà pour chaque rôle.
+Les guides de rôles sont des **patterns de méthode**, pas des identités
+exclusives. Une seule tâche "implémenter une variable" enchaîne typiquement
+plusieurs patterns en séquence :
 
-Correspondance utile :
+1. `document-collector` — trouver les sources légales
+2. `parameter-architect` — poser les YAML de paramètres
+3. `rules-engineer` — écrire la formule
+4. `test-creator` — produire les tests YAML
+5. `validators` — auditer le résultat
 
-- collecte de sources -> `document-collector`
-- architecture paramètres -> `parameter-architect`
-- implémentation règles -> `rules-engineer`
-- génération de tests -> `test-creator`
-- revue qualité -> `validators`
+Tu n'as pas à "choisir un rôle" : applique les patterns dans l'ordre utile pour
+la tâche. Sauter des étapes est OK quand elles sont déjà faites.
 
-## Serveur MCP — outils live sur le système OpenFisca cible
+Lecture : `uv run openfisca-ai guide cat <name>`.
 
-Quand un package OpenFisca pays est servi via son API web (`openfisca serve`),
-le serveur MCP d'openfisca-ai expose ce système comme un ensemble d'outils
-exploitables par les agents.
+## Serveur MCP
+
+Le serveur MCP expose une instance live d'OpenFisca comme outils pour les
+agents (exploration, calcul, trace).
+
+**Source de vérité unique** : `uv run openfisca-ai guide cat mcp`. Ce guide
+décrit la liste exacte des outils, le coût d'amorçage, et la stratégie
+"static vs MCP par tâche" — la règle simpliste "static d'abord" ne s'applique
+qu'à l'audit ; pour implémenter ou générer un test, MCP est plus efficace.
+
+Démarrage rapide :
 
 ```bash
-# Lance l'API OpenFisca + le serveur MCP en une commande
-uv run openfisca-ai mcp --serve
-
-# Ou si l'API tourne déjà ailleurs
-uv run openfisca-ai mcp --url http://localhost:5000
+uv run openfisca-ai mcp --serve \
+  --serve-command "uv run openfisca serve --country-package openfisca_<country>"
 ```
 
-Outils MCP exposés (voir `src/openfisca_ai/mcp/server.py` pour la liste exacte) :
-
-- `list_entities`, `list_variables`, `list_parameters` — exploration du système
-- `search_variables` — recherche par mot-clé dans noms et descriptions
-- `describe_variable` — entité, période, formule, références légales
-- `get_parameter` — valeurs et historique d'un paramètre
-- `validate_situation` — vérifie la structure d'une situation avant calcul
-- `calculate` — calcule des variables pour une situation
-- `trace_calculation` — calcule + retourne tout l'arbre de dépendances et les
-  valeurs intermédiaires (essentiel pour générer des tests YAML grâce à
-  `openfisca-ai generate-test-from-trace`)
-
-**Quand utiliser MCP plutôt que les outils statiques :**
-
-- `audit` / `validate-*` : erreurs structurelles, hors-ligne, gratuit, rapide
-- MCP : sémantique (formule fausse, mauvais paramètre), nécessite une API OpenFisca live
-
-Utilise les outils statiques d'abord, MCP ensuite pour les cas qui passent les
-checks statiques mais semblent suspects, ou quand tu as besoin de valeurs
-calculées réelles (génération de tests, debugging).
-
-Les guides `rules-engineer`, `test-creator` et `validators` détaillent les
-workflows MCP par rôle.
+Dans un projet avec un `.mcp.json`, Claude Code détecte le serveur
+automatiquement.
 
 ## Attendu concret
 
