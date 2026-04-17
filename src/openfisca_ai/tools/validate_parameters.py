@@ -1,10 +1,5 @@
 #!/usr/bin/env python3
-"""
-Parameter Validation Tool - NO AI REQUIRED
-
-Validates OpenFisca parameters against universal principles.
-Usage: uv run python validate_parameters.py /path/to/openfisca-country
-"""
+"""Validate OpenFisca parameters against universal principles."""
 
 import sys
 from collections import defaultdict
@@ -34,9 +29,24 @@ class ParameterValidator:
         return isinstance(content, dict) and "brackets" in content
 
     def get_reference(self, content: dict):
-        """Return the reference from root or metadata."""
+        """Return reference entries from content or metadata."""
         metadata = self.get_metadata(content)
-        return content.get("reference") or metadata.get("reference") or []
+        raw = content.get("reference") or metadata.get("reference")
+        if not raw:
+            return []
+        if isinstance(raw, list):
+            return raw
+        if isinstance(raw, dict):
+            entries: list = []
+            for value in raw.values():
+                if isinstance(value, list):
+                    entries.extend(value)
+                elif isinstance(value, dict):
+                    entries.append(value)
+                elif isinstance(value, str):
+                    entries.append(value)
+            return entries
+        return [raw]
 
     def get_units(self, content: dict) -> list[str]:
         """Return all units declared by a parameter."""
@@ -208,16 +218,19 @@ class ParameterValidator:
             reference = [reference]
 
         for ref in reference:
+            href = None
             if isinstance(ref, str):
-                # Check if it's a PDF URL without #page=XX
-                if '.pdf' in ref.lower() and '#page=' not in ref:
-                    self.warnings.append({
-                        "type": "missing_page_number",
-                        "severity": "WARNING",
-                        "message": f"PDF reference missing #page=XX: {ref}",
-                        "file": str(filepath.relative_to(self.package_path)),
-                        "principle": "Principle 3: Precise references"
-                    })
+                href = ref
+            elif isinstance(ref, dict):
+                href = ref.get("href", "")
+            if href and '.pdf' in href.lower() and '#page=' not in href:
+                self.warnings.append({
+                    "type": "missing_page_number",
+                    "severity": "WARNING",
+                    "message": f"PDF reference missing #page=XX: {href}",
+                    "file": str(filepath.relative_to(self.package_path)),
+                    "principle": "Principle 3: Precise references"
+                })
 
     def check_units_consistency(self):
         """Check that all used units are defined in units.yaml"""

@@ -60,11 +60,17 @@ TaxUnit     # Tax unit (tax filing)
 # parameters/social_benefits/housing_allowance/base_amount.yaml
 description: Base monthly housing allowance amount
 label: Base amount
-reference: "Social Benefits Act 2020, Section 12"
 unit: CUR
 values:
-  2020-01-01: 200
-  2024-01-01: 220
+  2020-01-01:
+    value: 200
+  2024-01-01:
+    value: 220
+metadata:
+  reference:
+    2020-01-01:
+      title: "Social Benefits Act 2020, Section 12"
+      href: "https://example.gov/social-benefits-act.pdf#page=15"
 ```
 
 **Access in code**:

@@ -1,14 +1,5 @@
 #!/usr/bin/env python3
-"""
-Unit Validation Tool - Focus on units only
-
-Validates that:
-1. units.yaml exists
-2. All parameters have a 'unit' field
-3. All units used are defined in units.yaml
-
-Usage: uv run python validate_units.py /path/to/openfisca-country
-"""
+"""Validate OpenFisca units configuration and consistency."""
 
 import sys
 from collections import defaultdict

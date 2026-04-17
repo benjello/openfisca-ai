@@ -33,9 +33,11 @@ Turn extracted legal values into a coherent parameter tree that fits the target 
    - simple parameter with `unit`
    - scale parameter with `brackets` and unit metadata
 5. add metadata:
-   - `description`
-   - `label`
-   - `reference`
+   - `description` — one clear sentence
+   - `label` — short name for UI
+   - `reference` — in `metadata.reference`, keyed by date (standard convention
+     across openfisca-france and openfisca-tunisia); each entry has `title` and
+     optionally `href`
    - `unit` or scale unit metadata
 6. include history when known
 

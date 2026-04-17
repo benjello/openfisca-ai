@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.1.1] - 2026-04-17
+
+### Changed
+
+- Simplified docstrings across codebase to use standard single-line format
+- Removed verbose multi-line docstrings from validation tools
+- Lightened docstrings in MCP client initialization
+
 ## [0.1.0] - 2025-02-26
 
 ### Added

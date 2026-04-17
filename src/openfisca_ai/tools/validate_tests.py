@@ -1,9 +1,5 @@
 #!/usr/bin/env python3
-"""
-Validate OpenFisca test coverage at the package level.
-
-Usage: uv run python validate_tests.py /path/to/openfisca-country-repo
-"""
+"""Validate OpenFisca test coverage at the package level."""
 
 import ast
 import re

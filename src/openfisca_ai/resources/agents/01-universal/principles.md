@@ -61,11 +61,13 @@ def formula(family, period, parameters):
 - **Exact citations** (law, article, date)
 - **Verifiable sources**
 
-**Example**:
+**Example** (references live in `metadata.reference`, keyed by date):
 ```yaml
-reference:
-  - "Social Benefits Act 2020, Section 12"
-  - "https://example.gov/social-benefits-act.pdf#page=15"  # ✅ With #page=XX
+metadata:
+  reference:
+    2020-01-01:
+      title: "Social Benefits Act 2020, Section 12"
+      href: "https://example.gov/social-benefits-act.pdf#page=15"  # ✅ With #page=XX
 ```
 
 **See**: [country-template/parameters/social_benefits/](../country-template/parameters/social_benefits/)
@@ -79,7 +81,7 @@ reference:
 **Required metadata**:
 - `description`: One clear sentence
 - `label`: Short name for UI
-- `reference`: URL or legal citation
+- `metadata.reference`: Legal citation keyed by date, with `title` and `href`
 - `unit`: **MANDATORY** - `/1`, `EUR`, `TND`, `CUR`, etc.
 
 **For scales/brackets (barèmes)**: Use specific unit fields in `metadata`:
@@ -94,13 +96,17 @@ reference:
 income_ceiling:
   description: Monthly income ceiling for housing allowance eligibility
   label: Income ceiling
-  reference:
-    - "Social Benefits Act 2020, Section 12"
-    - "https://example.gov/social-benefits-act.pdf#page=15"
   unit: CUR
   values:
-    2020-01-01: 1500
-    2024-01-01: 1700
+    2020-01-01:
+      value: 1500
+    2024-01-01:
+      value: 1700
+  metadata:
+    reference:
+      2020-01-01:
+        title: "Social Benefits Act 2020, Section 12"
+        href: "https://example.gov/social-benefits-act.pdf#page=15"
 ```
 
 **Example scale/bracket parameter**:
@@ -108,21 +114,25 @@ income_ceiling:
 tax_scale:
   description: Progressive income tax scale
   label: Income tax scale
-  reference:
-    - "Tax Code 2020, Article 45"
   brackets:
     - threshold:
-        2020-01-01: 0
+        2020-01-01:
+          value: 0
       rate:
-        2020-01-01: 0.0
+        2020-01-01:
+          value: 0.0
     - threshold:
-        2020-01-01: 10000
+        2020-01-01:
+          value: 10000
       rate:
-        2020-01-01: 0.15
+        2020-01-01:
+          value: 0.15
     - threshold:
-        2020-01-01: 50000
+        2020-01-01:
+          value: 50000
       rate:
-        2020-01-01: 0.30
+        2020-01-01:
+          value: 0.30
   metadata:
     threshold_unit: CUR
     rate_unit: /1

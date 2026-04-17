@@ -1,14 +1,19 @@
 description: Monthly child allowance per child (Countria example)
 label: Child allowance
-reference:
-  - "Family Benefits Law 2018, Article 5"
-  - "https://example.gov/family-law.pdf#page=3"
 unit: CUR
 values:
-  2018-01-01: 50
-  2020-01-01: 55
-  2022-01-01: 60
-  2024-01-01: 65
+  2018-01-01:
+    value: 50
+  2020-01-01:
+    value: 55
+  2022-01-01:
+    value: 60
+  2024-01-01:
+    value: 65
 metadata:
   max_children: 3
+  reference:
+    2018-01-01:
+      title: "Family Benefits Law 2018, Article 5"
+      href: "https://example.gov/family-law.pdf#page=3"
   note: "Maximum 3 children. Fourth child and beyond not counted."

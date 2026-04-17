@@ -1,24 +1,35 @@
 description: Progressive income tax brackets (Countria example)
-reference:
-  - "Tax Code 2020, Schedule A"
-  - "https://example.gov/tax-code.pdf#page=25"
-type: marginal_rate
+label: Income tax brackets
 brackets:
   - threshold:
-      2020-01-01: 0
+      2020-01-01:
+        value: 0
     rate:
-      2020-01-01: 0
+      2020-01-01:
+        value: 0
   - threshold:
-      2020-01-01: 10000
+      2020-01-01:
+        value: 10000
     rate:
-      2020-01-01: 0.10
+      2020-01-01:
+        value: 0.10
   - threshold:
-      2020-01-01: 25000
+      2020-01-01:
+        value: 25000
     rate:
-      2020-01-01: 0.20
+      2020-01-01:
+        value: 0.20
   - threshold:
-      2020-01-01: 50000
+      2020-01-01:
+        value: 50000
     rate:
-      2020-01-01: 0.30
+      2020-01-01:
+        value: 0.30
 metadata:
+  threshold_unit: CUR
+  rate_unit: /1
+  reference:
+    2020-01-01:
+      title: "Tax Code 2020, Schedule A"
+      href: "https://example.gov/tax-code.pdf#page=25"
   note: "Marginal rate tax system. Each bracket taxed at its rate."

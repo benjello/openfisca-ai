@@ -1,9 +1,5 @@
 #!/usr/bin/env python3
-"""
-Validate OpenFisca Python code against common coding principles.
-
-Usage: uv run python validate_code.py /path/to/openfisca-country-repo
-"""
+"""Validate OpenFisca Python code against common principles."""
 
 import ast
 import re

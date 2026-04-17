@@ -12,13 +12,7 @@ class OpenFiscaClient:
     """Client for interacting with OpenFisca Web API."""
 
     def __init__(self, base_url: str | None = None, timeout: float = 30.0):
-        """Initialize the client.
-
-        Args:
-            base_url: OpenFisca API base URL. Defaults to OPENFISCA_API_URL env var
-                     or http://localhost:5000.
-            timeout: Request timeout in seconds.
-        """
+        """Initialize OpenFisca API client."""
         self.base_url = base_url or os.getenv("OPENFISCA_API_URL", "http://localhost:5000")
         self.timeout = timeout
         self._client: httpx.Client | None = None

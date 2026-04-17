@@ -1,9 +1,5 @@
 #!/usr/bin/env python3
-"""
-Check OpenFisca country package baseline structure.
-
-Usage: uv run python check_package_baseline.py /path/to/openfisca-country-repo
-"""
+"""Check OpenFisca country package baseline structure."""
 
 import sys
 from pathlib import Path
