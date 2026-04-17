@@ -39,6 +39,8 @@ Turn extracted legal values into a coherent parameter tree that fits the target 
      across openfisca-france and openfisca-tunisia); each entry has `title` and
      optionally `href`
    - `unit` or scale unit metadata
+   - `metadata.label_<lang>` for each target language declared in the country
+     config (e.g. `label_en` for English, `label_ar` for Arabic)
 6. include history when known
 
 ## Minimum Checklist

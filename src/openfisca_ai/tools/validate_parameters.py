@@ -8,16 +8,58 @@ from typing import Dict
 
 import yaml
 
+def _find_config_dir() -> Path | None:
+    """Walk up from source file to find config/countries/ in the project root."""
+    current = Path(__file__).resolve()
+    for parent in current.parents:
+        candidate = parent / "config" / "countries"
+        if candidate.is_dir():
+            return candidate
+    return None
+
+
+CONFIG_DIR = _find_config_dir()
+
+
+def load_country_languages(package_path: Path) -> list[str]:
+    """Detect target languages from openfisca-ai country config.
+
+    Looks for a config matching the package name (e.g. openfisca_tunisia
+    -> tunisia.yaml).  Returns extra language suffixes like ["en", "ar"].
+    The default language (fr) is not included since ``label`` already
+    covers it.
+    """
+    package_name = Path(package_path).name
+    if CONFIG_DIR is None:
+        return ["en"]
+    for suffix in ("", "openfisca_", "openfisca-"):
+        candidate = package_name.removeprefix(suffix)
+        config_file = CONFIG_DIR / f"{candidate}.yaml"
+        if config_file.exists():
+            try:
+                cfg = yaml.safe_load(config_file.read_text(encoding="utf-8"))
+                conventions = cfg.get("conventions", {})
+                langs = conventions.get("languages", {})
+                default_lang = langs.get("default", "fr")
+                targets = langs.get("target", [])
+                return [lang for lang in targets if lang != default_lang]
+            except Exception:
+                pass
+    return ["en"]
+
 
 class ParameterValidator:
     """Validate parameters without needing AI agents"""
 
-    def __init__(self, package_path: Path):
+    def __init__(self, package_path: Path, *, extra_languages: list[str] | None = None):
         self.package_path = Path(package_path)
         self.errors = []
         self.warnings = []
         self.units_defined = set()
         self.units_used = defaultdict(list)
+        if extra_languages is None:
+            extra_languages = load_country_languages(package_path)
+        self.extra_languages = extra_languages
 
     def get_metadata(self, content: dict) -> dict:
         """Return the metadata section when present."""
@@ -65,6 +107,9 @@ class ParameterValidator:
     def validate_all(self) -> Dict:
         """Run all validations"""
         print(f"🔍 Validating {self.package_path}...\n")
+
+        if self.extra_languages:
+            print(f"🌍 Target languages: {', '.join(self.extra_languages)}")
 
         # 1. Check units.yaml exists
         self.check_units_file()
@@ -179,6 +224,21 @@ class ParameterValidator:
                         "file": str(relative_path),
                         "parameter_type": "scale" if is_scale else "simple",
                         "principle": "Principle 4: Well-documented parameters",
+                    }
+                )
+
+        # Check translated labels for target languages
+        for lang in self.extra_languages:
+            label_key = f"label_{lang}"
+            has_translated = label_key in content or label_key in metadata
+            if not has_translated:
+                self.warnings.append(
+                    {
+                        "type": f"missing_{label_key}",
+                        "severity": "WARNING",
+                        "message": f"Missing '{label_key}' in metadata (target language: {lang})",
+                        "file": str(relative_path),
+                        "principle": "Multilingual metadata",
                     }
                 )
 
