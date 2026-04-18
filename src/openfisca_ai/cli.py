@@ -27,6 +27,7 @@ TOOL_COMMANDS = {
     "validate-parameters": "validate_parameters.py",
     "validate-tests": "validate_tests.py",
     "validate-units": "validate_units.py",
+    "setup-ci": "setup_ci.py",
 }
 
 
@@ -61,6 +62,7 @@ def _print_usage(stream):
     print("  openfisca-ai validate-parameters <package-path>", file=stream)
     print("  openfisca-ai validate-units <package-path>", file=stream)
     print("  openfisca-ai suggest-units <package-path> [--apply]", file=stream)
+    print("  openfisca-ai setup-ci <package-path> [--dry-run] [--github] [--gitlab] [--force]", file=stream)
     print("  openfisca-ai mcp [--url http://localhost:5000]", file=stream)
     print("  openfisca-ai generate-test-from-trace <trace.json> [--output test.yaml] [--name NAME]", file=stream)
     print("  openfisca-ai guide list", file=stream)
