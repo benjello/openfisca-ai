@@ -30,6 +30,7 @@ TOOL_COMMANDS = {
     "setup-ci": "setup_ci.py",
     "setup-mcp": "setup_mcp.py",
     "review-diff": "review_diff.py",
+    "init-units": "init_units.py",
 }
 
 
@@ -67,6 +68,7 @@ def _print_usage(stream):
     print("  openfisca-ai setup-ci <package-path> [--dry-run] [--github] [--gitlab] [--force]", file=stream)
     print("  openfisca-ai setup-mcp <package-path> [--dry-run] [--force]", file=stream)
     print("  openfisca-ai review-diff <package-path> [--diff-file FILE] [--json] [--markdown]", file=stream)
+    print("  openfisca-ai init-units <package-path> [--apply] [--currency NAME SHORT]", file=stream)
     print("  openfisca-ai mcp [--url http://localhost:5000]", file=stream)
     print("  openfisca-ai generate-test-from-trace <trace.json> [--output test.yaml] [--name NAME]", file=stream)
     print("  openfisca-ai guide list", file=stream)
