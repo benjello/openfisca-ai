@@ -28,6 +28,8 @@ TOOL_COMMANDS = {
     "validate-tests": "validate_tests.py",
     "validate-units": "validate_units.py",
     "setup-ci": "setup_ci.py",
+    "setup-mcp": "setup_mcp.py",
+    "review-diff": "review_diff.py",
 }
 
 
@@ -63,6 +65,8 @@ def _print_usage(stream):
     print("  openfisca-ai validate-units <package-path>", file=stream)
     print("  openfisca-ai suggest-units <package-path> [--apply]", file=stream)
     print("  openfisca-ai setup-ci <package-path> [--dry-run] [--github] [--gitlab] [--force]", file=stream)
+    print("  openfisca-ai setup-mcp <package-path> [--dry-run] [--force]", file=stream)
+    print("  openfisca-ai review-diff <package-path> [--diff-file FILE] [--json] [--markdown]", file=stream)
     print("  openfisca-ai mcp [--url http://localhost:5000]", file=stream)
     print("  openfisca-ai generate-test-from-trace <trace.json> [--output test.yaml] [--name NAME]", file=stream)
     print("  openfisca-ai guide list", file=stream)
@@ -261,6 +265,7 @@ def _run_mcp_command(args: list[str]) -> int:
     url = None
     serve = False
     serve_command: list[str] | None = None
+    repo_path: str | None = None
 
     remaining = args[1:]
     i = 0
@@ -276,6 +281,9 @@ def _run_mcp_command(args: list[str]) -> int:
             serve_command = shlex.split(remaining[i + 1])
             serve = True
             i += 2
+        elif remaining[i] == "--repo-path" and i + 1 < len(remaining):
+            repo_path = remaining[i + 1]
+            i += 2
         else:
             i += 1
 
@@ -288,7 +296,7 @@ def _run_mcp_command(args: list[str]) -> int:
         )
         return 1
 
-    run(url=url, serve=serve, serve_command=serve_command)
+    run(url=url, serve=serve, serve_command=serve_command, repo_path=repo_path)
     return 0
 
 

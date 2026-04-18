@@ -21,6 +21,8 @@ from .errors import MCPError, ValidationError
 server = Server("openfisca-mcp")
 client = OpenFiscaClient()
 
+_repo_path: str | None = None
+
 
 def format_result(data: Any) -> list[TextContent]:
     if isinstance(data, dict):
@@ -136,6 +138,46 @@ async def list_tools() -> list[Tool]:
                 "required": ["situation"],
             },
         ),
+        Tool(
+            name="review_diff",
+            description=(
+                "Pre-digest a git diff: classify changes (parameters, variables, tests), "
+                "run targeted validations, detect missing tests. Returns a compact structured "
+                "report (~500 tokens) instead of raw diff (~5k tokens). "
+                "Does NOT require a running OpenFisca server."
+            ),
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "diff": {"type": "string", "description": "Unified diff text (git diff output)"},
+                    "format": {
+                        "type": "string",
+                        "enum": ["json", "markdown"],
+                        "description": "Output format (default: markdown)",
+                    },
+                },
+                "required": ["diff"],
+            },
+        ),
+        Tool(
+            name="audit_package",
+            description=(
+                "Run a full openfisca-ai audit on the current package. "
+                "Returns baseline, parameters, code, units, and test validation results. "
+                "Does NOT require a running OpenFisca server."
+            ),
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "format": {
+                        "type": "string",
+                        "enum": ["json", "markdown", "text"],
+                        "description": "Output format (default: markdown)",
+                    },
+                },
+                "required": [],
+            },
+        ),
     ]
 
 
@@ -161,6 +203,10 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[TextContent]:
                 return format_result(client.trace(arguments["situation"]))
             case "validate_situation":
                 return await _validate_situation(arguments["situation"])
+            case "review_diff":
+                return await _review_diff(arguments["diff"], arguments.get("format", "markdown"))
+            case "audit_package":
+                return await _audit_package(arguments.get("format", "markdown"))
             case _:
                 raise ValidationError(f"Unknown tool: {name}")
     except MCPError as e:
@@ -247,6 +293,35 @@ async def _validate_situation(situation: dict[str, Any]) -> list[TextContent]:
     return format_result({"valid": True, "message": "Situation is valid"})
 
 
+async def _review_diff(diff: str, fmt: str = "markdown") -> list[TextContent]:
+    from pathlib import Path
+    from openfisca_ai.tools.review_diff import build_report, render_markdown
+
+    repo = Path(_repo_path) if _repo_path else Path.cwd()
+    report = build_report(diff, repo)
+    if fmt == "json":
+        return format_result(report)
+    return [TextContent(type="text", text=render_markdown(report))]
+
+
+async def _audit_package(fmt: str = "markdown") -> list[TextContent]:
+    from pathlib import Path
+    from openfisca_ai.tools.audit_country_package import (
+        CountryPackageAuditor,
+        render_markdown as audit_markdown,
+        render_text as audit_text,
+    )
+
+    repo = Path(_repo_path) if _repo_path else Path.cwd()
+    auditor = CountryPackageAuditor(repo)
+    report = auditor.audit()
+    if fmt == "json":
+        return format_result(report)
+    if fmt == "markdown":
+        return [TextContent(type="text", text=audit_markdown(report))]
+    return [TextContent(type="text", text=audit_text(report))]
+
+
 async def _main():
     async with stdio_server() as (read_stream, write_stream):
         await server.run(read_stream, write_stream, server.create_initialization_options())
@@ -280,7 +355,7 @@ def _start_openfisca_serve(command: list[str], url: str, timeout: int = 30) -> A
     raise RuntimeError(f"openfisca serve did not respond within {timeout}s at {url}")
 
 
-def run(url: str | None = None, serve: bool = False, serve_command: list[str] | None = None):
+def run(url: str | None = None, serve: bool = False, serve_command: list[str] | None = None, repo_path: str | None = None):
     """Entry point. url overrides OPENFISCA_API_URL env var.
 
     Args:
@@ -288,7 +363,10 @@ def run(url: str | None = None, serve: bool = False, serve_command: list[str] | 
         serve: If True, start `openfisca serve` as a subprocess before starting the MCP server.
                The subprocess is terminated automatically when the MCP server exits.
         serve_command: Custom serve command. Defaults to ["openfisca", "serve"].
+        repo_path: Path to the OpenFisca package repo (for review_diff and audit_package tools).
     """
+    global _repo_path
+    _repo_path = repo_path
     import asyncio
     import atexit
     import os
