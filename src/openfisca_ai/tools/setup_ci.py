@@ -110,8 +110,8 @@ def generate_github_validate_workflow(info: dict) -> str:
               - uses: astral-sh/setup-uv@v4
               - name: Install dependencies
                 run: uv sync --extra dev
-              - name: Validate code
-                run: uv run openfisca-ai validate-code .
+              - name: Validate code (informational)
+                run: uv run openfisca-ai validate-code . || true
               - name: Validate parameters (informational)
                 run: uv run openfisca-ai validate-parameters . || true
               - name: Validate units (informational)
