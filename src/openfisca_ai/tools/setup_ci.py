@@ -143,7 +143,7 @@ def generate_github_review_workflow(info: dict) -> str:
         jobs:
           review:
             runs-on: ubuntu-24.04
-            if: github.event.pull_request.draft == false
+            if: github.event.pull_request.draft == false && secrets.ANTHROPIC_API_KEY != ''
             steps:
               - uses: actions/checkout@v4
                 with:
@@ -226,7 +226,7 @@ def generate_github_changelog_workflow(info: dict) -> str:
         jobs:
           changelog:
             runs-on: ubuntu-24.04
-            if: github.event.pull_request.merged == true
+            if: github.event.pull_request.merged == true && secrets.ANTHROPIC_API_KEY != ''
             steps:
               - uses: actions/checkout@v4
                 with:
@@ -328,7 +328,7 @@ def generate_gitlab_ci(info: dict) -> str:
           <<: *uv-setup
           stage: review
           rules:
-            - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+            - if: $CI_PIPELINE_SOURCE == "merge_request_event" && $ANTHROPIC_API_KEY
           script:
             - uv run openfisca-ai audit . --json --output audit.json
             - git diff ${{CI_MERGE_REQUEST_DIFF_BASE_SHA}}...${{CI_COMMIT_SHA}} > mr.diff
