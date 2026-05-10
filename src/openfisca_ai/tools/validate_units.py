@@ -7,6 +7,7 @@ from pathlib import Path
 
 import yaml
 
+from openfisca_ai.domain.package_layout import PackageLayout
 from openfisca_ai.domain.parameters import get_declared_units, get_metadata
 from openfisca_ai.domain.units import extract_unit_names
 
@@ -15,7 +16,9 @@ class UnitsValidator:
     """Validate units only"""
 
     def __init__(self, package_path: Path):
-        self.package_path = Path(package_path)
+        layout = PackageLayout.from_path(package_path)
+        self.input_path = Path(package_path)
+        self.package_path = layout.package_dir or self.input_path
         self.units_defined = set()
         self.units_used = defaultdict(list)  # unit -> [files using it]
         self.files_without_unit = []

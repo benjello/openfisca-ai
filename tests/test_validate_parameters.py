@@ -1,6 +1,6 @@
 """Tests for validate_parameters.py."""
 
-from tests.tool_test_helpers import create_package, load_tool_module, write_file
+from tests.tool_test_helpers import create_country_repo, create_package, load_tool_module, write_file
 
 
 validate_parameters = load_tool_module("validate_parameters.py", "validate_parameters_tool")
@@ -102,3 +102,25 @@ def test_validate_parameters_reports_undefined_units_with_file_context(tmp_path)
         error["type"] == "undefined_unit" and "parameters/benefits/age_limit.yaml" in error["file"]
         for error in report["errors"]
     )
+
+
+def test_validate_parameters_accepts_repo_root(tmp_path):
+    repo_path = create_country_repo(tmp_path)
+    write_file(
+        repo_path / "openfisca_demo/parameters/tax/rate.yaml",
+        """
+        description: Tax rate
+        label: Tax rate
+        reference:
+          - Tax code, article 1
+        unit: /1
+        values:
+          2024-01-01: 0.1
+        """,
+    )
+
+    validator = validate_parameters.ParameterValidator(repo_path, extra_languages=[])
+    report = validator.validate_all()
+
+    assert validator.package_path == repo_path / "openfisca_demo"
+    assert report["valid"] is True

@@ -8,6 +8,7 @@ from typing import Dict
 
 import yaml
 
+from openfisca_ai.domain.package_layout import PackageLayout
 from openfisca_ai.domain.parameters import (
     get_declared_units,
     get_metadata,
@@ -60,7 +61,9 @@ class ParameterValidator:
     """Validate parameters without needing AI agents"""
 
     def __init__(self, package_path: Path, *, extra_languages: list[str] | None = None):
-        self.package_path = Path(package_path)
+        layout = PackageLayout.from_path(package_path)
+        self.input_path = Path(package_path)
+        self.package_path = layout.package_dir or self.input_path
         self.errors = []
         self.warnings = []
         self.units_defined = set()
