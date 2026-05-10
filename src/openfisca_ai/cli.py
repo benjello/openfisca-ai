@@ -71,9 +71,9 @@ def _print_usage(stream):
     print("  openfisca-ai init-units <package-path> [--apply] [--currency NAME SHORT]", file=stream)
     print("  openfisca-ai mcp [--url http://localhost:5000]", file=stream)
     print("  openfisca-ai generate-test-from-trace <trace.json> [--output test.yaml] [--name NAME]", file=stream)
-    print("  openfisca-ai target list [--json]", file=stream)
-    print("  openfisca-ai target show <name> [--json]", file=stream)
-    print("  openfisca-ai target resolve <name> [--json]", file=stream)
+    print("  openfisca-ai target list [--yaml|--json]", file=stream)
+    print("  openfisca-ai target show <name> [--yaml|--json]", file=stream)
+    print("  openfisca-ai target resolve <name> [--yaml|--json]", file=stream)
     print("  openfisca-ai guide list", file=stream)
     print("  openfisca-ai guide show <name>", file=stream)
     print("  openfisca-ai guide cat <name>", file=stream)
@@ -305,16 +305,26 @@ def _run_mcp_command(args: list[str]) -> int:
     return 0
 
 
-def _print_target(target: dict) -> None:
-    """Print a human-readable agent target summary."""
-    print(f"{target['id']} ({target.get('label', target['id'])})")
-    print(f"  aliases: {', '.join(target['aliases'])}")
-    print(f"  main_repo: {target['main_repo']['name']} ({target['main_repo']['path']})")
-    print(f"  worktree_base: {target.get('worktree_base') or 'not configured'}")
-    print("  repos:")
-    for repo in target["repos"]:
-        marker = " *" if repo.get("is_main") else "  "
-        print(f"   {marker} {repo['name']}: {repo['mode']} {repo['path']}")
+def _print_yaml(payload) -> None:
+    """Print YAML output for human-readable target inspection."""
+    try:
+        import yaml
+    except ImportError:
+        print("PyYAML is required for YAML output. Install with: pip install pyyaml", file=sys.stderr)
+        raise
+
+    class NoAliasDumper(yaml.SafeDumper):
+        def ignore_aliases(self, data):
+            return True
+
+    print(
+        yaml.dump(
+            payload,
+            Dumper=NoAliasDumper,
+            allow_unicode=True,
+            sort_keys=False,
+        ).rstrip()
+    )
 
 
 def _run_target_command(args: list[str]) -> int:
@@ -327,20 +337,26 @@ def _run_target_command(args: list[str]) -> int:
 
     if len(args) < 2 or args[1] not in {"list", "show", "resolve"}:
         print(
-            "Usage: openfisca-ai target {list|show|resolve} [name] [--json]",
+            "Usage: openfisca-ai target {list|show|resolve} [name] [--yaml|--json]",
             file=sys.stderr,
         )
         return 1
 
     subcommand = args[1]
     json_output = "--json" in args[2:]
-    positional = [arg for arg in args[2:] if arg != "--json"]
+    yaml_output = "--yaml" in args[2:]
+    if json_output and yaml_output:
+        print("Choose only one output format: --yaml or --json", file=sys.stderr)
+        return 1
+    positional = [arg for arg in args[2:] if arg not in {"--json", "--yaml"}]
 
     try:
         if subcommand == "list":
             targets = list_agent_targets()
             if json_output:
                 print(json.dumps(targets, indent=2, ensure_ascii=False))
+            elif yaml_output:
+                _print_yaml(targets)
             else:
                 for target in targets:
                     aliases = ", ".join(target["aliases"])
@@ -348,14 +364,14 @@ def _run_target_command(args: list[str]) -> int:
             return 0
 
         if not positional:
-            print(f"Usage: openfisca-ai target {subcommand} <name> [--json]", file=sys.stderr)
+            print(f"Usage: openfisca-ai target {subcommand} <name> [--yaml|--json]", file=sys.stderr)
             return 1
 
         target = resolve_agent_target(positional[0])
-        if json_output or subcommand == "resolve":
+        if json_output:
             print(json.dumps(target, indent=2, ensure_ascii=False))
         else:
-            _print_target(target)
+            _print_yaml(target)
         return 0
     except AgentTargetError as exc:
         print(str(exc), file=sys.stderr)

@@ -34,7 +34,9 @@ Resolve these targets with:
 
 ```bash
 uv run openfisca-ai target list
-uv run openfisca-ai target resolve france --json
+uv run openfisca-ai target resolve france
 ```
+
+Add `--json` when a machine-readable JSON payload is required.
 
 See **`countries/README.md`** for setup (Tunisia first, then more countries).

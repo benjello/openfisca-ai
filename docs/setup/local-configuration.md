@@ -133,8 +133,10 @@ Check the normalized target:
 
 ```bash
 uv run openfisca-ai target list
-uv run openfisca-ai target resolve france --json
+uv run openfisca-ai target resolve france
 ```
+
+Add `--json` when a machine-readable JSON payload is required.
 
 Repo modes are workflow hints for launchers:
 
