@@ -50,6 +50,6 @@ def test_extract_unit_names_ignores_invalid_entries():
 
 
 def test_usual_unit_definitions_can_be_filtered():
-    units = usual_unit_definitions({"currency/kg", "kWh", "unknown"})
+    units = usual_unit_definitions({"currency/kg", "kWh", "unknown", "millimes"})
 
     assert [unit["name"] for unit in units] == ["kWh", "currency/kg"]

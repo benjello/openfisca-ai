@@ -75,7 +75,7 @@ def test_init_units_apply_writes_unit_to_simple_parameter(tmp_path):
 def test_init_units_uses_usual_unit_catalog_for_energy_units(tmp_path):
     scanned = [
         {
-            "existing_unit": "millimes/kWh",
+            "existing_unit": "kWh",
             "inferred_unit": None,
         },
         {
@@ -87,6 +87,20 @@ def test_init_units_uses_usual_unit_catalog_for_energy_units(tmp_path):
     units = init_units.build_units_yaml(scanned, "Dinar", "DT")
     names = [unit["name"] for unit in units]
 
-    assert "millimes/kWh" in names
+    assert "kWh" in names
     assert "currency/m3" in names
     assert "currency" in names
+
+
+def test_init_units_keeps_country_specific_unknown_units_as_minimal_entries(tmp_path):
+    scanned = [
+        {
+            "existing_unit": "millimes/kWh",
+            "inferred_unit": None,
+        },
+    ]
+
+    units = init_units.build_units_yaml(scanned, "Dinar", "DT")
+    unit_by_name = {unit["name"]: unit for unit in units}
+
+    assert unit_by_name["millimes/kWh"] == {"name": "millimes/kWh", "label": "millimes/kWh"}
