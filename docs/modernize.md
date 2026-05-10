@@ -34,6 +34,23 @@ Cette etape evite de confondre deux types de problemes :
 - problemes deja presents dans le package ;
 - problemes introduits par une migration d'outillage.
 
+## Resolution Assistee Des Erreurs
+
+Si la premiere passe remonte des erreurs, le plan propose une etape
+conditionnelle `resolve-detected-errors` avant toute migration de packaging ou
+de CI.
+
+Cette etape ne corrige rien automatiquement. Elle propose de produire un rapport
+d'audit, puis de demander a un agent IA de classer les problemes :
+
+- corrections rapides de metadata ;
+- valeurs hardcodees ou TODO necessitant une revue metier ;
+- tests manquants ;
+- faux positifs possibles.
+
+L'objectif est de traiter les erreurs par petits groupes valides par l'humain,
+puis de relancer uniquement les checks pertinents.
+
 ## Questions Posees
 
 ### Pourquoi `modernize` plutot que `migrate` ?

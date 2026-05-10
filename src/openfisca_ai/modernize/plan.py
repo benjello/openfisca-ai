@@ -15,8 +15,9 @@ def _step(
     risk: str,
     reason: str,
     suggested_commands: list[str] | None = None,
+    agent_prompt: str | None = None,
 ) -> dict[str, Any]:
-    return {
+    step = {
         "id": step_id,
         "title": title,
         "status": status,
@@ -24,6 +25,9 @@ def _step(
         "reason": reason,
         "suggested_commands": suggested_commands or [],
     }
+    if agent_prompt:
+        step["agent_prompt"] = agent_prompt
+    return step
 
 
 def build_modernization_plan(path: str | Path) -> dict[str, Any]:
@@ -46,6 +50,23 @@ def build_modernization_plan(path: str | Path) -> dict[str, Any]:
                 "uv run openfisca-ai audit . --markdown --output audit-report.md",
                 f"uv run openfisca test --country-package {state['package_name']} tests" if state.get("package_name") else "uv run openfisca test --country-package <package_name> tests",
             ],
+        ))
+        steps.append(_step(
+            "resolve-detected-errors",
+            "Resolve detected OpenFisca errors before tooling migration",
+            "conditional",
+            "medium",
+            "If the first-pass diagnosis reports errors, resolve or triage them before changing packaging, CI, or formatting. An agent can help classify findings, propose focused fixes, and rerun checks.",
+            [
+                "uv run openfisca-ai audit . --markdown --output audit-report.md",
+                "uv run openfisca-ai audit . --json --output audit-report.json",
+            ],
+            agent_prompt=(
+                "Read audit-report.md and audit-report.json. Classify findings into: "
+                "(1) quick metadata fixes, (2) code hardcodes/TODOs needing policy review, "
+                "(3) missing tests, (4) false positives. Propose a minimal sequence of fixes, "
+                "apply only the approved fix group, then rerun the relevant openfisca-ai checks."
+            ),
         ))
     elif state["repo_type"] == "python-package":
         steps.append(_step(
