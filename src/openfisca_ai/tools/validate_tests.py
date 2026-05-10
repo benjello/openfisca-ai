@@ -6,6 +6,8 @@ import re
 import sys
 from pathlib import Path
 
+from openfisca_ai.domain.package_layout import PackageLayout
+
 
 class TestValidator:
     """Validate that computed OpenFisca variables are covered by tests."""
@@ -44,30 +46,26 @@ class TestValidator:
 
     def is_country_package_dir(self, path: Path) -> bool:
         """Return True if the path looks like an OpenFisca country package module."""
-        return (
-            path.is_dir()
-            and path.name.startswith("openfisca_")
-            and (path / "__init__.py").exists()
-        )
+        return PackageLayout.is_country_package_dir(path)
 
     def detect_layout(self):
         """Resolve whether the input path is a repo root or a package directory."""
-        if self.is_country_package_dir(self.input_path):
-            self.country_package_dir = self.input_path
-            self.repo_root = self.input_path.parent
+        layout = PackageLayout.from_path(self.input_path)
+        self.repo_root = layout.repo_root
+        self.country_package_dir = layout.package_dir
+
+        if layout.is_valid and self.input_path == layout.package_dir:
             self.info.append(
                 f"✅ Input path looks like a country package directory: {self.country_package_dir.name}"
             )
             return
 
-        self.repo_root = self.input_path
-        candidates = [
-            path
-            for path in self.repo_root.iterdir()
-            if self.is_country_package_dir(path)
-        ]
+        if layout.is_valid:
+            self.info.append(f"✅ Country package detected: {self.country_package_dir.name}")
+            return
 
-        if not candidates:
+        error_message = layout.errors[0] if layout.errors else "Could not resolve OpenFisca package layout"
+        if error_message.startswith("Could not find"):
             self.add_error(
                 "missing_country_package",
                 "Could not find a package directory named like openfisca_<country>",
@@ -75,8 +73,8 @@ class TestValidator:
             )
             return
 
-        if len(candidates) > 1:
-            names = ", ".join(sorted(path.name for path in candidates))
+        if error_message.startswith("Found multiple"):
+            names = error_message.split(":", 1)[1].strip()
             self.add_error(
                 "ambiguous_country_package",
                 f"Found multiple candidate package directories: {names}",
@@ -84,8 +82,7 @@ class TestValidator:
             )
             return
 
-        self.country_package_dir = candidates[0]
-        self.info.append(f"✅ Country package detected: {self.country_package_dir.name}")
+        self.add_error("invalid_package_path", error_message, str(self.repo_root))
 
     def validate_all(self):
         """Run all validations."""
