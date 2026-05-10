@@ -11,6 +11,7 @@ Le principe est volontairement prudent : **proposer, ne pas imposer**.
 ```bash
 openfisca-ai modernize detect .
 openfisca-ai modernize plan .
+openfisca-ai modernize errors .
 ```
 
 Ces commandes n'ecrivent aucun fichier.
@@ -50,6 +51,19 @@ d'audit, puis de demander a un agent IA de classer les problemes :
 
 L'objectif est de traiter les erreurs par petits groupes valides par l'humain,
 puis de relancer uniquement les checks pertinents.
+
+La commande `modernize errors` regroupe les constats en chantiers actionnables :
+
+- `parameter-labels` : priorite haute, risque faible ;
+- `missing-references` : priorite haute, source humaine requise ;
+- `missing-tests` : priorite moyenne ;
+- `code-hardcodes-and-todos` : priorite moyenne, revue metier requise ;
+- `translated-labels` : priorite basse ;
+- `pdf-page-numbers` : priorite basse par defaut.
+
+Les ancres de page PDF sont utiles, mais volontairement classees bas : elles ne
+doivent pas bloquer les corrections plus structurantes sur les labels,
+references absentes, tests ou valeurs hardcodees.
 
 ## Questions Posees
 

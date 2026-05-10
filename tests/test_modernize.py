@@ -1,6 +1,10 @@
 """Tests for modernization detection and planning."""
 
-from openfisca_ai.modernize import build_modernization_plan, detect_modernization_state
+from openfisca_ai.modernize import (
+    build_error_resolution_plan,
+    build_modernization_plan,
+    detect_modernization_state,
+)
 from tests.tool_test_helpers import create_country_repo, write_file
 
 
@@ -62,3 +66,42 @@ def test_modernize_plan_keeps_existing_canonical_choices(tmp_path):
     assert statuses["packaging"] == "ok"
     assert statuses["environment"] == "ok"
     assert statuses["formatter"] == "ok"
+
+
+def test_modernize_errors_groups_findings(tmp_path):
+    repo_path = create_country_repo(tmp_path)
+    write_file(
+        repo_path / "openfisca_demo/parameters/tax/rate.yaml",
+        """
+        description: Tax rate
+        unit: /1
+        values:
+          2024-01-01: 0.1
+        """,
+    )
+    write_file(
+        repo_path / "openfisca_demo/variables/tax.py",
+        """
+        from openfisca_core.periods import YEAR
+        from openfisca_core.variables import Variable
+
+
+        class income_tax(Variable):
+            value_type = float
+            entity = Person
+            definition_period = YEAR
+
+            def formula(person, period):
+                return 2
+        """,
+    )
+
+    plan = build_error_resolution_plan(repo_path)
+    groups = {group["id"]: group for group in plan["groups"]}
+
+    assert "parameter-labels" in groups
+    assert "missing-references" in groups
+    assert "missing-tests" in groups
+    assert "code-hardcodes-and-todos" in groups
+    assert groups["parameter-labels"]["priority"] == "high"
+    assert plan["notes"][1] == "pdf-page-numbers is intentionally low priority by default."

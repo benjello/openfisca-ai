@@ -67,6 +67,26 @@ def test_cli_modernize_detect_outputs_json(tmp_path, capsys):
     assert payload["repo_type"] == "openfisca-package"
 
 
+def test_cli_modernize_errors_outputs_yaml_by_default(tmp_path, capsys):
+    repo_path = create_country_repo(tmp_path)
+    write_file(
+        repo_path / "openfisca_demo/parameters/tax/rate.yaml",
+        """
+        description: Tax rate
+        unit: /1
+        values:
+          2024-01-01: 0.1
+        """,
+    )
+
+    exit_code = cli.main(["modernize", "errors", str(repo_path)])
+
+    captured = capsys.readouterr()
+    payload = yaml.safe_load(captured.out)
+    assert exit_code == 0
+    assert "parameter-labels" in payload["counts_by_group"]
+
+
 def test_cli_run_task_outputs_json(tmp_path, capsys):
     task_path = tmp_path / "task.json"
     task_path.write_text(
