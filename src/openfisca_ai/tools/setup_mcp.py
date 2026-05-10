@@ -14,26 +14,22 @@ import json
 import sys
 from pathlib import Path
 
+from openfisca_ai.domain.package_layout import PackageLayout
+
 
 def detect_package_name(repo_path: Path) -> str | None:
     """Find the openfisca_* package directory name."""
-    for child in repo_path.iterdir():
-        if (
-            child.is_dir()
-            and child.name.startswith("openfisca_")
-            and (child / "__init__.py").exists()
-        ):
-            return child.name
-    return None
+    return PackageLayout.from_path(repo_path).package_name
 
 
 def generate_mcp_config(repo_path: Path) -> dict:
     """Generate .mcp.json content for the given repo."""
-    package_name = detect_package_name(repo_path)
+    layout = PackageLayout.from_path(repo_path)
+    package_name = layout.package_name
     if not package_name:
         raise ValueError(f"No openfisca_* package found in {repo_path}")
 
-    repo_str = str(repo_path.resolve())
+    repo_str = str(layout.repo_root.resolve())
 
     return {
         "mcpServers": {
@@ -53,8 +49,9 @@ def generate_mcp_config(repo_path: Path) -> dict:
 
 def setup_mcp(repo_path: Path, *, dry_run: bool = False, force: bool = False) -> dict:
     """Generate and write .mcp.json."""
+    layout = PackageLayout.from_path(repo_path)
     config = generate_mcp_config(repo_path)
-    target = repo_path / ".mcp.json"
+    target = layout.repo_root / ".mcp.json"
 
     if target.exists() and not force:
         return {
