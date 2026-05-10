@@ -20,12 +20,11 @@ uv run pytest
 
 ```
 src/openfisca_ai/
-  agents/       # AI agent definitions
-  core/         # Orchestrator, LLM engine, artifacts
+  domain/       # Shared OpenFisca business helpers
+  experimental/ # Alpha agents, skills, pipelines and runtime abstractions
+  core/         # Stable artifact, reference package and report helpers
   mcp/          # MCP server & client
-  pipelines/    # Law-to-code pipeline
   resources/    # Guides, country templates, reusable templates
-  skills/       # Extract law, generate code
   tools/        # CLI validation tools (validate-parameters, validate-units, etc.)
 ```
 
@@ -33,7 +32,7 @@ src/openfisca_ai/
 
 - Python 3.10+.
 - Prefer type hints for public APIs.
-- Keep modules focused; add new agents/skills under `src/openfisca_ai/`.
+- Keep modules focused; add unfinished agents/skills under `src/openfisca_ai/experimental/`.
 - No hardcoded values — configuration lives in YAML or JSON files.
 
 ## Adding a new validation tool

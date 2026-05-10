@@ -5,6 +5,13 @@ methodology guides, validation tools, configuration helpers, and (alpha) agent
 scaffolding. Designed to be **added as a dependency** to any OpenFisca country
 project so its tools, guides, and conventions travel with the package.
 
+The project intentionally separates stable tooling, beta integrations, and
+experimental scaffolding. See [`docs/architecture.md`](docs/architecture.md)
+for the current map.
+
+CI profile detection is documented in [`docs/ci-profiles.md`](docs/ci-profiles.md).
+Modernization planning is documented in [`docs/modernize.md`](docs/modernize.md).
+
 Friendly with **Claude Code**, **Cursor**, **Gemini**, **Antigravity**, etc.
 
 ---
@@ -126,8 +133,9 @@ uv run openfisca-ai guide cat mcp
 
 It is the **single source of truth** for the MCP surface and covers:
 
-- The 9 tools exposed (`search_variables`, `describe_variable`, `get_parameter`,
-  `validate_situation`, `calculate`, `trace_calculation`, `list_*`)
+- The live OpenFisca API tools (`search_variables`, `describe_variable`,
+  `get_parameter`, `validate_situation`, `calculate`, `trace_calculation`,
+  `list_*`) and the static package tools (`review_diff`, `audit_package`)
 - The startup cost of `openfisca serve` and when MCP pays off vs. static tools
 - A **task-based** strategy table (audit → static-first, implement → MCP-first,
   test generation → MCP only) instead of the oversimplified "static first" rule
@@ -139,6 +147,9 @@ Install with the `mcp` extra and start the server:
 ```bash
 uv add --group dev "openfisca-ai[mcp] @ git+https://github.com/openfisca/openfisca-ai.git"
 
+uv run openfisca-ai mcp --target france
+
+# Or manually:
 uv run openfisca-ai mcp --serve \
   --serve-command "uv run openfisca serve --country-package openfisca_<country>"
 ```
@@ -152,8 +163,7 @@ uv run openfisca-ai mcp --serve \
       "command": "uv",
       "args": [
         "run", "openfisca-ai", "mcp",
-        "--serve",
-        "--serve-command", "uv run openfisca serve --country-package openfisca_<country>"
+        "--target", "france"
       ]
     }
   }
@@ -217,15 +227,18 @@ uv run pytest
 
 ### 4. Try the Alpha Runtime
 
-The `run` command is still alpha, but it can now load a configured reference
-country package, attach a compact pattern summary to its output, and build an
-`implementation_brief` for downstream code generation.
+The explicit `experimental` commands are alpha, but they can now load a
+configured reference country package, attach a compact pattern summary to their
+output, and build an `implementation_brief` for downstream code generation.
 
 ```bash
-uv run openfisca-ai run tasks/example_task.json
-uv run openfisca-ai scaffold tasks/example_task.json
-uv run openfisca-ai scaffold-apply tasks/example_task.json
+uv run openfisca-ai experimental run tasks/example_task.json
+uv run openfisca-ai experimental scaffold tasks/example_task.json
+uv run openfisca-ai experimental scaffold-apply tasks/example_task.json
 ```
+
+The older top-level commands `run`, `scaffold`, and `scaffold-apply` remain as
+compatibility aliases.
 
 `scaffold` is preview-first by default.
 `scaffold-apply` writes artifacts either to `options.output_dir` or, when a
@@ -430,14 +443,20 @@ See [Tools README](tools/README.md) for usage.
 
 ### Status
 
-- **Stable today**: configuration helpers and autonomous validation tools in `tools/`
-- **Alpha / incomplete**: agent runtime in `src/openfisca_ai/` (`ExtractorAgent`, `CoderAgent`, `law_to_code`)
+- **Stable today**: guides, target/config helpers, package layout helpers, and autonomous validation tools.
+- **Beta**: MCP integration around `openfisca serve` and local static tools exposed through MCP.
+- **Alpha / incomplete**: agent runtime in `src/openfisca_ai/experimental/` (`ExtractorAgent`, `CoderAgent`, `law_to_code`)
   - current useful behavior: load country config, resolve existing code, extract reusable patterns, build an implementation brief, and generate scaffolding artifacts from structured extracted input
   - not implemented yet: real code generation, test generation, multi-agent orchestration
+
+See [`docs/architecture.md`](docs/architecture.md) for the current stable / beta / experimental map.
 
 ---
 
 ## Architecture
+
+This section describes the methodology guide hierarchy. For the Python package
+layout and maturity levels, see [`docs/architecture.md`](docs/architecture.md).
 
 ```
 3-Level Architecture:

@@ -1,6 +1,7 @@
 """Tests for the openfisca-ai CLI."""
 
 import json
+import yaml
 
 from openfisca_ai import cli
 from tests.tool_test_helpers import create_country_repo, create_modern_country_repo, write_file
@@ -12,6 +13,78 @@ def test_cli_without_args_prints_usage(capsys):
     captured = capsys.readouterr()
     assert exit_code == 1
     assert "Usage:" in captured.err
+    assert "Stable tools:" in captured.err
+    assert "Beta integrations:" in captured.err
+    assert "Experimental scaffolding:" in captured.err
+    assert "openfisca-ai ci detect" in captured.err
+
+
+def test_cli_ci_detect_outputs_yaml_by_default(tmp_path, capsys):
+    repo_path = create_country_repo(tmp_path)
+    write_file(repo_path / "pyproject.toml", "[project]\nname = 'openfisca-demo'\n")
+
+    exit_code = cli.main(["ci", "detect", str(repo_path)])
+
+    captured = capsys.readouterr()
+    payload = yaml.safe_load(captured.out)
+    assert exit_code == 0
+    assert payload["repo_type"] == "openfisca-package"
+    assert payload["package_name"] == "openfisca_demo"
+
+
+def test_cli_ci_detect_outputs_json(tmp_path, capsys):
+    repo_path = create_country_repo(tmp_path)
+
+    exit_code = cli.main(["ci", "detect", str(repo_path), "--json"])
+
+    captured = capsys.readouterr()
+    payload = json.loads(captured.out)
+    assert exit_code == 0
+    assert payload["repo_type"] == "openfisca-package"
+
+
+def test_cli_modernize_plan_outputs_yaml_by_default(tmp_path, capsys):
+    repo_path = create_country_repo(tmp_path)
+    write_file(repo_path / "setup.py", "setup(name='openfisca-demo')\n")
+
+    exit_code = cli.main(["modernize", "plan", str(repo_path)])
+
+    captured = capsys.readouterr()
+    payload = yaml.safe_load(captured.out)
+    assert exit_code == 0
+    assert payload["repo_type"] == "openfisca-package"
+    assert payload["steps"][0]["id"] == "first-pass-validation"
+
+
+def test_cli_modernize_detect_outputs_json(tmp_path, capsys):
+    repo_path = create_country_repo(tmp_path)
+
+    exit_code = cli.main(["modernize", "detect", str(repo_path), "--json"])
+
+    captured = capsys.readouterr()
+    payload = json.loads(captured.out)
+    assert exit_code == 0
+    assert payload["repo_type"] == "openfisca-package"
+
+
+def test_cli_modernize_errors_outputs_yaml_by_default(tmp_path, capsys):
+    repo_path = create_country_repo(tmp_path)
+    write_file(
+        repo_path / "openfisca_demo/parameters/tax/rate.yaml",
+        """
+        description: Tax rate
+        unit: /1
+        values:
+          2024-01-01: 0.1
+        """,
+    )
+
+    exit_code = cli.main(["modernize", "errors", str(repo_path)])
+
+    captured = capsys.readouterr()
+    payload = yaml.safe_load(captured.out)
+    assert exit_code == 0
+    assert "parameter-labels" in payload["counts_by_group"]
 
 
 def test_cli_run_task_outputs_json(tmp_path, capsys):
@@ -27,6 +100,28 @@ def test_cli_run_task_outputs_json(tmp_path, capsys):
     )
 
     exit_code = cli.main(["run", str(task_path)])
+
+    captured = capsys.readouterr()
+    payload = json.loads(captured.out)
+    assert exit_code == 0
+    assert "extracted" in payload
+    assert "code" in payload
+    assert "artifacts" in payload
+
+
+def test_cli_experimental_run_task_outputs_json(tmp_path, capsys):
+    task_path = tmp_path / "task.json"
+    task_path.write_text(
+        json.dumps(
+            {
+                "pipeline": "law_to_code",
+                "inputs": {"law_text": "Article 1"},
+            }
+        ),
+        encoding="utf-8",
+    )
+
+    exit_code = cli.main(["experimental", "run", str(task_path)])
 
     captured = capsys.readouterr()
     payload = json.loads(captured.out)

@@ -14,26 +14,23 @@ import json
 import sys
 from pathlib import Path
 
+from openfisca_ai.agent_targets import resolve_agent_target
+from openfisca_ai.domain.package_layout import PackageLayout
+
 
 def detect_package_name(repo_path: Path) -> str | None:
     """Find the openfisca_* package directory name."""
-    for child in repo_path.iterdir():
-        if (
-            child.is_dir()
-            and child.name.startswith("openfisca_")
-            and (child / "__init__.py").exists()
-        ):
-            return child.name
-    return None
+    return PackageLayout.from_path(repo_path).package_name
 
 
 def generate_mcp_config(repo_path: Path) -> dict:
     """Generate .mcp.json content for the given repo."""
-    package_name = detect_package_name(repo_path)
+    layout = PackageLayout.from_path(repo_path)
+    package_name = layout.package_name
     if not package_name:
         raise ValueError(f"No openfisca_* package found in {repo_path}")
 
-    repo_str = str(repo_path.resolve())
+    repo_str = str(layout.repo_root.resolve())
 
     return {
         "mcpServers": {
@@ -51,10 +48,43 @@ def generate_mcp_config(repo_path: Path) -> dict:
     }
 
 
-def setup_mcp(repo_path: Path, *, dry_run: bool = False, force: bool = False) -> dict:
+def generate_mcp_config_from_target(target_name: str) -> tuple[Path, dict]:
+    """Generate .mcp.json content from a configured agent target."""
+    target = resolve_agent_target(target_name)
+    if not target.get("configured"):
+        errors = "; ".join(target.get("errors") or [])
+        raise ValueError(f"Target {target_name!r} is not configured: {errors}")
+
+    main_repo = target["main_repo"]
+    package_name = main_repo.get("package_name")
+    if not package_name:
+        raise ValueError(f"Target {target_name!r} does not expose a package_name")
+
+    repo_path = Path(main_repo["path"])
+    config = {
+        "mcpServers": {
+            "openfisca": {
+                "command": "uv",
+                "args": [
+                    "run", "openfisca-ai", "mcp",
+                    "--target", target_name,
+                    "--url", "http://localhost:5000",
+                ],
+            },
+        },
+    }
+    return repo_path, config
+
+
+def setup_mcp(repo_path: Path, *, dry_run: bool = False, force: bool = False, target_name: str | None = None) -> dict:
     """Generate and write .mcp.json."""
-    config = generate_mcp_config(repo_path)
-    target = repo_path / ".mcp.json"
+    if target_name:
+        repo_root, config = generate_mcp_config_from_target(target_name)
+    else:
+        layout = PackageLayout.from_path(repo_path)
+        repo_root = layout.repo_root
+        config = generate_mcp_config(repo_path)
+    target = repo_root / ".mcp.json"
 
     if target.exists() and not force:
         return {
@@ -85,11 +115,18 @@ def setup_mcp(repo_path: Path, *, dry_run: bool = False, force: bool = False) ->
 def main():
     args = sys.argv[1:]
     if not args:
-        print("Usage: openfisca-ai setup-mcp <package-path> [--dry-run] [--force]")
+        print("Usage: openfisca-ai setup-mcp <package-path>|--target NAME [--dry-run] [--force]")
         sys.exit(1)
 
-    repo_path = Path(args[0])
-    if not repo_path.exists():
+    target_name = None
+    repo_arg = None
+    if args[0] == "--target" and len(args) >= 2:
+        target_name = args[1]
+    else:
+        repo_arg = args[0]
+
+    repo_path = Path(repo_arg) if repo_arg else Path.cwd()
+    if repo_arg and not repo_path.exists():
         print(f"Path not found: {repo_path}")
         sys.exit(1)
 
@@ -97,12 +134,12 @@ def main():
     force = "--force" in args
 
     try:
-        result = setup_mcp(repo_path, dry_run=dry_run, force=force)
+        result = setup_mcp(repo_path, dry_run=dry_run, force=force, target_name=target_name)
     except ValueError as e:
         print(f"Error: {e}", file=sys.stderr)
         sys.exit(1)
 
-    package_name = detect_package_name(repo_path)
+    package_name = target_name or detect_package_name(repo_path)
     print(f"Package: {package_name}")
     print(f"Status: {result['status']}")
     print(f"Path: {result['path']}")

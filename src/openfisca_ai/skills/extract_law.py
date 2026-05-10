@@ -1,16 +1,5 @@
-"""Skill: extract structured law from raw text."""
+"""Compatibility wrapper for the experimental law extraction skill."""
 
+from openfisca_ai.experimental.skills.extract_law import extract_law
 
-def extract_law(text: str, **options) -> dict:
-    """
-    Extract structured representation of law from raw text.
-
-    Returns a dict suitable for downstream code generation.
-    """
-    # Placeholder: return structure that coder can consume
-    return {
-        "source_text": text,
-        "provisions": [],
-        "parameters": [],
-        "variables": [],
-    }
+__all__ = ["extract_law"]

@@ -1,6 +1,6 @@
 """Tests for validate_units.py."""
 
-from tests.tool_test_helpers import create_package, load_tool_module, write_file
+from tests.tool_test_helpers import create_country_repo, create_package, load_tool_module, write_file
 
 
 validate_units = load_tool_module("validate_units.py", "validate_units_tool")
@@ -76,3 +76,21 @@ def test_validate_units_rejects_undefined_units(tmp_path):
 
     assert validator.validate() is False
     assert "fortnight" in validator.units_used
+
+
+def test_validate_units_accepts_repo_root(tmp_path):
+    repo_path = create_country_repo(tmp_path)
+    write_file(
+        repo_path / "openfisca_demo/parameters/tax/rate.yaml",
+        """
+        description: Tax rate
+        unit: /1
+        values:
+          2024-01-01: 0.1
+        """,
+    )
+
+    validator = validate_units.UnitsValidator(repo_path)
+
+    assert validator.validate() is True
+    assert validator.package_path == repo_path / "openfisca_demo"

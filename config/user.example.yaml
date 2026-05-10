@@ -6,6 +6,7 @@
 
 base_path: /home/YOUR_USERNAME/projets
 legislation_base_path: /home/YOUR_USERNAME/legislation
+agent_worktree_base: ${base_path}/.agent-worktrees
 active_country: tunisia
 
 countries:
@@ -14,6 +15,21 @@ countries:
       root: ${legislation_base_path}/tunisia
     existing_code:
       path: ${base_path}/openfisca-tunisia
+    agent:
+      aliases:
+        - tunisie
+        - openfisca-tunisia
+      main_repo: openfisca-tunisia
+      repos:
+        openfisca-tunisia:
+          path: ${base_path}/openfisca-tunisia
+          mode: rw
+        openfisca-core:
+          path: ${base_path}/openfisca-core
+          mode: ro
+        openfisca-survey-manager:
+          path: ${base_path}/openfisca-survey-manager
+          mode: worktree
 
   # Add more countries when you add them to config/countries/:
   # france:
@@ -21,3 +37,17 @@ countries:
   #     root: ${legislation_base_path}/france
   #   existing_code:
   #     path: ${base_path}/openfisca-france
+  #   agent:
+  #     aliases:
+  #       - openfisca-france
+  #     main_repo: openfisca-france
+  #     repos:
+  #       openfisca-france:
+  #         path: ${base_path}/openfisca-france
+  #         mode: rw
+  #       openfisca-core:
+  #         path: ${base_path}/openfisca-core
+  #         mode: ro
+  #       openfisca-survey-manager:
+  #         path: ${base_path}/openfisca-survey-manager
+  #         mode: worktree

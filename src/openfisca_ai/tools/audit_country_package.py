@@ -20,6 +20,8 @@ from contextlib import redirect_stdout
 from pathlib import Path
 from typing import Any
 
+from openfisca_ai.domain.package_layout import PackageLayout
+
 
 TOOL_FILES = {
     "baseline": "check_package_baseline.py",
@@ -83,21 +85,13 @@ class CountryPackageAuditor:
         if self._package_scope_path is not None:
             return
 
-        if self.is_country_package_dir(self.package_path):
-            self._package_scope_path = self.package_path
-            self._repo_scope_path = self.package_path.parent
+        layout = PackageLayout.from_path(self.package_path)
+        self._repo_scope_path = layout.repo_root
+        if layout.package_dir is not None:
+            self._package_scope_path = layout.package_dir
             return
 
-        self._repo_scope_path = self.package_path
-        candidates = [
-            path
-            for path in self.package_path.iterdir()
-            if self.is_country_package_dir(path)
-        ]
-        if len(candidates) == 1:
-            self._package_scope_path = candidates[0]
-        else:
-            self._package_scope_path = self.package_path
+        self._package_scope_path = self.package_path
 
     @property
     def package_scope_path(self) -> Path:
@@ -108,11 +102,7 @@ class CountryPackageAuditor:
 
     def is_country_package_dir(self, path: Path) -> bool:
         """Return True when a path looks like an OpenFisca country package module."""
-        return (
-            path.is_dir()
-            and path.name.startswith("openfisca_")
-            and (path / "__init__.py").exists()
-        )
+        return PackageLayout.is_country_package_dir(path)
 
     def run_baseline(self) -> dict[str, Any]:
         """Run package baseline checks."""

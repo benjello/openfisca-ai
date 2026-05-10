@@ -18,6 +18,8 @@ import re
 import sys
 from pathlib import Path
 
+from openfisca_ai.domain.package_layout import PackageLayout
+
 
 def parse_diff(diff_text: str) -> dict:
     """Extract structured information from a unified diff."""
@@ -146,14 +148,7 @@ def run_targeted_validation(package_path: Path, classification: dict) -> dict:
 
 def _find_package_dir(repo_path: Path) -> Path:
     """Find the openfisca_* package directory."""
-    for child in repo_path.iterdir():
-        if (
-            child.is_dir()
-            and child.name.startswith("openfisca_")
-            and (child / "__init__.py").exists()
-        ):
-            return child
-    return repo_path
+    return PackageLayout.from_path(repo_path).package_dir or repo_path
 
 
 def build_report(diff_text: str, package_path: Path) -> dict:

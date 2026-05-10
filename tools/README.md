@@ -24,10 +24,13 @@ They complement the shared package baseline (read it via
 `check-all` is the preferred repo-wide entrypoint when you want one command to
 run the full OpenFisca AI audit stack.
 
+For CI normalization, start with `openfisca-ai ci detect .`. The detection
+model and retained profile names are documented in `docs/ci-profiles.md`.
+
 For **semantic** checks against a live OpenFisca system, see the canonical
-MCP guide: `uv run openfisca-ai guide cat mcp`. It lists the 9 tools the
-MCP server exposes, the startup cost, and the task-based strategy for
-choosing between static and MCP tools.
+MCP guide: `uv run openfisca-ai guide cat mcp`. It lists the live API tools,
+the static package tools exposed through MCP, the startup cost, and the
+task-based strategy for choosing between static and MCP tools.
 
 ---
 

@@ -52,9 +52,8 @@ def _load_tool_module(filename: str):
 def _print_usage(stream):
     """Print CLI usage."""
     print("Usage:", file=stream)
-    print("  openfisca-ai run <task.json>", file=stream)
-    print("  openfisca-ai scaffold <task.json>", file=stream)
-    print("  openfisca-ai scaffold-apply <task.json>", file=stream)
+    print("", file=stream)
+    print("Stable tools:", file=stream)
     print("  openfisca-ai audit <package-path> [--json|--markdown] [--output FILE]", file=stream)
     print("  openfisca-ai check-all <package-path> [--json|--markdown] [--output FILE]", file=stream)
     print("  openfisca-ai extract-patterns <package-path> [--json]", file=stream)
@@ -66,15 +65,37 @@ def _print_usage(stream):
     print("  openfisca-ai validate-units <package-path>", file=stream)
     print("  openfisca-ai suggest-units <package-path> [--apply]", file=stream)
     print("  openfisca-ai setup-ci <package-path> [--dry-run] [--github] [--gitlab] [--force]", file=stream)
-    print("  openfisca-ai setup-mcp <package-path> [--dry-run] [--force]", file=stream)
     print("  openfisca-ai review-diff <package-path> [--diff-file FILE] [--json] [--markdown]", file=stream)
     print("  openfisca-ai init-units <package-path> [--apply] [--currency NAME SHORT]", file=stream)
-    print("  openfisca-ai mcp [--url http://localhost:5000]", file=stream)
     print("  openfisca-ai generate-test-from-trace <trace.json> [--output test.yaml] [--name NAME]", file=stream)
+    print("  openfisca-ai ci detect <path> [--yaml|--json]", file=stream)
+    print("  openfisca-ai modernize detect <path> [--yaml|--json]", file=stream)
+    print("  openfisca-ai modernize plan <path> [--yaml|--json]", file=stream)
+    print("  openfisca-ai modernize errors <path> [--yaml|--json]", file=stream)
+    print("", file=stream)
+    print("Guides and targets:", file=stream)
+    print("  openfisca-ai target list [--yaml|--json]", file=stream)
+    print("  openfisca-ai target show <name> [--yaml|--json]", file=stream)
+    print("  openfisca-ai target resolve <name> [--yaml|--json]", file=stream)
+    print("  openfisca-ai target doctor <name> [--yaml|--json]", file=stream)
     print("  openfisca-ai guide list", file=stream)
     print("  openfisca-ai guide show <name>", file=stream)
     print("  openfisca-ai guide cat <name>", file=stream)
     print("  openfisca-ai guide path", file=stream)
+    print("", file=stream)
+    print("Beta integrations:", file=stream)
+    print("  openfisca-ai mcp [--target NAME|--url URL]", file=stream)
+    print("  openfisca-ai setup-mcp <package-path>|--target NAME [--dry-run] [--force]", file=stream)
+    print("", file=stream)
+    print("Experimental scaffolding:", file=stream)
+    print("  openfisca-ai experimental run <task.json>", file=stream)
+    print("  openfisca-ai experimental scaffold <task.json>", file=stream)
+    print("  openfisca-ai experimental scaffold-apply <task.json>", file=stream)
+    print("", file=stream)
+    print("Compatibility aliases:", file=stream)
+    print("  openfisca-ai run <task.json>", file=stream)
+    print("  openfisca-ai scaffold <task.json>", file=stream)
+    print("  openfisca-ai scaffold-apply <task.json>", file=stream)
 
 
 def _render_task_report(result: dict, report_format: str) -> str:
@@ -107,7 +128,7 @@ def _run_task_command(args: list[str], command: str = "run") -> int:
     options = task.get("options", {})
 
     if pipeline_name == "law_to_code":
-        from openfisca_ai.pipelines.law_to_code import run_law_to_code
+        from openfisca_ai.experimental.pipelines.law_to_code import run_law_to_code
         law_text = inputs.get("law_text", "")
         extracted_data = inputs.get("extracted")
         use_ref = options.get("use_existing_code_as_reference", bool(country_id))
@@ -168,6 +189,17 @@ def _run_task_command(args: list[str], command: str = "run") -> int:
 
     print(f"Unknown pipeline: {pipeline_name}", file=sys.stderr)
     return 1
+
+
+def _run_experimental_command(args: list[str]) -> int:
+    """Run experimental scaffold commands with an explicit namespace."""
+    if len(args) < 2 or args[1] not in {"run", "scaffold", "scaffold-apply"}:
+        print(
+            "Usage: openfisca-ai experimental {run|scaffold|scaffold-apply} <task.json>",
+            file=sys.stderr,
+        )
+        return 1
+    return _run_task_command([args[0], *args[2:]], command=args[1])
 
 
 def _run_tool_command(command: str, args: list[str]) -> int:
@@ -263,11 +295,13 @@ def _run_mcp_command(args: list[str]) -> int:
         --url URL            OpenFisca API URL (default: http://localhost:5000)
         --serve              Start `openfisca serve` automatically as a subprocess
         --serve-command CMD  Custom serve command (e.g. "uv run openfisca serve")
+        --target NAME        Resolve repo path and serve command from an agent target
     """
     url = None
     serve = False
     serve_command: list[str] | None = None
     repo_path: str | None = None
+    target_name: str | None = None
 
     remaining = args[1:]
     i = 0
@@ -286,8 +320,34 @@ def _run_mcp_command(args: list[str]) -> int:
         elif remaining[i] == "--repo-path" and i + 1 < len(remaining):
             repo_path = remaining[i + 1]
             i += 2
+        elif remaining[i] == "--target" and i + 1 < len(remaining):
+            target_name = remaining[i + 1]
+            i += 2
         else:
             i += 1
+
+    if target_name:
+        try:
+            from openfisca_ai.agent_targets import resolve_agent_target
+
+            target = resolve_agent_target(target_name)
+        except Exception as exc:
+            print(f"Could not resolve target {target_name!r}: {exc}", file=sys.stderr)
+            return 1
+        if not target.get("configured"):
+            errors = "; ".join(target.get("errors") or [])
+            print(f"Target {target_name!r} is not configured: {errors}", file=sys.stderr)
+            return 1
+        main_repo = target["main_repo"]
+        repo_path = repo_path or main_repo["path"]
+        package_name = main_repo.get("package_name")
+        if package_name and serve_command is None:
+            import shlex
+
+            serve_command = shlex.split(
+                f"uv run openfisca serve --country-package {package_name}"
+            )
+            serve = True
 
     try:
         from openfisca_ai.mcp.server import run
@@ -302,6 +362,135 @@ def _run_mcp_command(args: list[str]) -> int:
     return 0
 
 
+def _run_ci_command(args: list[str]) -> int:
+    """Run CI helper subcommands."""
+    if len(args) < 3 or args[1] != "detect":
+        print("Usage: openfisca-ai ci detect <path> [--yaml|--json]", file=sys.stderr)
+        return 1
+
+    json_output = "--json" in args[3:]
+    yaml_output = "--yaml" in args[3:]
+    if json_output and yaml_output:
+        print("Choose only one output format: --yaml or --json", file=sys.stderr)
+        return 1
+
+    from openfisca_ai.ci.detect import detect_ci_profile
+
+    report = detect_ci_profile(args[2])
+    if json_output:
+        print(json.dumps(report, indent=2, ensure_ascii=False))
+    else:
+        _print_yaml(report)
+    return 0
+
+
+def _run_modernize_command(args: list[str]) -> int:
+    """Run modernization helper subcommands."""
+    if len(args) < 3 or args[1] not in {"detect", "plan", "errors"}:
+        print("Usage: openfisca-ai modernize {detect|plan|errors} <path> [--yaml|--json]", file=sys.stderr)
+        return 1
+
+    json_output = "--json" in args[3:]
+    yaml_output = "--yaml" in args[3:]
+    if json_output and yaml_output:
+        print("Choose only one output format: --yaml or --json", file=sys.stderr)
+        return 1
+
+    if args[1] == "detect":
+        from openfisca_ai.modernize import detect_modernization_state
+
+        payload = detect_modernization_state(args[2])
+    elif args[1] == "plan":
+        from openfisca_ai.modernize import build_modernization_plan
+
+        payload = build_modernization_plan(args[2])
+    else:
+        from openfisca_ai.modernize import build_error_resolution_plan
+
+        payload = build_error_resolution_plan(args[2])
+
+    if json_output:
+        print(json.dumps(payload, indent=2, ensure_ascii=False))
+    else:
+        _print_yaml(payload)
+    return 0
+
+
+def _print_yaml(payload) -> None:
+    """Print YAML output for human-readable target inspection."""
+    try:
+        import yaml
+    except ImportError:
+        print("PyYAML is required for YAML output. Install with: pip install pyyaml", file=sys.stderr)
+        raise
+
+    class NoAliasDumper(yaml.SafeDumper):
+        def ignore_aliases(self, data):
+            return True
+
+    print(
+        yaml.dump(
+            payload,
+            Dumper=NoAliasDumper,
+            allow_unicode=True,
+            sort_keys=False,
+        ).rstrip()
+    )
+
+
+def _run_target_command(args: list[str]) -> int:
+    """List and resolve local agent targets from OpenFisca AI config."""
+    from openfisca_ai.agent_targets import (
+        AgentTargetError,
+        list_agent_targets,
+        resolve_agent_target,
+    )
+
+    if len(args) < 2 or args[1] not in {"list", "show", "resolve", "doctor"}:
+        print(
+            "Usage: openfisca-ai target {list|show|resolve|doctor} [name] [--yaml|--json]",
+            file=sys.stderr,
+        )
+        return 1
+
+    subcommand = args[1]
+    json_output = "--json" in args[2:]
+    yaml_output = "--yaml" in args[2:]
+    if json_output and yaml_output:
+        print("Choose only one output format: --yaml or --json", file=sys.stderr)
+        return 1
+    positional = [arg for arg in args[2:] if arg not in {"--json", "--yaml"}]
+
+    try:
+        if subcommand == "list":
+            targets = list_agent_targets()
+            if json_output:
+                print(json.dumps(targets, indent=2, ensure_ascii=False))
+            elif yaml_output:
+                _print_yaml(targets)
+            else:
+                for target in targets:
+                    aliases = ", ".join(target["aliases"])
+                    print(f"{target['id']}\t{target['main_repo']['path']}\t{aliases}")
+            return 0
+
+        if not positional:
+            print(f"Usage: openfisca-ai target {subcommand} <name> [--yaml|--json]", file=sys.stderr)
+            return 1
+
+        target = resolve_agent_target(positional[0])
+        if json_output:
+            print(json.dumps(target, indent=2, ensure_ascii=False))
+        else:
+            _print_yaml(target)
+        if subcommand == "doctor" and not target.get("configured"):
+            return 1
+        return 0
+    except AgentTargetError as exc:
+        print(str(exc), file=sys.stderr)
+        return 1
+
+
 def main(argv: list[str] | None = None) -> int:
     """Entry point for the openfisca-ai command."""
     args = list(sys.argv[1:] if argv is None else argv)
@@ -310,11 +499,23 @@ def main(argv: list[str] | None = None) -> int:
         return 1
 
     command = args[0]
+    if command == "experimental":
+        return _run_experimental_command(args)
+
     if command in {"run", "scaffold", "scaffold-apply"}:
         return _run_task_command(args, command=command)
 
     if command == "mcp":
         return _run_mcp_command(args)
+
+    if command == "ci":
+        return _run_ci_command(args)
+
+    if command == "modernize":
+        return _run_modernize_command(args)
+
+    if command == "target":
+        return _run_target_command(args)
 
     if command == "guide":
         return _run_guide_command(args)

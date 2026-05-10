@@ -9,6 +9,9 @@ This repository currently has two distinct layers:
 - **Stable**: validation tools and configuration helpers
 - **Alpha**: agent runtime and `law_to_code` pipeline scaffolding
 
+The architecture map in [`docs/architecture.md`](docs/architecture.md) is the
+source of truth for what is stable, beta, or experimental.
+
 Do not assume the runtime can already perform a full end-to-end implementation from legislation to production-ready OpenFisca code.
 
 ## Read Order
@@ -85,7 +88,7 @@ countries:
 uv sync --dev
 uv run python config/test_config.py
 uv run pytest
-uv run openfisca-ai run tasks/example_task.json
+uv run openfisca-ai experimental run tasks/example_task.json
 ```
 
 For OpenFisca country packages:
@@ -126,6 +129,9 @@ rule only fits audit work; for implementation or test generation, MCP wins.
 Quickstart:
 
 ```bash
+uv run openfisca-ai mcp --target france
+
+# Or manually:
 uv run openfisca-ai mcp --serve \
   --serve-command "uv run openfisca serve --country-package openfisca_<country>"
 ```

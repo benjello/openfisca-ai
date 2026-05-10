@@ -87,7 +87,7 @@ Dans ce repo :
 uv sync --dev
 uv run python config/test_config.py
 uv run pytest
-uv run openfisca-ai run tasks/example_task.json
+uv run openfisca-ai experimental run tasks/example_task.json
 ```
 
 Dans un package OpenFisca pays :
@@ -129,6 +129,9 @@ qu'à l'audit ; pour implémenter ou générer un test, MCP est plus efficace.
 Démarrage rapide :
 
 ```bash
+uv run openfisca-ai mcp --target france
+
+# Ou manuellement :
 uv run openfisca-ai mcp --serve \
   --serve-command "uv run openfisca serve --country-package openfisca_<country>"
 ```

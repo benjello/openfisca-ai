@@ -1,4 +1,4 @@
-"""Core components: agent, orchestrator, LLM engine."""
+"""Core stable helpers plus compatibility exports for experimental runtime."""
 
 from openfisca_ai.core.agent import Agent
 from openfisca_ai.core.artifacts import (

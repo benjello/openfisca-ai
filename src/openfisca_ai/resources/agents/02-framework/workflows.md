@@ -28,16 +28,21 @@ The executable entrypoints currently exposed by the package are:
 - validate references automatically
 - generate tests automatically
 
-See [`src/openfisca_ai/pipelines/law_to_code.py`](../../../src/openfisca_ai/pipelines/law_to_code.py).
+See `src/openfisca_ai/experimental/pipelines/law_to_code.py`. The old
+`openfisca_ai.pipelines.law_to_code` import path remains as a compatibility
+wrapper.
 
 ### CLI usage
 
 ```bash
-uv run openfisca-ai run tasks/example_task.json
-uv run openfisca-ai scaffold tasks/example_task.json
-uv run openfisca-ai scaffold-apply tasks/example_task.json
+uv run openfisca-ai experimental run tasks/example_task.json
+uv run openfisca-ai experimental scaffold tasks/example_task.json
+uv run openfisca-ai experimental scaffold-apply tasks/example_task.json
 uv run openfisca-ai check-all /path/to/openfisca-country
 ```
+
+The older top-level commands `run`, `scaffold`, and `scaffold-apply` remain as
+compatibility aliases.
 
 Behavior summary:
 

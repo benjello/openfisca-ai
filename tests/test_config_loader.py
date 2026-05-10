@@ -4,10 +4,13 @@ from pathlib import Path
 from textwrap import dedent
 
 from openfisca_ai.config_loader import (
+    expand_config_placeholders,
     get_legislative_sources_root,
     get_reference_code_path,
     get_user_config_path,
+    load_user_config,
     load_country_config,
+    user_config_context,
 )
 
 
@@ -117,3 +120,26 @@ def test_global_legacy_config_yaml_is_supported(tmp_path, monkeypatch):
 
     assert get_user_config_path() == global_config
     assert get_reference_code_path("tunisia") == Path("/global/openfisca-tunisia")
+
+
+def test_public_user_config_helpers_expand_placeholders(tmp_path, monkeypatch):
+    repo_root = tmp_path / "repo"
+    monkeypatch.setenv("OPENFISCA_AI_ROOT", str(repo_root))
+
+    write_file(
+        repo_root / "config/user.yaml",
+        """
+        base_path: /srv/openfisca
+        countries:
+          tunisia:
+            existing_code:
+              path: ${base_path}/openfisca-tunisia
+        """,
+    )
+
+    user = load_user_config()
+    context = user_config_context(user)
+
+    assert context == {"base_path": "/srv/openfisca"}
+    assert expand_config_placeholders("${base_path}/openfisca-core", context) == "/srv/openfisca/openfisca-core"
+    assert user["countries"]["tunisia"]["existing_code"]["path"] == "${base_path}/openfisca-tunisia"

@@ -136,9 +136,45 @@ countries:
       path: ${base_path}/openfisca-countria
     legislative_sources:
       root: ${legislation_base_path}/countria
+    agent:
+      aliases:
+        - openfisca-countria
+      main_repo: openfisca-countria
+      repos:
+        openfisca-countria:
+          path: ${base_path}/openfisca-countria
+          mode: rw
+        openfisca-core:
+          path: ${base_path}/openfisca-core
+          mode: ro
+        openfisca-survey-manager:
+          path: ${base_path}/openfisca-survey-manager
+          mode: worktree
 ```
 
 The `config_loader` automatically **merges** `user.yaml` with `countria.yaml`, expands `${...}` placeholders from top-level values and environment variables, then resolves relative paths from the project root.
+
+### Local agent target fields
+
+The optional `countries.<id>.agent` section is local workflow configuration for
+agent launchers. Keep it in `config/user.yaml` or the global user config because
+paths and worktree choices are machine-specific.
+
+- `aliases`: extra names that can resolve to this target, for example
+  `openfisca-france` or `tunisie`.
+- `main_repo`: repository where the agent starts.
+- `repos`: repositories that should be visible to the agent.
+- `mode`: local workflow hint for each repository:
+  - `rw`: use the existing checkout as writable.
+  - `ro`: expose the checkout as reference-only.
+  - `worktree`: use a target-specific Git worktree for parallel sessions.
+
+Inspect the normalized target with:
+
+```bash
+uv run openfisca-ai target resolve countria
+uv run openfisca-ai target doctor countria
+```
 
 ### Alternative: global config file
 If `config/user.yaml` doesn't exist, the loader looks in:
@@ -173,7 +209,7 @@ path = get_legislative_sources_root('countria')
 
 ### In a pipeline
 ```python
-# pipelines/law_to_code.py
+# experimental/pipelines/law_to_code.py
 from openfisca_ai.core.reference_package import (
     analyze_reference_package,
     build_implementation_brief,
@@ -207,7 +243,7 @@ def run_law_to_code(law_text, country_id='countria', ...):
 
 ### In an agent
 ```python
-# agents/coder.py
+# experimental/agents/coder.py
 class CoderAgent(Agent):
     def run(self, extracted, reference_code_path=None, country_config=None, reference_package_analysis=None, implementation_brief=None):
         if country_config:
@@ -253,6 +289,17 @@ countries:
       path: ${base_path}/openfisca-newland
     legislative_sources:
       root: ${legislation_base_path}/newland
+    agent:
+      aliases:
+        - openfisca-newland
+      main_repo: openfisca-newland
+      repos:
+        openfisca-newland:
+          path: ${base_path}/openfisca-newland
+          mode: rw
+        openfisca-core:
+          path: ${base_path}/openfisca-core
+          mode: ro
 ```
 
 ### 3. (Optional) Document specifics

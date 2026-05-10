@@ -69,6 +69,41 @@ conventions:
   # calculation_frequency: string
 
 
+agent:
+  # Local agent launcher configuration. Usually defined in config/user.yaml,
+  # not in committed country files, because paths and modes are machine-specific.
+
+  aliases: list[string] | null
+    # Extra names that resolve to this target.
+    # Example: ["openfisca-france", "france"]
+
+  main_repo: string | null
+    # Repository name where an agent session should start.
+    # Example: "openfisca-france"
+
+  base: string | null
+    # Optional base path for relative repo paths. Defaults to top-level base_path
+    # in user config when present.
+
+  worktree_base: string | null
+    # Optional base directory for agent worktrees.
+    # Defaults to ${base_path}/.agent-worktrees when possible.
+
+  repos: mapping | list | null
+    # Repositories visible to the launcher.
+    # Mapping form:
+    #   openfisca-france:
+    #     path: ${base_path}/openfisca-france
+    #     mode: rw
+    # List form:
+    #   - openfisca-france:rw
+    #   - openfisca-core:ro
+    # Modes:
+    #   rw       existing checkout, writable
+    #   ro       reference-only checkout
+    #   worktree target-specific Git worktree
+
+
 # === NOTES ===
 
 # 1. Paths (legislative_sources.root, existing_code.path):
@@ -117,3 +152,20 @@ conventions:
 #     - Foyer
 #     - Menage
 #   naming: snake_case
+#
+# # Local override example, usually in config/user.yaml:
+# agent:
+#   aliases:
+#     - openfisca-tunisia
+#     - tunisie
+#   main_repo: openfisca-tunisia
+#   repos:
+#     openfisca-tunisia:
+#       path: ${base_path}/openfisca-tunisia
+#       mode: rw
+#     openfisca-core:
+#       path: ${base_path}/openfisca-core
+#       mode: ro
+#     openfisca-survey-manager:
+#       path: ${base_path}/openfisca-survey-manager
+#       mode: worktree

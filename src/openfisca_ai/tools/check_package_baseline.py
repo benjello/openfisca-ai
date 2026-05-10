@@ -4,6 +4,8 @@
 import sys
 from pathlib import Path
 
+from openfisca_ai.domain.package_layout import PackageLayout
+
 
 class PackageBaselineChecker:
     """Check the baseline structure expected in most OpenFisca country packages."""
@@ -32,24 +34,18 @@ class PackageBaselineChecker:
 
     def detect_layout(self):
         """Resolve whether the input path is a repo root or the package directory itself."""
-        if (self.input_path / "pyproject.toml").exists():
-            self.repo_root = self.input_path
-            return
+        layout = PackageLayout.from_path(self.input_path)
+        self.repo_root = layout.repo_root
+        self.country_package_dir = layout.package_dir
 
-        if self.is_country_package_dir(self.input_path):
-            self.country_package_dir = self.input_path
-            self.repo_root = self.input_path.parent
+        if layout.is_valid and self.input_path == layout.package_dir:
             self.info.append(
                 f"✅ Input path looks like a country package directory: {self.country_package_dir.name}"
             )
 
     def is_country_package_dir(self, path: Path) -> bool:
         """Return True if the path looks like an OpenFisca country package module."""
-        return (
-            path.is_dir()
-            and path.name.startswith("openfisca_")
-            and (path / "__init__.py").exists()
-        )
+        return PackageLayout.is_country_package_dir(path)
 
     def add_issue(self, issue_type: str, message: str, fix: str):
         """Record a critical baseline issue."""
@@ -110,13 +106,14 @@ class PackageBaselineChecker:
             self.info.append(f"✅ Country package detected: {self.country_package_dir.name}")
             return
 
-        candidates = [
-            path
-            for path in self.repo_root.iterdir()
-            if self.is_country_package_dir(path)
-        ]
+        layout = PackageLayout.from_path(self.repo_root)
+        if layout.is_valid:
+            self.country_package_dir = layout.package_dir
+            self.info.append(f"✅ Country package detected: {self.country_package_dir.name}")
+            return
 
-        if not candidates:
+        error_message = layout.errors[0] if layout.errors else "Could not resolve OpenFisca package layout"
+        if error_message.startswith("Could not find"):
             self.add_issue(
                 "missing_country_package",
                 "Could not find an installable package directory named like openfisca_<country>",
@@ -124,8 +121,8 @@ class PackageBaselineChecker:
             )
             return
 
-        if len(candidates) > 1:
-            names = ", ".join(sorted(path.name for path in candidates))
+        if error_message.startswith("Found multiple"):
+            names = error_message.split(":", 1)[1].strip()
             self.add_issue(
                 "ambiguous_country_package",
                 f"Found multiple candidate package directories: {names}",
@@ -133,8 +130,11 @@ class PackageBaselineChecker:
             )
             return
 
-        self.country_package_dir = candidates[0]
-        self.info.append(f"✅ Country package detected: {self.country_package_dir.name}")
+        self.add_issue(
+            "invalid_package_path",
+            error_message,
+            "Point the tool at a valid OpenFisca country repository or package directory",
+        )
 
     def check_country_package_files(self):
         """Check the standard files and directories inside the country package."""
