@@ -37,6 +37,7 @@ If you only work with one country:
 # config/user.yaml
 base_path: /home/yourname/projets
 legislation_base_path: /home/yourname/legislation
+agent_worktree_base: ${base_path}/.agent-worktrees
 active_country: tunisia
 countries:
   tunisia:
@@ -99,6 +100,47 @@ countries:
 ### Legacy Config Compatibility
 
 Older configs using `countries.<id>.path` are still supported, but deprecated. The loader normalizes them internally to `existing_code.path`.
+
+### Agent Targets
+
+The optional `countries.<id>.agent` section describes how local agent launchers
+should open a country target without duplicating OpenFisca paths elsewhere.
+
+```yaml
+base_path: /home/yourname/projets
+agent_worktree_base: ${base_path}/.agent-worktrees
+countries:
+  france:
+    existing_code:
+      path: ${base_path}/openfisca-france
+    agent:
+      aliases:
+        - openfisca-france
+      main_repo: openfisca-france
+      repos:
+        openfisca-france:
+          path: ${base_path}/openfisca-france
+          mode: rw
+        openfisca-core:
+          path: ${base_path}/openfisca-core
+          mode: ro
+        openfisca-survey-manager:
+          path: ${base_path}/openfisca-survey-manager
+          mode: worktree
+```
+
+Check the normalized target:
+
+```bash
+uv run openfisca-ai target list
+uv run openfisca-ai target resolve france --json
+```
+
+Repo modes are workflow hints for launchers:
+
+- `rw`: use the existing checkout as writable.
+- `ro`: expose the repo as reference-only.
+- `worktree`: use a target-specific Git worktree for parallel sessions.
 
 ---
 

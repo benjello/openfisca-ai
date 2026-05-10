@@ -16,6 +16,48 @@ So that each developer keeps their own paths without committing them:
 
 Paths in `user.yaml` override those in `config/countries/<id>.yaml`. You can also use a global file: `~/.config/openfisca-ai/user.yaml` (canonical) or `~/.config/openfisca-ai/config.yaml` (legacy). The repo-level `config/user.yaml` takes precedence if it exists.
 
+## Agent targets
+
+When using local coding agents, keep target-specific repo wiring in the same
+local user config:
+
+```yaml
+agent_worktree_base: ${base_path}/.agent-worktrees
+
+countries:
+  tunisia:
+    existing_code:
+      path: ${base_path}/openfisca-tunisia
+    agent:
+      aliases:
+        - tunisie
+        - openfisca-tunisia
+      main_repo: openfisca-tunisia
+      repos:
+        openfisca-tunisia:
+          path: ${base_path}/openfisca-tunisia
+          mode: rw
+        openfisca-core:
+          path: ${base_path}/openfisca-core
+          mode: ro
+        openfisca-survey-manager:
+          path: ${base_path}/openfisca-survey-manager
+          mode: worktree
+```
+
+Repo modes are local workflow hints for launchers:
+
+- `rw`: use the existing checkout as writable.
+- `ro`: expose the repo as reference-only.
+- `worktree`: create a target-specific Git worktree before editing.
+
+Inspect the normalized target with:
+
+```bash
+uv run openfisca-ai target show tunisie
+uv run openfisca-ai target resolve tunisie --json
+```
+
 ## Tunisia (first country)
 
 Existing code: **[openfisca/openfisca-tunisia](https://github.com/openfisca/openfisca-tunisia)** on GitHub.
