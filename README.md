@@ -10,6 +10,7 @@ experimental scaffolding. See [`docs/architecture.md`](docs/architecture.md)
 for the current map.
 
 CI profile detection is documented in [`docs/ci-profiles.md`](docs/ci-profiles.md).
+Modernization planning is documented in [`docs/modernize.md`](docs/modernize.md).
 
 Friendly with **Claude Code**, **Cursor**, **Gemini**, **Antigravity**, etc.
 
