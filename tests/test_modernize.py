@@ -24,6 +24,9 @@ def test_modernize_plan_proposes_missing_tools(tmp_path):
     step_ids = [step["id"] for step in plan["steps"]]
     proposed = {step["id"] for step in plan["steps"] if step["status"] == "propose"}
 
+    assert step_ids[0] == "first-pass-validation"
+    assert "validate-parameters" in "\n".join(plan["steps"][0]["suggested_commands"])
+    assert "uv run openfisca test --country-package openfisca_demo tests" in plan["steps"][0]["suggested_commands"]
     assert "packaging" in step_ids
     assert "environment" in proposed
     assert "formatter" in proposed
@@ -51,6 +54,7 @@ def test_modernize_plan_keeps_existing_canonical_choices(tmp_path):
     plan = build_modernization_plan(repo_path)
     statuses = {step["id"]: step["status"] for step in plan["steps"]}
 
+    assert statuses["first-pass-validation"] == "recommended"
     assert statuses["packaging"] == "ok"
     assert statuses["environment"] == "ok"
     assert statuses["formatter"] == "ok"

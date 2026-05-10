@@ -31,6 +31,35 @@ def build_modernization_plan(path: str | Path) -> dict[str, Any]:
     state = detect_modernization_state(path)
     steps: list[dict[str, Any]] = []
 
+    if state["repo_type"] in {"openfisca-package", "openfisca-large"}:
+        steps.append(_step(
+            "first-pass-validation",
+            "Run an OpenFisca first-pass diagnosis",
+            "recommended",
+            "low",
+            "Before changing packaging or CI, inspect current parameter metadata, units, Python formulas, tests, and package audit results.",
+            [
+                "uv run openfisca-ai validate-parameters .",
+                "uv run openfisca-ai validate-units .",
+                "uv run openfisca-ai validate-code .",
+                "uv run openfisca-ai validate-tests .",
+                "uv run openfisca-ai audit . --markdown --output audit-report.md",
+                f"uv run openfisca test --country-package {state['package_name']} tests" if state.get("package_name") else "uv run openfisca test --country-package <package_name> tests",
+            ],
+        ))
+    elif state["repo_type"] == "python-package":
+        steps.append(_step(
+            "first-pass-validation",
+            "Run a Python package first-pass diagnosis",
+            "recommended",
+            "low",
+            "Before changing packaging or CI, run the existing test suite and inspect current tooling.",
+            [
+                "uv run pytest",
+                "uv run openfisca-ai check-tooling .",
+            ],
+        ))
+
     if state["packaging"] == "pyproject-project":
         steps.append(_step(
             "packaging",

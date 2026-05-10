@@ -69,6 +69,8 @@ def _print_usage(stream):
     print("  openfisca-ai init-units <package-path> [--apply] [--currency NAME SHORT]", file=stream)
     print("  openfisca-ai generate-test-from-trace <trace.json> [--output test.yaml] [--name NAME]", file=stream)
     print("  openfisca-ai ci detect <path> [--yaml|--json]", file=stream)
+    print("  openfisca-ai modernize detect <path> [--yaml|--json]", file=stream)
+    print("  openfisca-ai modernize plan <path> [--yaml|--json]", file=stream)
     print("", file=stream)
     print("Guides and targets:", file=stream)
     print("  openfisca-ai target list [--yaml|--json]", file=stream)
@@ -381,6 +383,34 @@ def _run_ci_command(args: list[str]) -> int:
     return 0
 
 
+def _run_modernize_command(args: list[str]) -> int:
+    """Run modernization helper subcommands."""
+    if len(args) < 3 or args[1] not in {"detect", "plan"}:
+        print("Usage: openfisca-ai modernize {detect|plan} <path> [--yaml|--json]", file=sys.stderr)
+        return 1
+
+    json_output = "--json" in args[3:]
+    yaml_output = "--yaml" in args[3:]
+    if json_output and yaml_output:
+        print("Choose only one output format: --yaml or --json", file=sys.stderr)
+        return 1
+
+    if args[1] == "detect":
+        from openfisca_ai.modernize import detect_modernization_state
+
+        payload = detect_modernization_state(args[2])
+    else:
+        from openfisca_ai.modernize import build_modernization_plan
+
+        payload = build_modernization_plan(args[2])
+
+    if json_output:
+        print(json.dumps(payload, indent=2, ensure_ascii=False))
+    else:
+        _print_yaml(payload)
+    return 0
+
+
 def _print_yaml(payload) -> None:
     """Print YAML output for human-readable target inspection."""
     try:
@@ -475,6 +505,9 @@ def main(argv: list[str] | None = None) -> int:
 
     if command == "ci":
         return _run_ci_command(args)
+
+    if command == "modernize":
+        return _run_modernize_command(args)
 
     if command == "target":
         return _run_target_command(args)

@@ -43,6 +43,30 @@ def test_cli_ci_detect_outputs_json(tmp_path, capsys):
     assert payload["repo_type"] == "openfisca-package"
 
 
+def test_cli_modernize_plan_outputs_yaml_by_default(tmp_path, capsys):
+    repo_path = create_country_repo(tmp_path)
+    write_file(repo_path / "setup.py", "setup(name='openfisca-demo')\n")
+
+    exit_code = cli.main(["modernize", "plan", str(repo_path)])
+
+    captured = capsys.readouterr()
+    payload = yaml.safe_load(captured.out)
+    assert exit_code == 0
+    assert payload["repo_type"] == "openfisca-package"
+    assert payload["steps"][0]["id"] == "first-pass-validation"
+
+
+def test_cli_modernize_detect_outputs_json(tmp_path, capsys):
+    repo_path = create_country_repo(tmp_path)
+
+    exit_code = cli.main(["modernize", "detect", str(repo_path), "--json"])
+
+    captured = capsys.readouterr()
+    payload = json.loads(captured.out)
+    assert exit_code == 0
+    assert payload["repo_type"] == "openfisca-package"
+
+
 def test_cli_run_task_outputs_json(tmp_path, capsys):
     task_path = tmp_path / "task.json"
     task_path.write_text(
