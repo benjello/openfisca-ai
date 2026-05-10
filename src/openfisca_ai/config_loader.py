@@ -86,6 +86,11 @@ def _expand_placeholders(value: Any, context: dict[str, str]) -> Any:
     return value
 
 
+def expand_config_placeholders(value: Any, context: dict[str, str]) -> Any:
+    """Public wrapper to expand ${...} placeholders in config values."""
+    return _expand_placeholders(value, context)
+
+
 def _normalize_user_config(data: dict[str, Any]) -> dict[str, Any]:
     """
     Normalize user config to the canonical schema.
@@ -180,6 +185,21 @@ def _load_user_config() -> dict[str, Any]:
         return {}
 
 
+def load_user_config() -> dict[str, Any]:
+    """Load normalized user config from repo-local or global config files."""
+    return _load_user_config()
+
+
+def user_config_context(user_config: dict[str, Any] | None = None) -> dict[str, str]:
+    """Return top-level scalar values usable for placeholder interpolation."""
+    user = user_config if user_config is not None else load_user_config()
+    return {
+        key: str(value)
+        for key, value in user.items()
+        if isinstance(value, (str, int, float, Path))
+    }
+
+
 def _deep_merge(base: dict[str, Any], override: dict[str, Any]) -> dict[str, Any]:
     """Recursively merge override into base. Override values take precedence."""
     out = dict(base)
@@ -213,17 +233,12 @@ def load_country_config(country_id: str) -> dict[str, Any] | None:
     if not isinstance(base, dict):
         return None
 
-    user = _load_user_config()
+    user = load_user_config()
     overrides = (user.get("countries") or {}).get(country_id)
     if isinstance(overrides, dict):
         base = _deep_merge(base, overrides)
 
-    context = {
-        key: str(value)
-        for key, value in user.items()
-        if isinstance(value, (str, int, float, Path))
-    }
-    base = _expand_placeholders(base, context)
+    base = expand_config_placeholders(base, user_config_context(user))
     return _resolve_country_paths(base)
 
 

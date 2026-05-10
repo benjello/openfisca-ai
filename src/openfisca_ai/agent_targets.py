@@ -6,10 +6,11 @@ from pathlib import Path
 from typing import Any
 
 from openfisca_ai.config_loader import (
-    _expand_placeholders,
-    _load_user_config,
+    expand_config_placeholders,
     get_countries_dir,
+    load_user_config,
     load_country_config,
+    user_config_context,
 )
 from openfisca_ai.domain.package_layout import PackageLayout
 
@@ -31,7 +32,7 @@ def _country_ids() -> list[str]:
             if not path.name.startswith("_")
         )
 
-    user = _load_user_config()
+    user = load_user_config()
     countries = user.get("countries")
     if isinstance(countries, dict):
         ids.update(str(country_id) for country_id in countries)
@@ -40,12 +41,7 @@ def _country_ids() -> list[str]:
 
 
 def _user_context() -> dict[str, str]:
-    user = _load_user_config()
-    return {
-        key: str(value)
-        for key, value in user.items()
-        if isinstance(value, (str, int, float, Path))
-    }
+    return user_config_context()
 
 
 def _as_absolute_path(raw: str | None, base: Path | None = None) -> str | None:
@@ -198,7 +194,7 @@ def _target_diagnostics(target: dict[str, Any]) -> tuple[bool, list[str], list[s
 
 
 def _country_config_from_user_only(country_id: str) -> dict[str, Any] | None:
-    user = _load_user_config()
+    user = load_user_config()
     countries = user.get("countries")
     if not isinstance(countries, dict):
         return None
@@ -206,7 +202,7 @@ def _country_config_from_user_only(country_id: str) -> dict[str, Any] | None:
     if not isinstance(raw, dict):
         return None
     context = _user_context()
-    config = _expand_placeholders(dict(raw), context)
+    config = expand_config_placeholders(dict(raw), context)
     config.setdefault("id", country_id)
     config.setdefault("label", country_id)
     return config
@@ -218,7 +214,7 @@ def build_agent_target(country_id: str) -> dict[str, Any] | None:
     if not config:
         return None
 
-    user = _load_user_config()
+    user = load_user_config()
     agent = config.get("agent") or {}
     if not isinstance(agent, dict):
         raise AgentTargetError(f"countries.{country_id}.agent must be a mapping")
@@ -229,7 +225,7 @@ def build_agent_target(country_id: str) -> dict[str, Any] | None:
     main_repo_name = agent.get("main_repo") or _repo_name_from_path(main_repo_path, country_id)
 
     raw_base = agent.get("base") or user.get("base_path")
-    raw_base = _expand_placeholders(raw_base, context)
+    raw_base = expand_config_placeholders(raw_base, context)
     base_path = Path(str(raw_base)).expanduser() if raw_base else None
 
     repos = [
@@ -255,7 +251,7 @@ def build_agent_target(country_id: str) -> dict[str, Any] | None:
     )
 
     raw_worktree_base = agent.get("worktree_base") or user.get("agent_worktree_base")
-    raw_worktree_base = _expand_placeholders(raw_worktree_base, context)
+    raw_worktree_base = expand_config_placeholders(raw_worktree_base, context)
     if raw_worktree_base:
         worktree_base = _as_absolute_path(str(raw_worktree_base), base_path)
     elif base_path:
