@@ -22,6 +22,7 @@ import yaml
 
 from openfisca_ai.domain.package_layout import PackageLayout
 from openfisca_ai.domain.parameters import get_declared_units, is_scale_parameter
+from openfisca_ai.domain.units import usual_unit_definitions
 
 
 def _looks_like_date(key: str) -> bool:
@@ -68,19 +69,6 @@ def _infer_unit(filepath: Path, description: str) -> str | None:
 # ---------------------------------------------------------------------------
 # Base unit definitions (template)
 # ---------------------------------------------------------------------------
-
-BASE_UNITS: list[dict] = [
-    {"name": "/1", "label": {"one": "pourcent", "other": "pourcents"}, "ratio": True, "short_label": "%"},
-    {"name": "year", "label": {"one": "année", "other": "années"}, "short_label": {"one": "an", "other": "ans"}},
-    {"name": "month", "label": "mois"},
-    {"name": "day", "label": {"one": "jour", "other": "jours"}},
-    {"name": "trimestre", "label": {"one": "trimestre", "other": "trimestres"}},
-    {"name": "index_point", "label": {"one": "point d'indice", "other": "points d'indice"}},
-    {"name": "integer", "label": {"one": "entier", "other": "entiers"}},
-    {"name": "enum", "label": {"one": "catégorie", "other": "catégories"}},
-    {"name": "boolean", "label": {"one": "booléen", "other": "booléens"}},
-]
-
 
 def _build_currency_unit(name: str = "Euro", short: str = "€") -> dict:
     """Build a currency unit entry."""
@@ -153,11 +141,14 @@ def build_units_yaml(scanned: list[dict], currency_name: str, currency_short: st
             used_units.add(entry["inferred_unit"])
 
     units = [_build_currency_unit(currency_name, currency_short)]
-    for base in BASE_UNITS:
+    known_names = {"currency"}
+    required_usual_units = used_units | {"/1", "year", "month"}
+    for base in usual_unit_definitions(required_usual_units):
         if base["name"] in used_units or base["name"] in {"/1", "year", "month", "currency"}:
             units.append(base)
+            known_names.add(base["name"])
 
-    extra = used_units - {u["name"] for u in units}
+    extra = used_units - known_names
     for name in sorted(extra):
         units.append({"name": name, "label": name})
 

@@ -6,7 +6,7 @@ from openfisca_ai.domain.parameters import (
     get_reference_entries,
     is_scale_parameter,
 )
-from openfisca_ai.domain.units import extract_unit_names
+from openfisca_ai.domain.units import extract_unit_names, usual_unit_definitions
 
 
 def test_parameter_helpers_read_root_metadata():
@@ -47,3 +47,9 @@ def test_extract_unit_names_ignores_invalid_entries():
     ]
 
     assert extract_unit_names(units) == {"currency", "/1"}
+
+
+def test_usual_unit_definitions_can_be_filtered():
+    units = usual_unit_definitions({"currency/kg", "kWh", "unknown"})
+
+    assert [unit["name"] for unit in units] == ["kWh", "currency/kg"]

@@ -70,3 +70,23 @@ def test_init_units_apply_writes_unit_to_simple_parameter(tmp_path):
     content = yaml.safe_load(parameter_path.read_text(encoding="utf-8"))
     assert changes
     assert content["unit"] == "year"
+
+
+def test_init_units_uses_usual_unit_catalog_for_energy_units(tmp_path):
+    scanned = [
+        {
+            "existing_unit": "millimes/kWh",
+            "inferred_unit": None,
+        },
+        {
+            "existing_unit": None,
+            "inferred_unit": "currency/m3",
+        },
+    ]
+
+    units = init_units.build_units_yaml(scanned, "Dinar", "DT")
+    names = [unit["name"] for unit in units]
+
+    assert "millimes/kWh" in names
+    assert "currency/m3" in names
+    assert "currency" in names

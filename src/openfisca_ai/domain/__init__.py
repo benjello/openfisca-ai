@@ -7,7 +7,7 @@ from openfisca_ai.domain.parameters import (
     get_reference_entries,
     is_scale_parameter,
 )
-from openfisca_ai.domain.units import extract_unit_names, load_unit_names
+from openfisca_ai.domain.units import extract_unit_names, load_unit_names, usual_unit_definitions
 
 __all__ = [
     "PackageLayout",
@@ -17,4 +17,5 @@ __all__ = [
     "get_reference_entries",
     "is_scale_parameter",
     "load_unit_names",
+    "usual_unit_definitions",
 ]
