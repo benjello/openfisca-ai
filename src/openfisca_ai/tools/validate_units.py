@@ -7,6 +7,9 @@ from pathlib import Path
 
 import yaml
 
+from openfisca_ai.domain.parameters import get_declared_units, get_metadata
+from openfisca_ai.domain.units import extract_unit_names
+
 
 class UnitsValidator:
     """Validate units only"""
@@ -21,22 +24,11 @@ class UnitsValidator:
 
     def get_metadata(self, content: dict) -> dict:
         """Return the metadata section when present."""
-        metadata = content.get("metadata", {})
-        return metadata if isinstance(metadata, dict) else {}
+        return get_metadata(content)
 
     def get_units(self, content: dict) -> list[str]:
         """Return the declared units for a parameter file."""
-        metadata = self.get_metadata(content)
-        if "brackets" in content:
-            units = [
-                metadata.get("threshold_unit"),
-                metadata.get("rate_unit"),
-                metadata.get("amount_unit"),
-            ]
-            return [unit for unit in units if unit]
-
-        unit = content.get("unit") or metadata.get("unit")
-        return [unit] if unit else []
+        return get_declared_units(content)
 
     def validate(self):
         """Run validation"""
@@ -71,9 +63,7 @@ class UnitsValidator:
                 print(f"❌ units.yaml must be a YAML list")
                 return False
 
-            for unit in units:
-                if 'name' in unit:
-                    self.units_defined.add(unit['name'])
+            self.units_defined.update(extract_unit_names(units))
 
             print(f"✅ units.yaml found with {len(self.units_defined)} units defined:")
             for unit in sorted(self.units_defined):

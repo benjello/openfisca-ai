@@ -8,6 +8,14 @@ from typing import Dict
 
 import yaml
 
+from openfisca_ai.domain.parameters import (
+    get_declared_units,
+    get_metadata,
+    get_reference_entries,
+    is_scale_parameter,
+)
+from openfisca_ai.domain.units import extract_unit_names
+
 def _find_config_dir() -> Path | None:
     """Walk up from source file to find config/countries/ in the project root."""
     current = Path(__file__).resolve()
@@ -63,46 +71,19 @@ class ParameterValidator:
 
     def get_metadata(self, content: dict) -> dict:
         """Return the metadata section when present."""
-        metadata = content.get("metadata", {})
-        return metadata if isinstance(metadata, dict) else {}
+        return get_metadata(content)
 
     def is_scale_parameter(self, content: dict) -> bool:
         """Return True when the parameter file defines brackets."""
-        return isinstance(content, dict) and "brackets" in content
+        return is_scale_parameter(content)
 
     def get_reference(self, content: dict):
         """Return reference entries from content or metadata."""
-        metadata = self.get_metadata(content)
-        raw = content.get("reference") or metadata.get("reference")
-        if not raw:
-            return []
-        if isinstance(raw, list):
-            return raw
-        if isinstance(raw, dict):
-            entries: list = []
-            for value in raw.values():
-                if isinstance(value, list):
-                    entries.extend(value)
-                elif isinstance(value, dict):
-                    entries.append(value)
-                elif isinstance(value, str):
-                    entries.append(value)
-            return entries
-        return [raw]
+        return get_reference_entries(content)
 
     def get_units(self, content: dict) -> list[str]:
         """Return all units declared by a parameter."""
-        metadata = self.get_metadata(content)
-        if self.is_scale_parameter(content):
-            units = [
-                metadata.get("threshold_unit"),
-                metadata.get("rate_unit"),
-                metadata.get("amount_unit"),
-            ]
-            return [unit for unit in units if unit]
-
-        unit = content.get("unit") or metadata.get("unit")
-        return [unit] if unit else []
+        return get_declared_units(content)
 
     def validate_all(self) -> Dict:
         """Run all validations"""
@@ -151,10 +132,7 @@ class ParameterValidator:
                 })
                 return
 
-            # Extract defined units
-            for unit in units:
-                if 'name' in unit:
-                    self.units_defined.add(unit['name'])
+            self.units_defined.update(extract_unit_names(units))
 
             print(f"✅ Found units.yaml with {len(self.units_defined)} units defined")
 
