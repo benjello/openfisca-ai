@@ -1,4 +1,4 @@
-"""Agents: extractor, coder."""
+"""Compatibility wrappers for experimental agents."""
 
 from openfisca_ai.agents.extractor import ExtractorAgent
 from openfisca_ai.agents.coder import CoderAgent

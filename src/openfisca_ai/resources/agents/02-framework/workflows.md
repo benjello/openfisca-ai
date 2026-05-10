@@ -28,7 +28,9 @@ The executable entrypoints currently exposed by the package are:
 - validate references automatically
 - generate tests automatically
 
-See [`src/openfisca_ai/pipelines/law_to_code.py`](../../../src/openfisca_ai/pipelines/law_to_code.py).
+See `src/openfisca_ai/experimental/pipelines/law_to_code.py`. The old
+`openfisca_ai.pipelines.law_to_code` import path remains as a compatibility
+wrapper.
 
 ### CLI usage
 

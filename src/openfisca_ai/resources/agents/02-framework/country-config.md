@@ -173,7 +173,7 @@ path = get_legislative_sources_root('countria')
 
 ### In a pipeline
 ```python
-# pipelines/law_to_code.py
+# experimental/pipelines/law_to_code.py
 from openfisca_ai.core.reference_package import (
     analyze_reference_package,
     build_implementation_brief,
@@ -207,7 +207,7 @@ def run_law_to_code(law_text, country_id='countria', ...):
 
 ### In an agent
 ```python
-# agents/coder.py
+# experimental/agents/coder.py
 class CoderAgent(Agent):
     def run(self, extracted, reference_code_path=None, country_config=None, reference_package_analysis=None, implementation_brief=None):
         if country_config:

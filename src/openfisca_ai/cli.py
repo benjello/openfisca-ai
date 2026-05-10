@@ -111,7 +111,7 @@ def _run_task_command(args: list[str], command: str = "run") -> int:
     options = task.get("options", {})
 
     if pipeline_name == "law_to_code":
-        from openfisca_ai.pipelines.law_to_code import run_law_to_code
+        from openfisca_ai.experimental.pipelines.law_to_code import run_law_to_code
         law_text = inputs.get("law_text", "")
         extracted_data = inputs.get("extracted")
         use_ref = options.get("use_existing_code_as_reference", bool(country_id))

@@ -1,15 +1,5 @@
-"""Agent that extracts structured information from law text."""
+"""Compatibility wrapper for the experimental extractor agent."""
 
-from openfisca_ai.core.agent import Agent
+from openfisca_ai.experimental.agents.extractor import ExtractorAgent
 
-
-class ExtractorAgent(Agent):
-    """Extracts legal/legislative content into structured form."""
-
-    def __init__(self, llm_engine=None):
-        super().__init__(name="extractor", llm_engine=llm_engine)
-
-    def run(self, text: str, **kwargs):
-        """Extract structured data from raw law text."""
-        # TODO: use skills.extract_law and LLM
-        return {"raw": text, "extracted": {}}
+__all__ = ["ExtractorAgent"]

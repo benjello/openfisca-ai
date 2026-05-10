@@ -438,7 +438,7 @@ See [Tools README](tools/README.md) for usage.
 ### Status
 
 - **Stable today**: configuration helpers and autonomous validation tools in `tools/`
-- **Alpha / incomplete**: agent runtime in `src/openfisca_ai/` (`ExtractorAgent`, `CoderAgent`, `law_to_code`)
+- **Alpha / incomplete**: agent runtime in `src/openfisca_ai/experimental/` (`ExtractorAgent`, `CoderAgent`, `law_to_code`)
   - current useful behavior: load country config, resolve existing code, extract reusable patterns, build an implementation brief, and generate scaffolding artifacts from structured extracted input
   - not implemented yet: real code generation, test generation, multi-agent orchestration
 

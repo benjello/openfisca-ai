@@ -1,4 +1,4 @@
-"""Pipelines: law_to_code."""
+"""Compatibility wrappers for experimental pipelines."""
 
 from openfisca_ai.pipelines.law_to_code import run_law_to_code
 
