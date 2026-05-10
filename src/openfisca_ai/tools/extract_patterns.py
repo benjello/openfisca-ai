@@ -13,6 +13,8 @@ from pathlib import Path
 
 import yaml
 
+from openfisca_ai.domain.package_layout import PackageLayout
+
 
 class FormulaPatternVisitor(ast.NodeVisitor):
     """Collect notable OpenFisca idioms from a formula method."""
@@ -39,24 +41,13 @@ class PatternExtractor:
 
     def is_country_package_dir(self, path: Path) -> bool:
         """Return True when a path looks like an OpenFisca country package module."""
-        return (
-            path.is_dir()
-            and path.name.startswith("openfisca_")
-            and (path / "__init__.py").exists()
-        )
+        return PackageLayout.is_country_package_dir(path)
 
     def detect_layout(self):
         """Resolve whether the input path is a repo root or a package directory."""
-        if self.is_country_package_dir(self.input_path):
-            self.country_package_dir = self.input_path
-            self.repo_root = self.input_path.parent
-            return
-
-        candidates = [
-            path for path in self.repo_root.iterdir() if self.is_country_package_dir(path)
-        ]
-        if len(candidates) == 1:
-            self.country_package_dir = candidates[0]
+        layout = PackageLayout.from_path(self.input_path)
+        self.repo_root = layout.repo_root
+        self.country_package_dir = layout.package_dir
 
     def extract_all(self) -> dict:
         """Extract a structured pattern summary."""

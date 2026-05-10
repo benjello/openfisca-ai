@@ -5,6 +5,10 @@ methodology guides, validation tools, configuration helpers, and (alpha) agent
 scaffolding. Designed to be **added as a dependency** to any OpenFisca country
 project so its tools, guides, and conventions travel with the package.
 
+The project intentionally separates stable tooling, beta integrations, and
+experimental scaffolding. See [`docs/architecture.md`](docs/architecture.md)
+for the current map.
+
 Friendly with **Claude Code**, **Cursor**, **Gemini**, **Antigravity**, etc.
 
 ---
