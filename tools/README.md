@@ -25,9 +25,9 @@ They complement the shared package baseline (read it via
 run the full OpenFisca AI audit stack.
 
 For **semantic** checks against a live OpenFisca system, see the canonical
-MCP guide: `uv run openfisca-ai guide cat mcp`. It lists the 9 tools the
-MCP server exposes, the startup cost, and the task-based strategy for
-choosing between static and MCP tools.
+MCP guide: `uv run openfisca-ai guide cat mcp`. It lists the live API tools,
+the static package tools exposed through MCP, the startup cost, and the
+task-based strategy for choosing between static and MCP tools.
 
 ---
 

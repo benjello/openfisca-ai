@@ -129,6 +129,9 @@ rule only fits audit work; for implementation or test generation, MCP wins.
 Quickstart:
 
 ```bash
+uv run openfisca-ai mcp --target france
+
+# Or manually:
 uv run openfisca-ai mcp --serve \
   --serve-command "uv run openfisca serve --country-package openfisca_<country>"
 ```

@@ -267,11 +267,13 @@ def _run_mcp_command(args: list[str]) -> int:
         --url URL            OpenFisca API URL (default: http://localhost:5000)
         --serve              Start `openfisca serve` automatically as a subprocess
         --serve-command CMD  Custom serve command (e.g. "uv run openfisca serve")
+        --target NAME        Resolve repo path and serve command from an agent target
     """
     url = None
     serve = False
     serve_command: list[str] | None = None
     repo_path: str | None = None
+    target_name: str | None = None
 
     remaining = args[1:]
     i = 0
@@ -290,8 +292,34 @@ def _run_mcp_command(args: list[str]) -> int:
         elif remaining[i] == "--repo-path" and i + 1 < len(remaining):
             repo_path = remaining[i + 1]
             i += 2
+        elif remaining[i] == "--target" and i + 1 < len(remaining):
+            target_name = remaining[i + 1]
+            i += 2
         else:
             i += 1
+
+    if target_name:
+        try:
+            from openfisca_ai.agent_targets import resolve_agent_target
+
+            target = resolve_agent_target(target_name)
+        except Exception as exc:
+            print(f"Could not resolve target {target_name!r}: {exc}", file=sys.stderr)
+            return 1
+        if not target.get("configured"):
+            errors = "; ".join(target.get("errors") or [])
+            print(f"Target {target_name!r} is not configured: {errors}", file=sys.stderr)
+            return 1
+        main_repo = target["main_repo"]
+        repo_path = repo_path or main_repo["path"]
+        package_name = main_repo.get("package_name")
+        if package_name and serve_command is None:
+            import shlex
+
+            serve_command = shlex.split(
+                f"uv run openfisca serve --country-package {package_name}"
+            )
+            serve = True
 
     try:
         from openfisca_ai.mcp.server import run

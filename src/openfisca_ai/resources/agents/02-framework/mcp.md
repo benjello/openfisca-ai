@@ -17,6 +17,9 @@ tool calls".
 ## Starting the server
 
 ```bash
+# Start from a configured OpenFisca target (recommended for local agents)
+uv run openfisca-ai mcp --target france
+
 # Start the OpenFisca Web API and the MCP server in one command
 uv run openfisca-ai mcp --serve
 
@@ -36,10 +39,9 @@ picks it up automatically:
   "mcpServers": {
     "openfisca": {
       "command": "uv",
-      "args": [
-        "run", "openfisca-ai", "mcp",
-        "--serve",
-        "--serve-command", "uv run openfisca serve --country-package openfisca_<country>"
+        "args": [
+         "run", "openfisca-ai", "mcp",
+        "--target", "france"
       ]
     }
   }
@@ -70,6 +72,12 @@ cost.
 | `validate_situation` | Structural validation before computing | `situation` |
 | `calculate` | Compute variables for a situation | `situation` |
 | `trace_calculation` | Compute + return the full dependency tree and intermediate values | `situation` |
+| `review_diff` | Static diff review without a running API | `diff`, `format?` |
+| `audit_package` | Static package audit without a running API | `format?` |
+
+The first nine tools are live API tools and need `openfisca serve`. The last
+two are static package tools and use `--repo-path` or the repo resolved by
+`--target`.
 
 The canonical implementation lives in `src/openfisca_ai/mcp/server.py`. If a
 tool's behavior here disagrees with that file, the file wins — please update

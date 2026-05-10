@@ -130,8 +130,9 @@ uv run openfisca-ai guide cat mcp
 
 It is the **single source of truth** for the MCP surface and covers:
 
-- The 9 tools exposed (`search_variables`, `describe_variable`, `get_parameter`,
-  `validate_situation`, `calculate`, `trace_calculation`, `list_*`)
+- The live OpenFisca API tools (`search_variables`, `describe_variable`,
+  `get_parameter`, `validate_situation`, `calculate`, `trace_calculation`,
+  `list_*`) and the static package tools (`review_diff`, `audit_package`)
 - The startup cost of `openfisca serve` and when MCP pays off vs. static tools
 - A **task-based** strategy table (audit → static-first, implement → MCP-first,
   test generation → MCP only) instead of the oversimplified "static first" rule
@@ -143,6 +144,9 @@ Install with the `mcp` extra and start the server:
 ```bash
 uv add --group dev "openfisca-ai[mcp] @ git+https://github.com/openfisca/openfisca-ai.git"
 
+uv run openfisca-ai mcp --target france
+
+# Or manually:
 uv run openfisca-ai mcp --serve \
   --serve-command "uv run openfisca serve --country-package openfisca_<country>"
 ```
@@ -156,8 +160,7 @@ uv run openfisca-ai mcp --serve \
       "command": "uv",
       "args": [
         "run", "openfisca-ai", "mcp",
-        "--serve",
-        "--serve-command", "uv run openfisca serve --country-package openfisca_<country>"
+        "--target", "france"
       ]
     }
   }

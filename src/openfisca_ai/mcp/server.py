@@ -19,9 +19,17 @@ from .client import OpenFiscaClient
 from .errors import MCPError, ValidationError
 
 server = Server("openfisca-mcp")
-client = OpenFiscaClient()
+client: OpenFiscaClient | None = None
 
 _repo_path: str | None = None
+
+
+def _client() -> OpenFiscaClient:
+    """Return the configured OpenFisca API client."""
+    global client
+    if client is None:
+        client = OpenFiscaClient()
+    return client
 
 
 def format_result(data: Any) -> list[TextContent]:
@@ -186,21 +194,21 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[TextContent]:
     try:
         match name:
             case "list_entities":
-                return format_result(client.get_entities())
+                return format_result(_client().get_entities())
             case "list_variables":
                 return await _list_variables(arguments.get("entity"))
             case "describe_variable":
-                return format_result(client.get_variable(arguments["variable_name"]))
+                return format_result(_client().get_variable(arguments["variable_name"]))
             case "list_parameters":
-                return format_result(client.get_parameters())
+                return format_result(_client().get_parameters())
             case "get_parameter":
-                return format_result(client.get_parameter(arguments["parameter_id"]))
+                return format_result(_client().get_parameter(arguments["parameter_id"]))
             case "search_variables":
                 return await _search_variables(arguments["query"], arguments.get("entity"))
             case "calculate":
-                return format_result(client.calculate(arguments["situation"]))
+                return format_result(_client().calculate(arguments["situation"]))
             case "trace_calculation":
-                return format_result(client.trace(arguments["situation"]))
+                return format_result(_client().trace(arguments["situation"]))
             case "validate_situation":
                 return await _validate_situation(arguments["situation"])
             case "review_diff":
@@ -216,12 +224,13 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[TextContent]:
 
 
 async def _list_variables(entity: str | None) -> list[TextContent]:
-    data = client.get_variables()
+    api = _client()
+    data = api.get_variables()
     if entity:
         filtered = {}
         for var_name, var_info in data.items():
             try:
-                if client.get_variable(var_name).get("entity") == entity:
+                if api.get_variable(var_name).get("entity") == entity:
                     filtered[var_name] = var_info
             except Exception:
                 continue
@@ -230,7 +239,8 @@ async def _list_variables(entity: str | None) -> list[TextContent]:
 
 
 async def _search_variables(query: str, entity: str | None) -> list[TextContent]:
-    all_vars = client.get_variables()
+    api = _client()
+    all_vars = api.get_variables()
     query_lower = query.lower()
     matches = {}
 
@@ -238,7 +248,7 @@ async def _search_variables(query: str, entity: str | None) -> list[TextContent]
         if query_lower in var_name.lower() or query_lower in var_info.get("description", "").lower():
             if entity:
                 try:
-                    if client.get_variable(var_name).get("entity") != entity:
+                    if api.get_variable(var_name).get("entity") != entity:
                         continue
                 except Exception:
                     continue
@@ -257,8 +267,9 @@ async def _validate_situation(situation: dict[str, Any]) -> list[TextContent]:
         raise ValidationError("Situation is required")
 
     errors = []
-    entities = client.get_entities()
-    all_vars = client.get_variables()
+    api = _client()
+    entities = api.get_entities()
+    all_vars = api.get_variables()
 
     valid_plurals = {e["plural"] for e in entities.values()} | set(entities.keys())
     for key in situation:
@@ -365,7 +376,7 @@ def run(url: str | None = None, serve: bool = False, serve_command: list[str] | 
         serve_command: Custom serve command. Defaults to ["openfisca", "serve"].
         repo_path: Path to the OpenFisca package repo (for review_diff and audit_package tools).
     """
-    global _repo_path
+    global _repo_path, client
     _repo_path = repo_path
     import asyncio
     import atexit
@@ -376,6 +387,9 @@ def run(url: str | None = None, serve: bool = False, serve_command: list[str] | 
         os.environ["OPENFISCA_API_URL"] = url
 
     api_url = os.environ.get("OPENFISCA_API_URL", "http://localhost:5000")
+    if client is not None:
+        client.close()
+    client = OpenFiscaClient(api_url)
 
     _proc: subprocess.Popen | None = None
 
