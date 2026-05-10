@@ -11,6 +11,13 @@ from pathlib import Path
 
 import yaml
 
+from openfisca_ai.domain.parameters import (
+    get_declared_units,
+    get_metadata,
+    is_scale_parameter,
+)
+from openfisca_ai.domain.units import load_unit_names
+
 
 # Pattern-based unit suggestions
 UNIT_PATTERNS = {
@@ -75,12 +82,7 @@ class UnitSuggester:
             print(f"❌ Missing units.yaml")
             return
 
-        with open(units_file, 'r', encoding='utf-8') as f:
-            units = yaml.safe_load(f)
-
-        for unit in units:
-            if 'name' in unit:
-                self.units_defined.add(unit['name'])
+        self.units_defined.update(load_unit_names(units_file))
 
         print(f"✅ Loaded {len(self.units_defined)} available units\n")
 
@@ -106,11 +108,9 @@ class UnitSuggester:
             relative_path = filepath.relative_to(self.package_path)
 
             # Check if it's a scale/bracket parameter
-            if 'brackets' in content:
+            if is_scale_parameter(content):
                 # Scale parameter - check for threshold_unit, rate_unit
-                metadata = content.get('metadata', {})
-                if not isinstance(metadata, dict):
-                    metadata = {}
+                metadata = get_metadata(content)
                 existing_scale_units = {
                     key: metadata.get(key)
                     for key in ('threshold_unit', 'rate_unit', 'amount_unit')
@@ -139,7 +139,8 @@ class UnitSuggester:
                     })
             else:
                 # Simple parameter
-                existing_unit = content.get('unit') or content.get('metadata', {}).get('unit')
+                declared_units = get_declared_units(content)
+                existing_unit = declared_units[0] if declared_units else None
 
                 if existing_unit:
                     # Store for pattern learning
@@ -338,8 +339,8 @@ class UnitSuggester:
                 print(f"✅ {suggestion['file']} → {rendered_units}")
                 return True
 
-            metadata = content.get('metadata')
-            if isinstance(metadata, dict):
+            metadata = get_metadata(content)
+            if metadata:
                 metadata.setdefault('unit', unit)
             else:
                 content.setdefault('unit', unit)

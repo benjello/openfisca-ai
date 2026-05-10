@@ -20,6 +20,9 @@ from pathlib import Path
 
 import yaml
 
+from openfisca_ai.domain.package_layout import PackageLayout
+from openfisca_ai.domain.parameters import get_declared_units, is_scale_parameter
+
 
 def _looks_like_date(key: str) -> bool:
     """Check if a key looks like a YYYY-MM-DD date."""
@@ -93,10 +96,7 @@ def _build_currency_unit(name: str = "Euro", short: str = "€") -> dict:
 # ---------------------------------------------------------------------------
 
 def _find_package_dir(repo_path: Path) -> Path | None:
-    for child in repo_path.iterdir():
-        if child.is_dir() and child.name.startswith("openfisca_") and (child / "__init__.py").exists():
-            return child
-    return None
+    return PackageLayout.from_path(repo_path).package_dir
 
 
 def scan_parameters(param_dir: Path) -> list[dict]:
@@ -112,8 +112,8 @@ def scan_parameters(param_dir: Path) -> list[dict]:
         if not isinstance(data, dict):
             continue
 
-        # Skip composite nodes (grade files with echelons, brackets, nested structures)
-        if any(k in data for k in ("echelons", "brackets", "children")):
+        # Skip composite nodes (grade files with echelons or nested structures)
+        if any(k in data for k in ("echelons", "children")):
             continue
         # Skip nodes where all children are dicts (intermediate parameter nodes)
         non_meta_values = [
@@ -127,7 +127,8 @@ def scan_parameters(param_dir: Path) -> list[dict]:
         if non_meta_values and not has_values:
             continue
 
-        existing_unit = data.get("unit") or (data.get("metadata") or {}).get("unit")
+        declared_units = get_declared_units(data)
+        existing_unit = ",".join(declared_units) if declared_units else None
         description = data.get("description", "")
         inferred = _infer_unit(filepath, description)
 
@@ -137,7 +138,7 @@ def scan_parameters(param_dir: Path) -> list[dict]:
             "description": description,
             "existing_unit": existing_unit,
             "inferred_unit": inferred,
-            "has_brackets": "brackets" in data,
+            "has_brackets": is_scale_parameter(data),
         })
     return results
 
@@ -147,7 +148,7 @@ def build_units_yaml(scanned: list[dict], currency_name: str, currency_short: st
     used_units: set[str] = set()
     for entry in scanned:
         if entry["existing_unit"]:
-            used_units.add(entry["existing_unit"])
+            used_units.update(unit for unit in entry["existing_unit"].split(",") if unit)
         if entry["inferred_unit"]:
             used_units.add(entry["inferred_unit"])
 
@@ -210,7 +211,7 @@ def main():
         print("  openfisca-ai init-units . --currency Dinar DT --apply")
         sys.exit(1)
 
-    repo_path = Path(args[0]).resolve()
+    input_path = Path(args[0]).resolve()
     do_apply = "--apply" in args
     currency_name = "Euro"
     currency_short = "€"
@@ -220,17 +221,20 @@ def main():
             currency_name = args[i + 1]
             currency_short = args[i + 2]
 
-    pkg_dir = _find_package_dir(repo_path)
+    layout = PackageLayout.from_path(input_path)
+    pkg_dir = layout.package_dir
     if not pkg_dir:
-        print(f"No openfisca_* package found in {repo_path}")
+        print(f"No openfisca_* package found in {input_path}")
         sys.exit(1)
+
+    repo_path = layout.repo_root
 
     param_dir = pkg_dir / "parameters"
     if not param_dir.is_dir():
         print(f"No parameters/ directory in {pkg_dir}")
         sys.exit(1)
 
-    units_path = repo_path / "units.yaml"
+    units_path = pkg_dir / "units.yaml"
 
     print(f"Package: {pkg_dir.name}")
     print(f"Parameters: {param_dir}")
