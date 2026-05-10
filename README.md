@@ -440,14 +440,20 @@ See [Tools README](tools/README.md) for usage.
 
 ### Status
 
-- **Stable today**: configuration helpers and autonomous validation tools in `tools/`
+- **Stable today**: guides, target/config helpers, package layout helpers, and autonomous validation tools.
+- **Beta**: MCP integration around `openfisca serve` and local static tools exposed through MCP.
 - **Alpha / incomplete**: agent runtime in `src/openfisca_ai/experimental/` (`ExtractorAgent`, `CoderAgent`, `law_to_code`)
   - current useful behavior: load country config, resolve existing code, extract reusable patterns, build an implementation brief, and generate scaffolding artifacts from structured extracted input
   - not implemented yet: real code generation, test generation, multi-agent orchestration
 
+See [`docs/architecture.md`](docs/architecture.md) for the current stable / beta / experimental map.
+
 ---
 
 ## Architecture
+
+This section describes the methodology guide hierarchy. For the Python package
+layout and maturity levels, see [`docs/architecture.md`](docs/architecture.md).
 
 ```
 3-Level Architecture:

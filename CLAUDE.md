@@ -87,7 +87,7 @@ Dans ce repo :
 uv sync --dev
 uv run python config/test_config.py
 uv run pytest
-uv run openfisca-ai run tasks/example_task.json
+uv run openfisca-ai experimental run tasks/example_task.json
 ```
 
 Dans un package OpenFisca pays :

@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Clarified stable, beta, and experimental layers in the package architecture.
+- Moved alpha agent runtime, skills, and pipelines under `openfisca_ai.experimental` while keeping compatibility wrappers.
+- Centralized OpenFisca package layout and parameter/unit helpers under `openfisca_ai.domain`.
+- Added target diagnostics and target-aware MCP setup commands.
+
 ## [0.1.1] - 2026-04-17
 
 ### Changed

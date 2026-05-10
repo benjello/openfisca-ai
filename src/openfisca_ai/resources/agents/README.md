@@ -14,7 +14,7 @@ src/openfisca_ai/resources/agents/
 │
 ├── 02-framework/         # Niveau 2 : Framework pays-générique
 │   ├── country-config.md # Comment configurer un pays
-│   ├── workflows.md      # Pipelines law_to_code
+│   ├── workflows.md      # Workflows stables et scaffolding experimental
 │   └── roles/            # Guides par agent
 │       ├── document-collector.md
 │       ├── parameter-architect.md
@@ -115,7 +115,7 @@ de la section « Spécificités projet » contenant l'overlay.
 
 1. Créer `config/countries/<pays>.yaml` (voir `config/countries/_schema.yaml`)
 2. Optionnel : créer `src/openfisca_ai/resources/agents/03-countries/<pays>/specifics.md` si déviations
-3. Le runtime Python peut charger la config via `config_loader.py`
+3. Le runtime experimental peut charger la config via `config_loader.py`
 
 ## Inspiration
 
