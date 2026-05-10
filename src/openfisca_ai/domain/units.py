@@ -56,7 +56,12 @@ def load_unit_names(units_file: Path) -> set[str]:
 
 
 def usual_unit_definitions(unit_names: set[str] | None = None) -> list[dict[str, Any]]:
-    """Return usual unit definitions, optionally filtered by unit name."""
+    """Return generic unit definitions, optionally filtered by unit name.
+
+    Country-specific units should not be added here. When a package already
+    uses a non-generic unit, tools should preserve it as a minimal candidate in
+    that package's generated units.yaml for human validation.
+    """
     if unit_names is None:
         return [dict(unit) for unit in USUAL_UNIT_DEFINITIONS]
     return [dict(unit) for unit in USUAL_UNIT_DEFINITIONS if unit["name"] in unit_names]

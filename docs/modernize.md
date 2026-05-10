@@ -60,3 +60,22 @@ doivent etre compris avant de changer le packaging.
    `requirements.txt`).
 4. Produire des prompts de travail pour agent IA quand une migration demande une
    analyse humaine.
+
+## Politique Des Unites
+
+`openfisca-ai` garde un petit catalogue d'unites generiques (`/1`, `currency`,
+`year`, `month`, `kWh`, etc.). Les unites propres a un pays ne doivent pas etre
+ajoutees a ce catalogue global.
+
+Quand `init-units` detecte une unite deja utilisee dans un package mais absente
+du catalogue generique, il la conserve dans le `units.yaml` genere comme entree
+minimale :
+
+```yaml
+- name: millimes/kWh
+  label: millimes/kWh
+```
+
+Cette entree doit ensuite etre validee et enrichie dans le package du pays
+concerne. Cela permet de garder les specificites locales sans les transformer en
+norme globale.

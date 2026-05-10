@@ -148,6 +148,9 @@ def build_units_yaml(scanned: list[dict], currency_name: str, currency_short: st
             units.append(base)
             known_names.add(base["name"])
 
+    # Preserve non-generic units already found in the country package. They are
+    # emitted as minimal entries so maintainers can validate and enrich them for
+    # that country without polluting the global unit catalog.
     extra = used_units - known_names
     for name in sorted(extra):
         units.append({"name": name, "label": name})
