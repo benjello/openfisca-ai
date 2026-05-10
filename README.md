@@ -9,6 +9,8 @@ The project intentionally separates stable tooling, beta integrations, and
 experimental scaffolding. See [`docs/architecture.md`](docs/architecture.md)
 for the current map.
 
+CI profile detection is documented in [`docs/ci-profiles.md`](docs/ci-profiles.md).
+
 Friendly with **Claude Code**, **Cursor**, **Gemini**, **Antigravity**, etc.
 
 ---
