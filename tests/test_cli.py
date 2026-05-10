@@ -1,6 +1,7 @@
 """Tests for the openfisca-ai CLI."""
 
 import json
+import yaml
 
 from openfisca_ai import cli
 from tests.tool_test_helpers import create_country_repo, create_modern_country_repo, write_file
@@ -15,6 +16,31 @@ def test_cli_without_args_prints_usage(capsys):
     assert "Stable tools:" in captured.err
     assert "Beta integrations:" in captured.err
     assert "Experimental scaffolding:" in captured.err
+    assert "openfisca-ai ci detect" in captured.err
+
+
+def test_cli_ci_detect_outputs_yaml_by_default(tmp_path, capsys):
+    repo_path = create_country_repo(tmp_path)
+    write_file(repo_path / "pyproject.toml", "[project]\nname = 'openfisca-demo'\n")
+
+    exit_code = cli.main(["ci", "detect", str(repo_path)])
+
+    captured = capsys.readouterr()
+    payload = yaml.safe_load(captured.out)
+    assert exit_code == 0
+    assert payload["repo_type"] == "openfisca-package"
+    assert payload["package_name"] == "openfisca_demo"
+
+
+def test_cli_ci_detect_outputs_json(tmp_path, capsys):
+    repo_path = create_country_repo(tmp_path)
+
+    exit_code = cli.main(["ci", "detect", str(repo_path), "--json"])
+
+    captured = capsys.readouterr()
+    payload = json.loads(captured.out)
+    assert exit_code == 0
+    assert payload["repo_type"] == "openfisca-package"
 
 
 def test_cli_run_task_outputs_json(tmp_path, capsys):

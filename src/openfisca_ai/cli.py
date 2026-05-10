@@ -68,6 +68,7 @@ def _print_usage(stream):
     print("  openfisca-ai review-diff <package-path> [--diff-file FILE] [--json] [--markdown]", file=stream)
     print("  openfisca-ai init-units <package-path> [--apply] [--currency NAME SHORT]", file=stream)
     print("  openfisca-ai generate-test-from-trace <trace.json> [--output test.yaml] [--name NAME]", file=stream)
+    print("  openfisca-ai ci detect <path> [--yaml|--json]", file=stream)
     print("", file=stream)
     print("Guides and targets:", file=stream)
     print("  openfisca-ai target list [--yaml|--json]", file=stream)
@@ -358,6 +359,28 @@ def _run_mcp_command(args: list[str]) -> int:
     return 0
 
 
+def _run_ci_command(args: list[str]) -> int:
+    """Run CI helper subcommands."""
+    if len(args) < 3 or args[1] != "detect":
+        print("Usage: openfisca-ai ci detect <path> [--yaml|--json]", file=sys.stderr)
+        return 1
+
+    json_output = "--json" in args[3:]
+    yaml_output = "--yaml" in args[3:]
+    if json_output and yaml_output:
+        print("Choose only one output format: --yaml or --json", file=sys.stderr)
+        return 1
+
+    from openfisca_ai.ci.detect import detect_ci_profile
+
+    report = detect_ci_profile(args[2])
+    if json_output:
+        print(json.dumps(report, indent=2, ensure_ascii=False))
+    else:
+        _print_yaml(report)
+    return 0
+
+
 def _print_yaml(payload) -> None:
     """Print YAML output for human-readable target inspection."""
     try:
@@ -449,6 +472,9 @@ def main(argv: list[str] | None = None) -> int:
 
     if command == "mcp":
         return _run_mcp_command(args)
+
+    if command == "ci":
+        return _run_ci_command(args)
 
     if command == "target":
         return _run_target_command(args)
