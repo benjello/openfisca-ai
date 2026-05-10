@@ -35,11 +35,14 @@ wrapper.
 ### CLI usage
 
 ```bash
-uv run openfisca-ai run tasks/example_task.json
-uv run openfisca-ai scaffold tasks/example_task.json
-uv run openfisca-ai scaffold-apply tasks/example_task.json
+uv run openfisca-ai experimental run tasks/example_task.json
+uv run openfisca-ai experimental scaffold tasks/example_task.json
+uv run openfisca-ai experimental scaffold-apply tasks/example_task.json
 uv run openfisca-ai check-all /path/to/openfisca-country
 ```
+
+The older top-level commands `run`, `scaffold`, and `scaffold-apply` remain as
+compatibility aliases.
 
 Behavior summary:
 

@@ -224,15 +224,18 @@ uv run pytest
 
 ### 4. Try the Alpha Runtime
 
-The `run` command is still alpha, but it can now load a configured reference
-country package, attach a compact pattern summary to its output, and build an
-`implementation_brief` for downstream code generation.
+The explicit `experimental` commands are alpha, but they can now load a
+configured reference country package, attach a compact pattern summary to their
+output, and build an `implementation_brief` for downstream code generation.
 
 ```bash
-uv run openfisca-ai run tasks/example_task.json
-uv run openfisca-ai scaffold tasks/example_task.json
-uv run openfisca-ai scaffold-apply tasks/example_task.json
+uv run openfisca-ai experimental run tasks/example_task.json
+uv run openfisca-ai experimental scaffold tasks/example_task.json
+uv run openfisca-ai experimental scaffold-apply tasks/example_task.json
 ```
+
+The older top-level commands `run`, `scaffold`, and `scaffold-apply` remain as
+compatibility aliases.
 
 `scaffold` is preview-first by default.
 `scaffold-apply` writes artifacts either to `options.output_dir` or, when a

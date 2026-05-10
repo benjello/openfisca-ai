@@ -52,9 +52,8 @@ def _load_tool_module(filename: str):
 def _print_usage(stream):
     """Print CLI usage."""
     print("Usage:", file=stream)
-    print("  openfisca-ai run <task.json>", file=stream)
-    print("  openfisca-ai scaffold <task.json>", file=stream)
-    print("  openfisca-ai scaffold-apply <task.json>", file=stream)
+    print("", file=stream)
+    print("Stable tools:", file=stream)
     print("  openfisca-ai audit <package-path> [--json|--markdown] [--output FILE]", file=stream)
     print("  openfisca-ai check-all <package-path> [--json|--markdown] [--output FILE]", file=stream)
     print("  openfisca-ai extract-patterns <package-path> [--json]", file=stream)
@@ -66,11 +65,11 @@ def _print_usage(stream):
     print("  openfisca-ai validate-units <package-path>", file=stream)
     print("  openfisca-ai suggest-units <package-path> [--apply]", file=stream)
     print("  openfisca-ai setup-ci <package-path> [--dry-run] [--github] [--gitlab] [--force]", file=stream)
-    print("  openfisca-ai setup-mcp <package-path> [--dry-run] [--force]", file=stream)
     print("  openfisca-ai review-diff <package-path> [--diff-file FILE] [--json] [--markdown]", file=stream)
     print("  openfisca-ai init-units <package-path> [--apply] [--currency NAME SHORT]", file=stream)
-    print("  openfisca-ai mcp [--url http://localhost:5000]", file=stream)
     print("  openfisca-ai generate-test-from-trace <trace.json> [--output test.yaml] [--name NAME]", file=stream)
+    print("", file=stream)
+    print("Guides and targets:", file=stream)
     print("  openfisca-ai target list [--yaml|--json]", file=stream)
     print("  openfisca-ai target show <name> [--yaml|--json]", file=stream)
     print("  openfisca-ai target resolve <name> [--yaml|--json]", file=stream)
@@ -79,6 +78,20 @@ def _print_usage(stream):
     print("  openfisca-ai guide show <name>", file=stream)
     print("  openfisca-ai guide cat <name>", file=stream)
     print("  openfisca-ai guide path", file=stream)
+    print("", file=stream)
+    print("Beta integrations:", file=stream)
+    print("  openfisca-ai mcp [--target NAME|--url URL]", file=stream)
+    print("  openfisca-ai setup-mcp <package-path>|--target NAME [--dry-run] [--force]", file=stream)
+    print("", file=stream)
+    print("Experimental scaffolding:", file=stream)
+    print("  openfisca-ai experimental run <task.json>", file=stream)
+    print("  openfisca-ai experimental scaffold <task.json>", file=stream)
+    print("  openfisca-ai experimental scaffold-apply <task.json>", file=stream)
+    print("", file=stream)
+    print("Compatibility aliases:", file=stream)
+    print("  openfisca-ai run <task.json>", file=stream)
+    print("  openfisca-ai scaffold <task.json>", file=stream)
+    print("  openfisca-ai scaffold-apply <task.json>", file=stream)
 
 
 def _render_task_report(result: dict, report_format: str) -> str:
@@ -172,6 +185,17 @@ def _run_task_command(args: list[str], command: str = "run") -> int:
 
     print(f"Unknown pipeline: {pipeline_name}", file=sys.stderr)
     return 1
+
+
+def _run_experimental_command(args: list[str]) -> int:
+    """Run experimental scaffold commands with an explicit namespace."""
+    if len(args) < 2 or args[1] not in {"run", "scaffold", "scaffold-apply"}:
+        print(
+            "Usage: openfisca-ai experimental {run|scaffold|scaffold-apply} <task.json>",
+            file=sys.stderr,
+        )
+        return 1
+    return _run_task_command([args[0], *args[2:]], command=args[1])
 
 
 def _run_tool_command(command: str, args: list[str]) -> int:
@@ -417,6 +441,9 @@ def main(argv: list[str] | None = None) -> int:
         return 1
 
     command = args[0]
+    if command == "experimental":
+        return _run_experimental_command(args)
+
     if command in {"run", "scaffold", "scaffold-apply"}:
         return _run_task_command(args, command=command)
 

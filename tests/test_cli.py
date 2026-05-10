@@ -12,6 +12,9 @@ def test_cli_without_args_prints_usage(capsys):
     captured = capsys.readouterr()
     assert exit_code == 1
     assert "Usage:" in captured.err
+    assert "Stable tools:" in captured.err
+    assert "Beta integrations:" in captured.err
+    assert "Experimental scaffolding:" in captured.err
 
 
 def test_cli_run_task_outputs_json(tmp_path, capsys):
@@ -27,6 +30,28 @@ def test_cli_run_task_outputs_json(tmp_path, capsys):
     )
 
     exit_code = cli.main(["run", str(task_path)])
+
+    captured = capsys.readouterr()
+    payload = json.loads(captured.out)
+    assert exit_code == 0
+    assert "extracted" in payload
+    assert "code" in payload
+    assert "artifacts" in payload
+
+
+def test_cli_experimental_run_task_outputs_json(tmp_path, capsys):
+    task_path = tmp_path / "task.json"
+    task_path.write_text(
+        json.dumps(
+            {
+                "pipeline": "law_to_code",
+                "inputs": {"law_text": "Article 1"},
+            }
+        ),
+        encoding="utf-8",
+    )
+
+    exit_code = cli.main(["experimental", "run", str(task_path)])
 
     captured = capsys.readouterr()
     payload = json.loads(captured.out)
