@@ -19,6 +19,10 @@ def write_file(path: Path, content: str) -> None:
 def test_resolve_agent_target_from_country_user_config(tmp_path, monkeypatch):
     repo_root = tmp_path / "repo"
     monkeypatch.setenv("OPENFISCA_AI_ROOT", str(repo_root))
+    workspace = tmp_path / "workspace"
+    for repo_name in ("openfisca-tunisia", "openfisca-core", "openfisca-survey-manager"):
+        write_file(workspace / repo_name / ".git", "gitdir: .git/mock\n")
+    write_file(workspace / "openfisca-tunisia/openfisca_tunisia/__init__.py", "")
 
     write_file(
         repo_root / "config/countries/tunisia.yaml",
@@ -31,13 +35,13 @@ def test_resolve_agent_target_from_country_user_config(tmp_path, monkeypatch):
     )
     write_file(
         repo_root / "config/user.yaml",
-        """
-        base_path: /srv/openfisca
-        agent_worktree_base: ${base_path}/.agent-worktrees
+        f"""
+        base_path: {workspace}
+        agent_worktree_base: ${{base_path}}/.agent-worktrees
         countries:
           tunisia:
             existing_code:
-              path: ${base_path}/openfisca-tunisia
+              path: ${{base_path}}/openfisca-tunisia
             agent:
               aliases:
                 - tunisie
@@ -45,13 +49,13 @@ def test_resolve_agent_target_from_country_user_config(tmp_path, monkeypatch):
               main_repo: openfisca-tunisia
               repos:
                 openfisca-tunisia:
-                  path: ${base_path}/openfisca-tunisia
+                  path: ${{base_path}}/openfisca-tunisia
                   mode: rw
                 openfisca-core:
-                  path: ${base_path}/openfisca-core
+                  path: ${{base_path}}/openfisca-core
                   mode: ro
                 openfisca-survey-manager:
-                  path: ${base_path}/openfisca-survey-manager
+                  path: ${{base_path}}/openfisca-survey-manager
                   mode: worktree
         """,
     )
@@ -59,8 +63,14 @@ def test_resolve_agent_target_from_country_user_config(tmp_path, monkeypatch):
     target = resolve_agent_target("tunisie")
 
     assert target["id"] == "tunisia"
-    assert target["main_repo"]["path"] == "/srv/openfisca/openfisca-tunisia"
-    assert target["worktree_base"] == "/srv/openfisca/.agent-worktrees"
+    assert target["schema_version"] == 1
+    assert target["configured"] is True
+    assert target["errors"] == []
+    assert target["main_repo"]["path"] == str(workspace / "openfisca-tunisia")
+    assert target["main_repo"]["exists"] is True
+    assert target["main_repo"]["is_git_repo"] is True
+    assert target["main_repo"]["package_name"] == "openfisca_tunisia"
+    assert target["worktree_base"] == str(workspace / ".agent-worktrees")
     assert target["aliases"] == ["openfisca-tunisia", "tunisia", "tunisie"]
     assert [repo["mode"] for repo in target["repos"]] == ["rw", "ro", "worktree"]
 
@@ -84,6 +94,7 @@ def test_agent_target_defaults_to_existing_code_repo(tmp_path, monkeypatch):
     assert target["id"] == "demo"
     assert target["main_repo"]["name"] == "openfisca-demo"
     assert target["main_repo"]["mode"] == "rw"
+    assert "configured" in target
     assert target["repos"] == [target["main_repo"]]
 
 
@@ -145,6 +156,7 @@ def test_cli_target_resolve_outputs_json(tmp_path, monkeypatch, capsys):
     captured = capsys.readouterr()
     payload = json.loads(captured.out)
     assert exit_code == 0
+    assert payload["schema_version"] == 1
     assert payload["id"] == "tunisia"
     assert payload["main_repo"]["name"] == "openfisca-tunisia"
 
@@ -207,3 +219,28 @@ def test_cli_target_list_outputs_yaml_when_requested(tmp_path, monkeypatch, caps
     payload = yaml.safe_load(captured.out)
     assert exit_code == 0
     assert payload[0]["id"] == "demo"
+
+
+def test_cli_target_doctor_fails_for_missing_repo_path(tmp_path, monkeypatch, capsys):
+    repo_root = tmp_path / "repo"
+    monkeypatch.setenv("OPENFISCA_AI_ROOT", str(repo_root))
+
+    write_file(
+        repo_root / "config/countries/demo.yaml",
+        """
+        id: demo
+        label: Demo
+        existing_code:
+          path: /missing/openfisca-demo
+        """,
+    )
+
+    exit_code = cli.main(["target", "doctor", "demo"])
+
+    captured = capsys.readouterr()
+    payload = yaml.safe_load(captured.out)
+    assert exit_code == 1
+    assert payload["configured"] is False
+    assert payload["errors"] == [
+        "main_repo.path does not exist: /missing/openfisca-demo",
+    ]

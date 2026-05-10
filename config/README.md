@@ -35,8 +35,10 @@ Resolve these targets with:
 ```bash
 uv run openfisca-ai target list
 uv run openfisca-ai target resolve france
+uv run openfisca-ai target doctor france
 ```
 
 Add `--json` when a machine-readable JSON payload is required.
+`target doctor` exits with an error if required local paths are missing.
 
 See **`countries/README.md`** for setup (Tunisia first, then more countries).

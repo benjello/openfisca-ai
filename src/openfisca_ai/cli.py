@@ -74,6 +74,7 @@ def _print_usage(stream):
     print("  openfisca-ai target list [--yaml|--json]", file=stream)
     print("  openfisca-ai target show <name> [--yaml|--json]", file=stream)
     print("  openfisca-ai target resolve <name> [--yaml|--json]", file=stream)
+    print("  openfisca-ai target doctor <name> [--yaml|--json]", file=stream)
     print("  openfisca-ai guide list", file=stream)
     print("  openfisca-ai guide show <name>", file=stream)
     print("  openfisca-ai guide cat <name>", file=stream)
@@ -335,9 +336,9 @@ def _run_target_command(args: list[str]) -> int:
         resolve_agent_target,
     )
 
-    if len(args) < 2 or args[1] not in {"list", "show", "resolve"}:
+    if len(args) < 2 or args[1] not in {"list", "show", "resolve", "doctor"}:
         print(
-            "Usage: openfisca-ai target {list|show|resolve} [name] [--yaml|--json]",
+            "Usage: openfisca-ai target {list|show|resolve|doctor} [name] [--yaml|--json]",
             file=sys.stderr,
         )
         return 1
@@ -372,6 +373,8 @@ def _run_target_command(args: list[str]) -> int:
             print(json.dumps(target, indent=2, ensure_ascii=False))
         else:
             _print_yaml(target)
+        if subcommand == "doctor" and not target.get("configured"):
+            return 1
         return 0
     except AgentTargetError as exc:
         print(str(exc), file=sys.stderr)

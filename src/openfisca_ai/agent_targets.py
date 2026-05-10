@@ -11,8 +11,10 @@ from openfisca_ai.config_loader import (
     get_countries_dir,
     load_country_config,
 )
+from openfisca_ai.domain.package_layout import PackageLayout
 
 VALID_REPO_MODES = {"rw", "ro", "worktree"}
+TARGET_SCHEMA_VERSION = 1
 
 
 class AgentTargetError(RuntimeError):
@@ -150,6 +152,51 @@ def _normalize_repos(
     return repos
 
 
+def _repo_diagnostics(repo: dict[str, Any]) -> dict[str, Any]:
+    """Add filesystem diagnostics to a normalized repository entry."""
+    path_value = repo.get("path")
+    path = Path(path_value) if path_value else None
+    exists = bool(path and path.exists())
+    layout = PackageLayout.from_path(path) if path else None
+
+    enriched = dict(repo)
+    enriched["exists"] = exists
+    enriched["is_git_repo"] = bool(path and (path / ".git").exists())
+    enriched["package_name"] = layout.package_name if layout else None
+    return enriched
+
+
+def _target_diagnostics(target: dict[str, Any]) -> tuple[bool, list[str], list[str]]:
+    """Return configured status, errors, and warnings for a target payload."""
+    errors: list[str] = []
+    warnings: list[str] = []
+
+    main_repo = target["main_repo"]
+    if not main_repo.get("path"):
+        errors.append("main_repo.path is not configured")
+    elif not main_repo.get("exists"):
+        errors.append(f"main_repo.path does not exist: {main_repo['path']}")
+    elif not main_repo.get("is_git_repo"):
+        warnings.append(f"main_repo.path is not a Git repository: {main_repo['path']}")
+
+    for repo in target["repos"]:
+        if repo.get("is_main"):
+            continue
+        if not repo.get("path"):
+            errors.append(f"repo {repo['name']} has no path configured")
+        elif not repo.get("exists"):
+            errors.append(f"repo {repo['name']} path does not exist: {repo['path']}")
+        elif not repo.get("is_git_repo"):
+            warnings.append(f"repo {repo['name']} is not a Git repository: {repo['path']}")
+        if repo.get("mode") == "worktree" and not repo.get("is_git_repo"):
+            errors.append(f"repo {repo['name']} uses worktree mode but is not a Git repository")
+
+    if not target.get("worktree_base"):
+        warnings.append("worktree_base is not configured")
+
+    return len(errors) == 0, errors, warnings
+
+
 def _country_config_from_user_only(country_id: str) -> dict[str, Any] | None:
     user = _load_user_config()
     countries = user.get("countries")
@@ -185,12 +232,15 @@ def build_agent_target(country_id: str) -> dict[str, Any] | None:
     raw_base = _expand_placeholders(raw_base, context)
     base_path = Path(str(raw_base)).expanduser() if raw_base else None
 
-    repos = _normalize_repos(
+    repos = [
+        _repo_diagnostics(repo)
+        for repo in _normalize_repos(
         agent.get("repos"),
         str(main_repo_name),
         main_repo_path,
         base_path,
-    )
+        )
+    ]
     main_repo = next(repo for repo in repos if repo["is_main"])
 
     raw_aliases = agent.get("aliases") or []
@@ -215,7 +265,8 @@ def build_agent_target(country_id: str) -> dict[str, Any] | None:
     else:
         worktree_base = None
 
-    return {
+    target = {
+        "schema_version": TARGET_SCHEMA_VERSION,
         "id": str(country_id),
         "label": config.get("label", country_id),
         "aliases": aliases,
@@ -224,6 +275,11 @@ def build_agent_target(country_id: str) -> dict[str, Any] | None:
         "repos": repos,
         "worktree_base": worktree_base,
     }
+    configured, errors, warnings = _target_diagnostics(target)
+    target["configured"] = configured
+    target["errors"] = errors
+    target["warnings"] = warnings
+    return target
 
 
 def list_agent_targets() -> list[dict[str, Any]]:

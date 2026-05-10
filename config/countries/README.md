@@ -56,9 +56,11 @@ Inspect the normalized target with:
 ```bash
 uv run openfisca-ai target show tunisie
 uv run openfisca-ai target resolve tunisie
+uv run openfisca-ai target doctor tunisie
 ```
 
 Add `--json` when a machine-readable JSON payload is required.
+`target doctor` exits with an error if required local paths are missing.
 
 ## Tunisia (first country)
 
